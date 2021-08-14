@@ -1,9 +1,9 @@
-import 'package:demo_app/components/custom_appbar.dart';
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/screens/account_history.dart';
-import 'package:demo_app/screens/buyer_benefits.dart';
-import 'package:demo_app/screens/manage_documents.dart';
-import 'package:demo_app/screens/purchase_plot.dart';
+import '../components/custom_appbar.dart';
+import '../components/custom_drawer.dart';
+import '../screens/account_history.dart';
+import '../screens/buyer_benefits.dart';
+import '../screens/manage_documents.dart';
+import '../screens/purchase_plot.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,8 +14,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
-
-  AnimationController _animationController;
+  AnimationController? _animationController;
 
   @override
   void initState() {
@@ -24,7 +23,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
   }
 
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +51,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -90,9 +89,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         Container(
                           padding: const EdgeInsets.all(16.0),
                           color: Color(0xFFD4B581),
-                          child: SvgPicture.asset('assets/images/complete_ur_profile.svg'),
+                          child: SvgPicture.asset(
+                              'assets/images/complete_ur_profile.svg'),
                         ),
-                        SizedBox(width: 10.0,),
+                        SizedBox(
+                          width: 10.0,
+                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,64 +124,24 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            SizedBox(height: 16.0,),
+            SizedBox(
+              height: 16.0,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PurchasePlot()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
-                        primary: Colors.white
-                      ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  color: Color(0x590A4D50),
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: SvgPicture.asset('assets/images/purchase_plot.svg'),
-                                ),
-                                Icon(Icons.help_rounded, color: Colors.black54, )
-                              ],
-                            ),
-                            SizedBox(height: 16.0,),
-                            Text(
-                              'Purchase Plot',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
-                    ),
-                ),
-                SizedBox(height: 10.0, width: 16.0,),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BuyerBenefits()),
+                        MaterialPageRoute(builder: (context) => PurchasePlot()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
-                        primary: Colors.white
-                    ),
+                        padding: const EdgeInsets.only(
+                            top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
+                        primary: Colors.white),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,12 +153,70 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             Container(
                               color: Color(0x590A4D50),
                               padding: const EdgeInsets.all(16.0),
-                              child: SvgPicture.asset('assets/images/buyer_benefits.svg'),
+                              child: SvgPicture.asset(
+                                  'assets/images/purchase_plot.svg'),
                             ),
-                            Icon(Icons.help_rounded, color: Colors.black54,),
+                            Icon(
+                              Icons.help_rounded,
+                              color: Colors.black54,
+                            )
                           ],
                         ),
-                        SizedBox(height: 16.0,),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Text(
+                          'Purchase Plot',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                  width: 16.0,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BuyerBenefits()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.only(
+                            top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
+                        primary: Colors.white),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              color: Color(0x590A4D50),
+                              padding: const EdgeInsets.all(16.0),
+                              child: SvgPicture.asset(
+                                  'assets/images/buyer_benefits.svg'),
+                            ),
+                            Icon(
+                              Icons.help_rounded,
+                              color: Colors.black54,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
                         Text(
                           'Buyer Benefits',
                           style: TextStyle(
@@ -220,13 +240,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AccountHistory()),
+                        MaterialPageRoute(
+                            builder: (context) => AccountHistory()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
-                        primary: Colors.white
-                    ),
+                        padding: const EdgeInsets.only(
+                            top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
+                        primary: Colors.white),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,12 +259,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             Container(
                               color: Color(0x590A4D50),
                               padding: const EdgeInsets.all(16.0),
-                              child: SvgPicture.asset('assets/images/account_history.svg'),
+                              child: SvgPicture.asset(
+                                  'assets/images/account_history.svg'),
                             ),
-                            Icon(Icons.help_rounded, color: Colors.black54,)
+                            Icon(
+                              Icons.help_rounded,
+                              color: Colors.black54,
+                            )
                           ],
                         ),
-                        SizedBox(height: 16.0,),
+                        SizedBox(
+                          height: 16.0,
+                        ),
                         Text(
                           'Account History',
                           style: TextStyle(
@@ -256,19 +283,23 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0, width: 16.0,),
+                SizedBox(
+                  height: 10.0,
+                  width: 16.0,
+                ),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ManageDocuments()),
+                        MaterialPageRoute(
+                            builder: (context) => ManageDocuments()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
-                        primary: Colors.white
-                    ),
+                        padding: const EdgeInsets.only(
+                            top: 16.0, bottom: 16.0, left: 16.0, right: 10.0),
+                        primary: Colors.white),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,12 +311,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             Container(
                               color: Color(0x590A4D50),
                               padding: const EdgeInsets.all(16.0),
-                              child: SvgPicture.asset('assets/images/manage_documents.svg'),
+                              child: SvgPicture.asset(
+                                  'assets/images/manage_documents.svg'),
                             ),
-                            Icon(Icons.help_rounded, color: Colors.black54,)
+                            Icon(
+                              Icons.help_rounded,
+                              color: Colors.black54,
+                            )
                           ],
                         ),
-                        SizedBox(height: 16.0,),
+                        SizedBox(
+                          height: 16.0,
+                        ),
                         Text(
                           'Manage Documents',
                           style: TextStyle(

@@ -1,6 +1,6 @@
-import 'package:demo_app/components/custom_appbar.dart';
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/forms/forgot_password_form.dart';
+import '../components/custom_appbar.dart';
+import '../components/custom_drawer.dart';
+import '../forms/forgot_password_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,9 +10,9 @@ class ForgotPassword extends StatefulWidget {
   _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> with TickerProviderStateMixin {
-
-  AnimationController _animationController;
+class _ForgotPasswordState extends State<ForgotPassword>
+    with TickerProviderStateMixin {
+  AnimationController? _animationController;
 
   @override
   void initState() {
@@ -21,7 +21,8 @@ class _ForgotPasswordState extends State<ForgotPassword> with TickerProviderStat
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
   }
 
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +49,17 @@ class _ForgotPasswordState extends State<ForgotPassword> with TickerProviderStat
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -73,26 +73,29 @@ class _ForgotPasswordState extends State<ForgotPassword> with TickerProviderStat
         body: ListView(
           padding: const EdgeInsets.all(24.0),
           children: <Widget>[
-            SizedBox(height: 16,),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(28.0),
-              color: Colors.grey,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(21.0),
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SvgPicture.asset('assets/images/forgot_pass_error.svg'),
-                    SvgPicture.asset('assets/images/forgot_pass_ellipse.svg'),
-                  ],
-                ),
-              )
+            SizedBox(
+              height: 16,
             ),
-            SizedBox(height: 16.0,),
+            Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(28.0),
+                color: Colors.grey,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(21.0),
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset('assets/images/forgot_pass_error.svg'),
+                      SvgPicture.asset('assets/images/forgot_pass_ellipse.svg'),
+                    ],
+                  ),
+                )),
+            SizedBox(
+              height: 16.0,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,15 +103,14 @@ class _ForgotPasswordState extends State<ForgotPassword> with TickerProviderStat
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   child: Center(
-                    child: Text(
-                      'Forgot Password',
-                      style: TextStyle(
-                        color: Color(0xFF0A4D50),
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    )
-                  ),
+                      child: Text(
+                    'Forgot Password',
+                    style: TextStyle(
+                      color: Color(0xFF0A4D50),
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
                 ),
               ],
             ),

@@ -1,7 +1,7 @@
-import 'package:demo_app/components/custom_appbar.dart';
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/forms/forgot_password_form.dart';
-import 'package:demo_app/screens/Login.dart';
+import '../components/custom_appbar.dart';
+import '../components/custom_drawer.dart';
+import '../forms/forgot_password_form.dart';
+import '../screens/Login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,10 +12,10 @@ class Success extends StatefulWidget {
 }
 
 class _SuccessState extends State<Success> with TickerProviderStateMixin {
+  AnimationController? _animationController;
 
-  AnimationController _animationController;
-
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -49,18 +49,17 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -82,11 +81,13 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
                   child: Container(
                     padding: const EdgeInsets.all(18.0),
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white
-                    ),
+                        shape: BoxShape.circle, color: Colors.white),
                     child: Center(
-                      child: Icon(Icons.check, color: Colors.green, size: 48.0,),
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.green,
+                        size: 48.0,
+                      ),
                     ),
                   ),
                 ),
@@ -127,19 +128,21 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => Login()),
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
                             );
                           },
                           child: Text(
                             'Continue to Login',
-                            style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600),
                           ),
                           style: ElevatedButton.styleFrom(
                               primary: Colors.black,
                               onPrimary: Colors.white,
-                              padding: const EdgeInsets.all(18.0)
-                          ),
+                              padding: const EdgeInsets.all(18.0)),
                         ),
                       ),
                     )

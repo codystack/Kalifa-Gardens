@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:demo_app/model/onbarding_slides.dart';
+import '../model/onbarding_slides.dart';
 
 class SlideItem extends StatelessWidget {
   final int index;
@@ -8,11 +8,14 @@ class SlideItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(slideList[index].image, fit: BoxFit.cover,)
-        ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Image.asset(
+          slideList[index].image!,
+          fit: BoxFit.cover,
+        )
+      ],
     );
   }
 }

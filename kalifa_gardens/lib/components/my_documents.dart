@@ -1,4 +1,4 @@
-import 'package:demo_app/model/my_documents.dart';
+import '../model/my_documents.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,17 +9,28 @@ class MyDocuments extends StatefulWidget {
 }
 
 class _MyDocumentsState extends State<MyDocuments> {
-
   List<MyDocumentsModel> fakeDocuments = [
-    MyDocumentsModel(title: "Offer Letter", image: "assets/images/document_thumbnail.svg", url: ""),
-    MyDocumentsModel(title: "Payment Schedule", image: "assets/images/document_thumbnail.svg", url: ""),
-    MyDocumentsModel(title: "Survey Document", image: "assets/images/document_thumbnail.svg", url: ""),
-    MyDocumentsModel(title: "Letter of Allocation", image: "assets/images/document_thumbnail.svg", url: ""),
+    MyDocumentsModel(
+        title: "Offer Letter",
+        image: "assets/images/document_thumbnail.svg",
+        url: ""),
+    MyDocumentsModel(
+        title: "Payment Schedule",
+        image: "assets/images/document_thumbnail.svg",
+        url: ""),
+    MyDocumentsModel(
+        title: "Survey Document",
+        image: "assets/images/document_thumbnail.svg",
+        url: ""),
+    MyDocumentsModel(
+        title: "Letter of Allocation",
+        image: "assets/images/document_thumbnail.svg",
+        url: ""),
   ];
 
-  Widget _listItem (int index) {
+  Widget _listItem(int index) {
     return ListTile(
-      onTap: (){},
+      onTap: () {},
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,17 +45,18 @@ class _MyDocumentsState extends State<MyDocuments> {
                 Container(
                   padding: const EdgeInsets.all(10.0),
                   color: Color(0xA3ABCFC2),
-                  child: SvgPicture.asset(fakeDocuments[index].image),
+                  child: SvgPicture.asset(fakeDocuments[index].image!),
                 ),
-                SizedBox(width: 10.0,),
+                SizedBox(
+                  width: 10.0,
+                ),
                 Expanded(
                   child: Text(
-                    fakeDocuments[index].title,
+                    fakeDocuments[index].title!,
                     style: TextStyle(
-                      color: Color(0xFF0A4D50),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700
-                    ),
+                        color: Color(0xFF0A4D50),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
               ],
@@ -60,10 +72,9 @@ class _MyDocumentsState extends State<MyDocuments> {
                 'View Document',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14
-                ),
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14),
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,

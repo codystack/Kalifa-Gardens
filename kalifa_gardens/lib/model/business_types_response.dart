@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 
 class BusinessTypesResponse {
-  final String name;
-  final String published_at;
-  final String createdAt;
-  final String updatedAt;
-  final String id;
+  final String? name;
+  final String? published_at;
+  final String? createdAt;
+  final String? updatedAt;
+  final String? id;
 
-  BusinessTypesResponse({@required this.name, @required this.published_at, @required this.createdAt,
-  @required this.updatedAt, @required this.id});
+  BusinessTypesResponse(
+      {@required this.name,
+      @required this.published_at,
+      @required this.createdAt,
+      @required this.updatedAt,
+      @required this.id});
 
   factory BusinessTypesResponse.fromJson(Map<String, dynamic> json) {
     return BusinessTypesResponse(

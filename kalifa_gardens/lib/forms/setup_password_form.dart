@@ -1,27 +1,36 @@
 import 'dart:convert';
-import 'package:demo_app/controller/state_controller.dart';
-import 'package:demo_app/screens/success.dart';
-import 'package:demo_app/util/service.dart';
+import '../controller/state_controller.dart';
+import '../screens/success.dart';
+import '../util/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SetupPasswordForm extends StatefulWidget {
+  const SetupPasswordForm(
+      {Key? key,
+      @required this.fullname,
+      @required this.phone,
+      @required this.otpID,
+      @required this.email,
+      @required this.gender,
+      @required this.isAccepted,
+      @required this.accountType,
+      @required this.otpCode})
+      : super(key: key);
 
-  const SetupPasswordForm({Key key, @required this.fullname, @required this.phone, @required this.otpID,
-    @required this.email, @required this.gender, @required this.isAccepted, @required this.accountType,
-    @required this.otpCode}) : super(key : key);
-
-  final String otpID, fullname, email, phone, gender, accountType, otpCode;
-  final bool isAccepted;
+  final String? otpID, fullname, email, phone, gender, accountType, otpCode;
+  final bool? isAccepted;
 
   @override
   _SetupPasswordFormState createState() => _SetupPasswordFormState();
 }
 
 class _SetupPasswordFormState extends State<SetupPasswordForm> {
-
   final _formKey = GlobalKey<FormState>();
-  bool _isNumberOk = false, _isLowercaseOk = false, _isCapitalOk = false, _isSpecialCharOk = false;
+  bool _isNumberOk = false,
+      _isLowercaseOk = false,
+      _isCapitalOk = false,
+      _isSpecialCharOk = false;
   bool _obscureText = true;
 
   final _controller = Get.find<StateController>();
@@ -49,10 +58,7 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
         'gender': widget.gender,
         'acceptedTerms': widget.isAccepted
       },
-      'verification': {
-        'challenge_id': widget.otpID,
-        'otp': widget.otpCode
-      }
+      'verification': {'challenge_id': widget.otpID, 'otp': widget.otpCode}
     };
 
     final response = await APIService().createIndividualAccount(body);
@@ -67,11 +73,10 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
 
     if (response.statusCode == 200) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Success()),
+        context,
+        MaterialPageRoute(builder: (context) => Success()),
       );
     }
-
   }
 
   @override
@@ -82,7 +87,9 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
           padding: const EdgeInsets.only(bottom: 10.0),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 16.0,),
+              SizedBox(
+                height: 16.0,
+              ),
               TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -90,20 +97,25 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                   hintText: 'Password',
                   suffixIcon: IconButton(
                       onPressed: () => _togglePass(),
-                      icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off)),
+                      icon: Icon(_obscureText
+                          ? Icons.visibility
+                          : Icons.visibility_off)),
                 ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please type a password';
                   }
-                  if (!_isNumberOk || !_isCapitalOk || !_isLowercaseOk || !_isSpecialCharOk) {
+                  if (!_isNumberOk ||
+                      !_isCapitalOk ||
+                      !_isLowercaseOk ||
+                      !_isSpecialCharOk) {
                     return 'Weak password. See hint below';
                   }
                   if (value.length < 8) {
                     return 'Password too short. 8 characters min';
                   }
-                  
+
                   return null;
                 },
                 onChanged: (value) {
@@ -111,8 +123,7 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                     setState(() {
                       _isNumberOk = true;
                     });
-                  }
-                  else {
+                  } else {
                     setState(() {
                       _isNumberOk = false;
                     });
@@ -122,8 +133,7 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                     setState(() {
                       _isCapitalOk = true;
                     });
-                  }
-                  else {
+                  } else {
                     setState(() {
                       _isCapitalOk = false;
                     });
@@ -133,24 +143,22 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                     setState(() {
                       _isLowercaseOk = true;
                     });
-                  }
-                  else {
+                  } else {
                     setState(() {
                       _isLowercaseOk = false;
                     });
                   }
 
-                  if (value.contains(new RegExp(r'[!@#$%^&*(),.?"_:;{}|<>/+=-]'))) {
+                  if (value
+                      .contains(new RegExp(r'[!@#$%^&*(),.?"_:;{}|<>/+=-]'))) {
                     setState(() {
                       _isSpecialCharOk = true;
                     });
-                  }
-                  else {
+                  } else {
                     setState(() {
                       _isSpecialCharOk = false;
                     });
                   }
-
                 },
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: _obscureText,
@@ -165,7 +173,9 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                   hintText: 'Confirm password',
                   suffixIcon: IconButton(
                       onPressed: () => _togglePass(),
-                      icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off)),
+                      icon: Icon(_obscureText
+                          ? Icons.visibility
+                          : Icons.visibility_off)),
                 ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -173,7 +183,7 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                     return 'Please retype password';
                   }
 
-                  if (value!=passwordController.text) {
+                  if (value != passwordController.text) {
                     return 'Password does not match';
                   }
 
@@ -190,19 +200,21 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                 color: Colors.black,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       _createAccount();
                     }
                   },
                   child: Text(
                     'Setup Password',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.black,
                       onPrimary: Colors.white,
-                      padding: const EdgeInsets.all(18.0)
-                  ),
+                      padding: const EdgeInsets.all(18.0)),
                 ),
               ),
               SizedBox(
@@ -212,108 +224,141 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                 children: <Widget>[
                   Expanded(
                       child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.check, color: _isNumberOk ? Color(0xFF0A4D50) : Colors.grey, size: 18,),
-                              Text(
-                                'Numbers',
-                                style: TextStyle(
-                                  color: _isNumberOk ? Color(0xFF0A4D50) : Colors.grey,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),),
-                              Text(
-                                '(123)',
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black54,
-                                ),
-                              ),
-                            ],
+                          Icon(
+                            Icons.check,
+                            color:
+                                _isNumberOk ? Color(0xFF0A4D50) : Colors.grey,
+                            size: 18,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.check, color: _isCapitalOk ? Color(0xFF0A4D50) : Colors.grey, size: 18,),
-                              Text(
-                                'Capital letter',
-                                style: TextStyle(
-                                  color: _isCapitalOk ? Color(0xFF0A4D50) : Colors.grey,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),),
-                              Text(
-                                '(ABC)',
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight:
-                                    FontWeight.w300,
-                                    color: Colors.black54,
-                                ),
-                              ),
-                            ],
-                          )
+                          Text(
+                            'Numbers',
+                            style: TextStyle(
+                              color:
+                                  _isNumberOk ? Color(0xFF0A4D50) : Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            '(123)',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.check,
+                            color:
+                                _isCapitalOk ? Color(0xFF0A4D50) : Colors.grey,
+                            size: 18,
+                          ),
+                          Text(
+                            'Capital letter',
+                            style: TextStyle(
+                              color: _isCapitalOk
+                                  ? Color(0xFF0A4D50)
+                                  : Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            '(ABC)',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.black54,
+                            ),
+                          ),
                         ],
                       )
-                  ),
+                    ],
+                  )),
                   Expanded(
                       child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.check, color: _isLowercaseOk ? Color(0xFF0A4D50) : Colors.grey, size: 18,),
-                              Text(
-                                'Lowercase letter',
-                                style: TextStyle(
-                                    color: _isLowercaseOk ? Color(0xFF0A4D50) : Colors.grey,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '(abc)',
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black54,
-                                ),
-                              ),
-                            ],
+                          Icon(
+                            Icons.check,
+                            color: _isLowercaseOk
+                                ? Color(0xFF0A4D50)
+                                : Colors.grey,
+                            size: 18,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.check, color: _isSpecialCharOk ? Color(0xFF0A4D50) : Colors.grey, size: 18,),
-                              Text(
-                                'Special character',
-                                style: TextStyle(
-                                  color: _isSpecialCharOk ? Color(0xFF0A4D50) : Colors.grey,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500
-                                ),),
-                              Text('(@!^)', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w300, color: Colors.black54),),
-                            ],
-                          )
+                          Text(
+                            'Lowercase letter',
+                            style: TextStyle(
+                              color: _isLowercaseOk
+                                  ? Color(0xFF0A4D50)
+                                  : Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            '(abc)',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.check,
+                            color: _isSpecialCharOk
+                                ? Color(0xFF0A4D50)
+                                : Colors.grey,
+                            size: 18,
+                          ),
+                          Text(
+                            'Special character',
+                            style: TextStyle(
+                                color: _isSpecialCharOk
+                                    ? Color(0xFF0A4D50)
+                                    : Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            '(@!^)',
+                            style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.black54),
+                          ),
                         ],
                       )
-                  )
+                    ],
+                  ))
                 ],
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }

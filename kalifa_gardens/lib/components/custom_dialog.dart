@@ -1,4 +1,4 @@
-import 'package:demo_app/forms/contact_us.dart';
+import '../forms/contact_us.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialog extends StatefulWidget {
@@ -7,7 +7,7 @@ class CustomDialog extends StatefulWidget {
 
 //  final Widget widget;
 ////  final String title;
-////  
+////
 ////  CustomDialog(this.widget, this.title);
 }
 
@@ -28,10 +28,9 @@ class _CustomDialogState extends State<CustomDialog> {
                     'title',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 21.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0A4D50)
-                    ),
+                        fontSize: 21.0,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0A4D50)),
                   )
                 ],
               ),

@@ -1,4 +1,4 @@
-import 'package:demo_app/controller/state_controller.dart';
+import '../../controller/state_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,10 +10,12 @@ class PayBankTransfer extends StatefulWidget {
 }
 
 class _PayBankTransferState extends State<PayBankTransfer> {
-
   final _controller = Get.find<StateController>();
 
-  String _totalCost = '30,000,000', _accountName = "Kalifa Gardens", _accountNumber = "0123456789", _swiftCode = "2830-231";
+  String _totalCost = '30,000,000',
+      _accountName = "Kalifa Gardens",
+      _accountNumber = "0123456789",
+      _swiftCode = "2830-231";
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +39,7 @@ class _PayBankTransferState extends State<PayBankTransfer> {
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                     ),
-                  )
-              ),
+                  )),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
@@ -48,9 +49,10 @@ class _PayBankTransferState extends State<PayBankTransfer> {
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
-                  )
-              ),
-              SizedBox(height: 16.0,)
+                  )),
+              SizedBox(
+                height: 16.0,
+              )
             ],
           ),
         ),
@@ -82,7 +84,9 @@ class _PayBankTransferState extends State<PayBankTransfer> {
                   ),
                 ],
               ),
-              SizedBox(height: 21.0,),
+              SizedBox(
+                height: 21.0,
+              ),
               Row(
                 children: [
                   Column(
@@ -111,7 +115,9 @@ class _PayBankTransferState extends State<PayBankTransfer> {
                   ),
                 ],
               ),
-              SizedBox(height: 16.0,),
+              SizedBox(
+                height: 16.0,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -147,7 +153,9 @@ class _PayBankTransferState extends State<PayBankTransfer> {
                   )
                 ],
               ),
-              SizedBox(height: 16.0,),
+              SizedBox(
+                height: 16.0,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -166,8 +174,13 @@ class _PayBankTransferState extends State<PayBankTransfer> {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(width: 6.0,),
-                          Icon(Icons.help_rounded, size: 14,)
+                          SizedBox(
+                            width: 6.0,
+                          ),
+                          Icon(
+                            Icons.help_rounded,
+                            size: 14,
+                          )
                         ],
                       ),
                       Text(
@@ -183,16 +196,19 @@ class _PayBankTransferState extends State<PayBankTransfer> {
                   ),
                 ],
               ),
-              SizedBox(height: 21.0,),
+              SizedBox(
+                height: 21.0,
+              ),
               Text(
                 'After initiating the bank tranfer, please take a screenshot of your transfer details as you will be required to upload a proof of payment in the next screen.',
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400
-                ),
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 10.0,
+              ),
             ],
           ),
         ),
@@ -204,15 +220,12 @@ class _PayBankTransferState extends State<PayBankTransfer> {
             },
             child: Text(
               'Upload Proof of Payment',
-              style: TextStyle(
-                fontSize: 18
-              ),
+              style: TextStyle(fontSize: 18),
             ),
             style: ElevatedButton.styleFrom(
-              primary: Colors.black,
-              onPrimary: Colors.white,
-              padding: const EdgeInsets.all(16.0)
-            ),
+                primary: Colors.black,
+                onPrimary: Colors.white,
+                padding: const EdgeInsets.all(16.0)),
           ),
         )
       ],

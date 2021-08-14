@@ -1,28 +1,36 @@
-import 'package:demo_app/controller/state_controller.dart';
-import 'package:demo_app/screens/setup_password.dart';
+import '../controller/state_controller.dart';
+import '../screens/setup_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
- //ignore: must_be_immutable
+//ignore: must_be_immutable
 class TextFieldOTP extends StatefulWidget {
+  const TextFieldOTP(
+      {Key? key,
+      this.first,
+      this.last,
+      @required this.fullname,
+      @required this.phone,
+      @required this.otpID,
+      @required this.email,
+      @required this.gender,
+      @required this.isAccepted,
+      @required this.accountType,
+      @required this.otpCode,
+      @required this.controller})
+      : super(key: key);
 
-  const TextFieldOTP({Key key, this.first, this.last, @required this.fullname, @required this.phone, @required this.otpID,
-    @required this.email, @required this.gender, @required this.isAccepted, @required this.accountType,
-    @required this.otpCode, @required this.controller}) : super(key : key);
-
-  final bool first;
+  final bool? first;
   final last;
-  final String otpID, fullname, email, phone, gender, accountType, otpCode;
-  final bool isAccepted;
-  final TextEditingController controller;
+  final String? otpID, fullname, email, phone, gender, accountType, otpCode;
+  final bool? isAccepted;
+  final TextEditingController? controller;
 
   @override
   _TextFieldOTPState createState() => _TextFieldOTPState();
-
 }
 
 class _TextFieldOTPState extends State<TextFieldOTP> {
-
   var _bgColor;
   final _controller = Get.find<StateController>();
 
@@ -34,15 +42,15 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
           context,
           MaterialPageRoute(
               builder: (context) => SetupPassword(
-                accountType: widget.accountType,
-                otpID: widget.otpID,
-                fullname: widget.fullname,
-                isAccepted: widget.isAccepted,
-                gender: widget.gender,
-                phone: widget.phone,
-                email: widget.email,
-                otpCode: widget.otpCode,
-              )));
+                    accountType: widget.accountType as String,
+                    otpID: widget.otpID as String,
+                    fullname: widget.fullname as String,
+                    isAccepted: widget.isAccepted as bool,
+                    gender: widget.gender as String,
+                    phone: widget.phone as String,
+                    email: widget.email as String,
+                    otpCode: widget.otpCode as String,
+                  )));
     });
   }
 
@@ -60,8 +68,7 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
               setState(() {
                 _bgColor = Color(0xFF0A4D50);
               });
-            }
-            else {
+            } else {
               setState(() {
                 _bgColor = Colors.white;
               });
@@ -82,9 +89,9 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
           readOnly: false,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 26,
-              color: Color(0xFF0A4D50),
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
+            color: Color(0xFF0A4D50),
 //              backgroundColor: _bgColor,
           ),
           controller: widget.controller,
@@ -93,10 +100,14 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
           decoration: InputDecoration(
             counter: Offstage(),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 3.0, style: BorderStyle.solid),
+              borderSide: BorderSide(
+                  color: Colors.grey, width: 3.0, style: BorderStyle.solid),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFF0A4D50), width: 3.0, style: BorderStyle.solid),
+              borderSide: BorderSide(
+                  color: Color(0xFF0A4D50),
+                  width: 3.0,
+                  style: BorderStyle.solid),
             ),
             focusColor: Color(0xFF0A4D50),
             fillColor: _bgColor,
@@ -108,14 +119,12 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
   }
 }
 
-
-textFieldOTP({BuildContext context, bool first, last, bgColor}) {
-
+textFieldOTP({BuildContext? context, bool? first, last, bgColor}) {
   return Container(
     height: 100,
-    width: MediaQuery.of(context).size.width * 0.18,
+    width: MediaQuery.of(context!).size.width * 0.18,
     child: AspectRatio(
-        aspectRatio: 1.0,
+      aspectRatio: 1.0,
       child: TextField(
         autofocus: true,
         onChanged: (value) {
@@ -134,23 +143,23 @@ textFieldOTP({BuildContext context, bool first, last, bgColor}) {
         readOnly: false,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 26,
-          color: Color(0xFF0A4D50),
-          backgroundColor: bgColor
-        ),
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
+            color: Color(0xFF0A4D50),
+            backgroundColor: bgColor),
         keyboardType: TextInputType.number,
         maxLength: 1,
         decoration: InputDecoration(
           counter: Offstage(),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 3.0, style: BorderStyle.solid),
+            borderSide: BorderSide(
+                color: Colors.grey, width: 3.0, style: BorderStyle.solid),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFF0A4D50), width: 3.0, style: BorderStyle.solid),
+            borderSide: BorderSide(
+                color: Color(0xFF0A4D50), width: 3.0, style: BorderStyle.solid),
           ),
           focusColor: Color(0xFF0A4D50),
-
         ),
       ),
     ),

@@ -1,23 +1,30 @@
-import 'package:demo_app/controller/state_controller.dart';
+import '../../controller/state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class FormStep1 extends StatefulWidget {
-
   @override
   _FormStep1State createState() => _FormStep1State();
 }
 
 class _FormStep1State extends State<FormStep1> {
-
   final _formKey = GlobalKey<FormState>();
   var _gender = 'Male';
   bool _isAccepted = false;
   final _controller = Get.find<StateController>();
 
-  String _surname, _othernames, _residentialAddr, _mailingAddr, _nationality, _stateOfOrigin,
-      _phone, _homePhone, _emailAddr, _nameSublease, _addrSublease;
+  String? _surname,
+      _othernames,
+      _residentialAddr,
+      _mailingAddr,
+      _nationality,
+      _stateOfOrigin,
+      _phone,
+      _homePhone,
+      _emailAddr,
+      _nameSublease,
+      _addrSublease;
 
   @override
   void initState() {
@@ -53,7 +60,9 @@ class _FormStep1State extends State<FormStep1> {
               ),
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Container(
             width: double.infinity,
             child: Text(
@@ -119,7 +128,11 @@ class _FormStep1State extends State<FormStep1> {
                   margin: const EdgeInsets.only(right: 5.0),
                   decoration: BoxDecoration(
                     color: _gender == 'Male' ? Color(0xFF0A4D50) : Colors.white,
-                    border: Border.all(color: _gender == 'Male' ? Color(0xFF0A4D50) : Colors.grey, width: 1.0, style: BorderStyle.solid),
+                    border: Border.all(
+                        color:
+                            _gender == 'Male' ? Color(0xFF0A4D50) : Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid),
                   ),
                   child: ElevatedButton(
                     onPressed: () => {
@@ -128,8 +141,10 @@ class _FormStep1State extends State<FormStep1> {
                       })
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: _gender == 'Male' ? Color(0xFF0A4D50) : Colors.white,
-                      onPrimary: _gender == 'Male' ? Color(0xFF0A4D50) : Colors.grey,
+                      primary:
+                          _gender == 'Male' ? Color(0xFF0A4D50) : Colors.white,
+                      onPrimary:
+                          _gender == 'Male' ? Color(0xFF0A4D50) : Colors.grey,
                     ),
                     child: Container(
                       padding: const EdgeInsets.all(14.0),
@@ -138,7 +153,9 @@ class _FormStep1State extends State<FormStep1> {
                         'Male',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: _gender == 'Male' ? Colors.white : Color(0xFF0A4D50),
+                          color: _gender == 'Male'
+                              ? Colors.white
+                              : Color(0xFF0A4D50),
                           fontSize: 18.0,
                         ),
                       ),
@@ -150,8 +167,14 @@ class _FormStep1State extends State<FormStep1> {
                 child: Container(
                   margin: const EdgeInsets.only(left: 5.0),
                   decoration: BoxDecoration(
-                    color: _gender == 'Female' ? Color(0xFF0A4D50) : Colors.white,
-                    border: Border.all(color: _gender == 'Female' ? Color(0xFF0A4D50) : Colors.grey, width: 1.0, style: BorderStyle.solid),
+                    color:
+                        _gender == 'Female' ? Color(0xFF0A4D50) : Colors.white,
+                    border: Border.all(
+                        color: _gender == 'Female'
+                            ? Color(0xFF0A4D50)
+                            : Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid),
                   ),
                   child: ElevatedButton(
                     onPressed: () => {
@@ -160,8 +183,11 @@ class _FormStep1State extends State<FormStep1> {
                       })
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: _gender == 'Female' ? Color(0xFF0A4D50) : Colors.white,
-                      onPrimary: _gender == 'Female' ? Color(0xFF0A4D50) : Colors.grey,
+                      primary: _gender == 'Female'
+                          ? Color(0xFF0A4D50)
+                          : Colors.white,
+                      onPrimary:
+                          _gender == 'Female' ? Color(0xFF0A4D50) : Colors.grey,
                     ),
                     child: Container(
                       padding: const EdgeInsets.all(14.0),
@@ -170,7 +196,9 @@ class _FormStep1State extends State<FormStep1> {
                         'Female',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: _gender == 'Female' ? Colors.white : Color(0xFF0A4D50),
+                          color: _gender == 'Female'
+                              ? Colors.white
+                              : Color(0xFF0A4D50),
                           fontSize: 18.0,
                         ),
                       ),
@@ -277,14 +305,13 @@ class _FormStep1State extends State<FormStep1> {
 //                    prefix: DropdownButton(
 //
 //                    ),
-                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')
-            ),
+                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')),
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your phone number';
               }
-              if(!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
+              if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
                 return 'Please enter a valid phone number';
               }
               return null;
@@ -305,14 +332,13 @@ class _FormStep1State extends State<FormStep1> {
 //                    prefix: DropdownButton(
 //
 //                    ),
-                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')
-            ),
+                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')),
             // The validator receives the text that the user has entered.
             validator: (value) {
 //                  if (value == null || value.isEmpty) {
 //                    return 'Please enter your phone number';
 //                  }
-              if(!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
+              if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value!)) {
                 return 'Please enter a valid phone number';
               }
               return null;
@@ -336,7 +362,8 @@ class _FormStep1State extends State<FormStep1> {
               if (value == null || value.isEmpty) {
                 return 'Please enter your email';
               }
-              if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]').hasMatch(value)) {
+              if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
+                  .hasMatch(value)) {
                 return 'Please enter a valid email';
               }
               return null;
@@ -385,13 +412,15 @@ class _FormStep1State extends State<FormStep1> {
               _addrSublease = val;
             },
           ),
-          SizedBox(height: 16.0,),
+          SizedBox(
+            height: 16.0,
+          ),
           Container(
             width: double.infinity,
             color: Colors.black,
             child: ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState.validate()){
+                if (_formKey.currentState!.validate()) {
                   //All good
                   _controller.incrementIndividualSub();
                 }
@@ -401,9 +430,7 @@ class _FormStep1State extends State<FormStep1> {
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
-                    fontWeight:
-                    FontWeight.w600
-                ),
+                    fontWeight: FontWeight.w600),
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.black,

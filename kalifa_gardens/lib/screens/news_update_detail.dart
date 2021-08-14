@@ -1,24 +1,24 @@
-import 'package:demo_app/components/custom_appbar.dart';
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/model/news_updates_model.dart';
+import '../components/custom_appbar.dart';
+import '../components/custom_drawer.dart';
+import '../model/news_updates_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class NewsUpdateDetail extends StatefulWidget {
+  const NewsUpdateDetail({Key? key, @required this.newsItem}) : super(key: key);
 
-  const NewsUpdateDetail({Key key, @required this.newsItem}) : super(key : key);
-
-  final NewsUpdateModel newsItem;
+  final NewsUpdateModel? newsItem;
 
   @override
   _NewsUpdateDetailState createState() => _NewsUpdateDetailState();
 }
 
-class _NewsUpdateDetailState extends State<NewsUpdateDetail> with TickerProviderStateMixin {
+class _NewsUpdateDetailState extends State<NewsUpdateDetail>
+    with TickerProviderStateMixin {
+  AnimationController? _animationController;
 
-  AnimationController _animationController;
-
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -52,18 +52,17 @@ class _NewsUpdateDetailState extends State<NewsUpdateDetail> with TickerProvider
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -83,12 +82,15 @@ class _NewsUpdateDetailState extends State<NewsUpdateDetail> with TickerProvider
                 children: <Widget>[
                   Container(
                     width: double.infinity,
-                    child: Image.asset(widget.newsItem.image),
+                    child: Image.asset(widget.newsItem!.image!),
                   ),
-                  SizedBox(height: 10.0,),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.only(top: 16.0, bottom: 21.0, left: 21.0, right: 21.0),
+                    padding: const EdgeInsets.only(
+                        top: 16.0, bottom: 21.0, left: 21.0, right: 21.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,17 +109,41 @@ class _NewsUpdateDetailState extends State<NewsUpdateDetail> with TickerProvider
                               ),
                             ),
                             TextButton(
-                                onPressed: () {},
-                                child: Text('Share', style: TextStyle(color: Color(0xFFD4B581), fontSize: 20, fontWeight: FontWeight.w700),),
+                              onPressed: () {},
+                              child: Text(
+                                'Share',
+                                style: TextStyle(
+                                    color: Color(0xFFD4B581),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700),
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 8.0,),
-                        Text(widget.newsItem.title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),),
-                        SizedBox(height: 10.0,),
-                        Text(widget.newsItem.description, style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 13),),
-                        SizedBox(height: 16.0,),
-                        Image.asset(widget.newsItem.image)
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Text(
+                          widget.newsItem!.title!,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text(
+                          widget.newsItem!.description!,
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 13),
+                        ),
+                        SizedBox(
+                          height: 16.0,
+                        ),
+                        Image.asset(widget.newsItem!.image!)
                       ],
                     ),
                   )

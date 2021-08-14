@@ -8,8 +8,7 @@ class PurchasePlotStep5 extends StatefulWidget {
 }
 
 class _PurchasePlotStep5State extends State<PurchasePlotStep5> {
-
-  String userType;
+  String? userType;
 
   @override
   void initState() {
@@ -30,11 +29,14 @@ class _PurchasePlotStep5State extends State<PurchasePlotStep5> {
           style: TextStyle(
               color: Color(0xFF0A4D50),
               fontWeight: FontWeight.w700,
-              fontSize: 20
-          ),
+              fontSize: 20),
         ),
-        SizedBox(height: 21.0,),
-        userType == "individual" ? IndividualSubscriptionForm() : CorporateSubscriptionForm()
+        SizedBox(
+          height: 21.0,
+        ),
+        userType == "individual"
+            ? IndividualSubscriptionForm()
+            : CorporateSubscriptionForm()
       ],
     );
   }

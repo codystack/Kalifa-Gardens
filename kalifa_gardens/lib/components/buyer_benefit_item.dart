@@ -1,14 +1,12 @@
-import 'package:demo_app/components/buyer_benefits_slide.dart';
-import 'package:demo_app/model/buyer_benefit.dart';
+import '../components/buyer_benefits_slide.dart';
+import '../model/buyer_benefit.dart';
 import 'package:flutter/material.dart';
 
 class BuyerBenefitItem extends StatelessWidget {
-
 //  final String title, desc;
 //  final List slideItems;
-  final BuyerBenefit buyerBenefit;
+  final BuyerBenefit? buyerBenefit;
   BuyerBenefitItem({this.buyerBenefit});
-
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +18,26 @@ class BuyerBenefitItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Text(
-              buyerBenefit.title,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-            SizedBox(height: 10,),
-            Text(
-              buyerBenefit.description,
+              buyerBenefit!.title!,
               style: TextStyle(
                   color: Colors.black54,
-                  fontSize: 15,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              buyerBenefit!.description!,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 15,
               ),
             ),
-            SizedBox(height: 18,),
-            BuyerBenefitSlide(buyerBenefit.imageSlides),
+            SizedBox(
+              height: 18,
+            ),
+            BuyerBenefitSlide(buyerBenefit!.imageSlides!),
           ],
         ),
       ),

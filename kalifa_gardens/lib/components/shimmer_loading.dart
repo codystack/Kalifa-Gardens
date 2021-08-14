@@ -16,17 +16,15 @@ const _shimmerGradient = LinearGradient(
   tileMode: TileMode.clamp,
 );
 
-
 class ShimmerLoading extends StatefulWidget {
-
   const ShimmerLoading({
-    Key key,
+    Key? key,
     @required this.isLoading,
     @required this.child,
   }) : super(key: key);
 
-  final bool isLoading;
-  final Widget child;
+  final bool? isLoading;
+  final Widget? child;
 
   @override
   _ShimmerLoadingState createState() => _ShimmerLoadingState();
@@ -35,8 +33,8 @@ class ShimmerLoading extends StatefulWidget {
 class _ShimmerLoadingState extends State<ShimmerLoading> {
   @override
   Widget build(BuildContext context) {
-    if (!widget.isLoading) {
-      return widget.child;
+    if (!widget.isLoading!) {
+      return widget.child!;
     }
 
     return ShaderMask(

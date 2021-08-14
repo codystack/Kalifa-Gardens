@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/components/shimmer_loading.dart';
-import 'package:demo_app/model/faqs_model.dart';
-import 'package:demo_app/model/faqs_response.dart';
-import 'package:demo_app/util/service.dart';
+import '../components/custom_drawer.dart';
+import '../components/shimmer_loading.dart';
+import '../model/faqs_model.dart';
+import '../model/faqs_response.dart';
+import '../util/service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,18 +19,19 @@ List<FAQsModel> generateFAQsList(int num) {
   return List.generate(num, (index) {
     return FAQsModel(
         title: 'How do I secure my plot?',
-        body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim in rutrum eget accumsan lobortis adipiscing diam et. Hendrerit pretium vel id et nibh turpis est lorem. Amet in quam nec, feugiat tempus, adipiscing neque interdum. Cras tortor molestie ligula vulputate nisi nisl velit turpis. Ultricies volutpat velit. '
+        body:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim in rutrum eget accumsan lobortis adipiscing diam et. Hendrerit pretium vel id et nibh turpis est lorem. Amet in quam nec, feugiat tempus, adipiscing neque interdum. Cras tortor molestie ligula vulputate nisi nisl velit turpis. Ultricies volutpat velit. '
             '\n\nItem at position $index');
   });
 }
 
 class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
-
-  AnimationController _animationController;
+  AnimationController? _animationController;
   bool _isLoading = true;
 
   Future<List<FAQsResponse>> fetchFAQs(http.Client client) async {
-    final response = await client.get(Uri.parse('https://api.kalifagardens.net/faqs'));
+    final response =
+        await client.get(Uri.parse('https://api.kalifagardens.net/faqs'));
 
     print('RESPONSE ${jsonDecode(response.body)}');
 
@@ -49,7 +50,9 @@ class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
   List<FAQsResponse> parseFAQs(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-    return parsed.map<FAQsResponse>((json) => FAQsResponse.fromJson(json)).toList();
+    return parsed
+        .map<FAQsResponse>((json) => FAQsResponse.fromJson(json))
+        .toList();
   }
 
   @override
@@ -57,71 +60,69 @@ class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
     super.initState();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
-
   }
 
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
   List<FAQsModel> _faqsData = generateFAQsList(5);
 
   Widget _buildShimmer() {
     return ShimmerLoading(
       isLoading: _isLoading,
-      child: Column(
-        children: [
-          for (var i=0; i<8; i++)
-            Container(
-              width: double.infinity,
-              height: 48.0,
-              color: Colors.grey[300],
-              margin: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 100.0,
-                    height: 24.0,
-                    decoration: BoxDecoration(
+      child: Column(children: [
+        for (var i = 0; i < 8; i++)
+          Container(
+            width: double.infinity,
+            height: 48.0,
+            color: Colors.grey[300],
+            margin: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100.0,
+                  height: 24.0,
+                  decoration: BoxDecoration(
                       color: Colors.grey[500],
-                      borderRadius: BorderRadius.all(Radius.circular(8.0))
-                    ),
-                  ),
-                  Icon(Icons.keyboard_arrow_down_rounded)
-                ],
-              ),
-            )
-        ]
-      ),
+                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                ),
+                Icon(Icons.keyboard_arrow_down_rounded)
+              ],
+            ),
+          )
+      ]),
     );
   }
 
   Widget _buildExpansionTile(List<FAQsResponse> _faqsRespList) {
     return Column(
-        children: _faqsRespList.map<Card>((FAQsResponse model) {
+      children: _faqsRespList.map<Card>(
+        (FAQsResponse model) {
           return Card(
             margin: const EdgeInsets.all(2.0),
             elevation: 2.0,
             child: ExpansionTile(
-                title: Text(
-                  model.question,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+              title: Text(
+                model.question!,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
               children: [
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   color: Colors.grey[200],
-                  child: Text(model.answer),
+                  child: Text(model.answer!),
                 ),
               ],
             ),
           );
         },
-        ).toList(),
+      ).toList(),
     );
   }
 
@@ -150,18 +151,17 @@ class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -190,23 +190,28 @@ class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            SizedBox(height: 16,),
+            SizedBox(
+              height: 16,
+            ),
             Container(
-                width: double.infinity,
-                child: FutureBuilder<List<FAQsResponse>>(
-                  future: fetchFAQs(http.Client()),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('An error has occurred!', textAlign: TextAlign.center,),
-                      );
-                    } else if (snapshot.hasData) {
-                      return _buildExpansionTile(snapshot.data);
-                    } else {
-                      return _buildShimmer();
-                    }
-                  },
-                ),
+              width: double.infinity,
+              child: FutureBuilder<List<FAQsResponse>>(
+                future: fetchFAQs(http.Client()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text(
+                        'An error has occurred!',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
+                    return _buildExpansionTile(snapshot.data!);
+                  } else {
+                    return _buildShimmer();
+                  }
+                },
+              ),
             ),
           ],
         ),

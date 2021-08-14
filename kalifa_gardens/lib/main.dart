@@ -1,6 +1,6 @@
-import 'package:demo_app/screens/dashboard.dart';
-import 'package:demo_app/screens/onboarding.dart';
-import 'package:demo_app/screens/splash_screen.dart';
+import '../screens/dashboard.dart';
+import '../screens/onboarding.dart';
+import '../screens/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,9 +19,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   bool _isLoggedIn = false;
-  final _controller = Get.put(StateController()) ;
+  final _controller = Get.put(StateController());
 
   _loadController() async {
     final prefs = await SharedPreferences.getInstance();
@@ -43,16 +42,21 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: _isLoggedIn ? Dashboard() : Onboarding(),
       theme: ThemeData(
-          appBarTheme: Theme.of(context).appBarTheme.copyWith(brightness: Brightness.dark),
-          primaryColor: Color(0xFF0A4D50),
-          accentColor: Color(0xFFD4B581),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          inputDecorationTheme: InputDecorationTheme(
-            focusColor: Color(0xFF0A4D50),
+        appBarTheme:
+            Theme.of(context).appBarTheme.copyWith(brightness: Brightness.dark),
+        primaryColor: Color(0xFF0A4D50),
+        accentColor: Color(0xFFD4B581),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        inputDecorationTheme: InputDecorationTheme(
+          focusColor: Color(0xFF0A4D50),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.zero),
+            borderSide: BorderSide(
+              color: Color(0xFF0A4D50),
+            ),
           ),
-          textTheme: TextTheme(
-              bodyText2: BodyTextStyle
-          ),
+        ),
+        textTheme: TextTheme(bodyText2: BodyTextStyle),
       ),
     );
   }

@@ -1,22 +1,29 @@
-import 'package:demo_app/controller/state_controller.dart';
+import '../../controller/state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class FormStep1 extends StatefulWidget {
-
   @override
   _FormStep1State createState() => _FormStep1State();
 }
 
 class _FormStep1State extends State<FormStep1> {
-
   final _formKey = GlobalKey<FormState>();
   var _gender = 'Male';
-  bool _isAccepted = false;
+  bool? _isAccepted = false;
   final _controller = Get.find<StateController>();
 
-  String _entityName, _rcNumber, _officeAddr, _typeofBusiness, _mobilePhoneNo, _emailAddr, _websiteURL, _mailingAddr, _nameSublease, _addrSublease;
+  String? _entityName,
+      _rcNumber,
+      _officeAddr,
+      _typeofBusiness,
+      _mobilePhoneNo,
+      _emailAddr,
+      _websiteURL,
+      _mailingAddr,
+      _nameSublease,
+      _addrSublease;
 
   @override
   void initState() {
@@ -52,7 +59,9 @@ class _FormStep1State extends State<FormStep1> {
               ),
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,8 +147,7 @@ class _FormStep1State extends State<FormStep1> {
                 border: OutlineInputBorder(),
                 labelText: 'Type of Business',
                 hintText: 'Type of Business',
-                suffixIcon: Icon(Icons.search)
-            ),
+                suffixIcon: Icon(Icons.search)),
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -163,14 +171,13 @@ class _FormStep1State extends State<FormStep1> {
 //                    prefix: DropdownButton(
 //
 //                    ),
-                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')
-            ),
+                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')),
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your phone number';
               }
-              if(!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
+              if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
                 return 'Please enter a valid phone number';
               }
               return null;
@@ -195,7 +202,8 @@ class _FormStep1State extends State<FormStep1> {
               if (value == null || value.isEmpty) {
                 return 'Please enter your email';
               }
-              if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]').hasMatch(value)) {
+              if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
+                  .hasMatch(value)) {
                 return 'Please enter a valid email';
               }
               return null;
@@ -286,7 +294,9 @@ class _FormStep1State extends State<FormStep1> {
               _addrSublease = val;
             },
           ),
-          SizedBox(height: 16.0,),
+          SizedBox(
+            height: 16.0,
+          ),
           Container(
             width: double.infinity,
             color: Colors.black,
@@ -297,9 +307,7 @@ class _FormStep1State extends State<FormStep1> {
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
-                    fontWeight:
-                    FontWeight.w600
-                ),
+                    fontWeight: FontWeight.w600),
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.black,

@@ -1,4 +1,4 @@
-package com.example.kalifa_gardens
+package com.kalifa_gardens.app
 
 import io.flutter.embedding.android.FlutterActivity
 

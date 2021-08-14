@@ -1,13 +1,11 @@
-import 'package:demo_app/model/news_updates_model.dart';
+import '../model/news_updates_model.dart';
 import 'package:flutter/material.dart';
 
 class NewsUpdateItem extends StatelessWidget {
-
 //  final String title, desc;
 //  final List slideItems;
-  final NewsUpdateModel newsUpdateModel;
+  final NewsUpdateModel? newsUpdateModel;
   NewsUpdateItem({this.newsUpdateModel});
-
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +16,15 @@ class NewsUpdateItem extends StatelessWidget {
         children: <Widget>[
           Container(
             width: double.infinity,
-            child: Image.asset(newsUpdateModel.image),
+            child: Image.asset(newsUpdateModel!.image!),
           ),
-          SizedBox(height: 10.0,),
+          SizedBox(
+            height: 10.0,
+          ),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.only(top: 16.0, bottom: 21.0, left: 21.0, right: 21.0),
+            padding: const EdgeInsets.only(
+                top: 16.0, bottom: 21.0, left: 21.0, right: 21.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,10 +38,26 @@ class NewsUpdateItem extends StatelessWidget {
                     onPrimary: Colors.black,
                   ),
                 ),
-                SizedBox(height: 8.0,),
-                Text(newsUpdateModel.title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),),
-                SizedBox(height: 10.0,),
-                Text(newsUpdateModel.description, style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 13),),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Text(
+                  newsUpdateModel!.title!,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  newsUpdateModel!.description!,
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13),
+                ),
               ],
             ),
           )

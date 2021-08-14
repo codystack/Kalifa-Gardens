@@ -1,17 +1,16 @@
-import 'package:demo_app/forms/contact_us.dart';
-import 'package:demo_app/screens/account_history.dart';
-import 'package:demo_app/screens/buyer_benefits.dart';
-import 'package:demo_app/screens/faqs.dart';
-import 'package:demo_app/screens/manage_documents.dart';
-import 'package:demo_app/screens/news_and_update.dart';
-import 'package:demo_app/screens/project_profile.dart';
-import 'package:demo_app/screens/purchase_plot.dart';
-import 'package:demo_app/screens/settings.dart';
+import '../forms/contact_us.dart';
+import '../screens/account_history.dart';
+import '../screens/buyer_benefits.dart';
+import '../screens/faqs.dart';
+import '../screens/manage_documents.dart';
+import '../screens/news_and_update.dart';
+import '../screens/project_profile.dart';
+import '../screens/purchase_plot.dart';
+import '../screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomDrawer extends StatelessWidget {
-
   _showContactUs(BuildContext context) {
     showDialog(
         context: context,
@@ -64,8 +63,7 @@ class CustomDrawer extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(24.0)),
-                        color: Colors.white
-                    ),
+                        color: Colors.white),
                   ),
                   top: -60,
                 )
@@ -91,11 +89,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PurchasePlot()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PurchasePlot()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,11 +125,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BuyerBenefits()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BuyerBenefits()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,11 +161,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AccountHistory()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AccountHistory()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -193,11 +197,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectProfile()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProjectProfile()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,11 +233,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ManageDocuments()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ManageDocuments()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -261,11 +269,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewsAndUpdates()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NewsAndUpdates()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -295,11 +305,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => FAQs()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FAQs()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -329,11 +341,13 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Settings()),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -363,8 +377,7 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () => _showContactUs(context),
                 child: Row(
@@ -395,8 +408,7 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 0.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {},
                 child: Row(
@@ -411,7 +423,8 @@ class CustomDrawer extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SvgPicture.asset('assets/images/developers_other_projects.svg')
+                    SvgPicture.asset(
+                        'assets/images/developers_other_projects.svg')
                   ],
                 ),
                 style: TextButton.styleFrom(
@@ -427,8 +440,7 @@ class CustomDrawer extends StatelessWidget {
                     left: BorderSide(color: Colors.white, width: 2.0),
                     right: BorderSide(color: Colors.white, width: 2.0),
                     bottom: BorderSide(color: Colors.white, width: 2.0),
-                  )
-              ),
+                  )),
               child: TextButton(
                 onPressed: () {},
                 child: Row(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 class ContactUs extends StatefulWidget {
   @override
@@ -8,10 +7,9 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
-
   final _formKey = GlobalKey<FormState>();
   bool _isSwitched = false;
-  String _fullname, _phone, _email, _message;
+  String? _fullname, _phone, _email, _message;
 
   void handleSwitch(bool state) {
     setState(() {
@@ -46,13 +44,14 @@ class _ContactUsState extends State<ContactUs> {
                         _isSwitched = val;
                       });
                     },
-                    activeColor:  Color(0xFF0A4D50),
-                    activeTrackColor:  Color(0xFF0A4D50),
+                    activeColor: Color(0xFF0A4D50),
+                    activeTrackColor: Color(0xFF0A4D50),
                     inactiveThumbColor: Colors.grey,
                     inactiveTrackColor: Colors.grey,
-                    activeThumbImage: AssetImage('assets/images/active_thumb.png'),
-                    inactiveThumbImage: AssetImage('assets/images/inactive_thumb.png'),
-
+                    activeThumbImage:
+                        AssetImage('assets/images/active_thumb.png'),
+                    inactiveThumbImage:
+                        AssetImage('assets/images/inactive_thumb.png'),
                   ),
                 ),
               ],
@@ -62,11 +61,10 @@ class _ContactUsState extends State<ContactUs> {
             ),
             TextFormField(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Full name',
-                hintText: 'Full Name',
-                prefixIcon: Icon(Icons.travel_explore)
-              ),
+                  border: OutlineInputBorder(),
+                  labelText: 'Full name',
+                  hintText: 'Full Name',
+                  prefixIcon: Icon(Icons.travel_explore)),
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -90,14 +88,14 @@ class _ContactUsState extends State<ContactUs> {
 //                    prefix: DropdownButton(
 //
 //                    ),
-                  prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')
-              ),
+                  prefixIcon:
+                      SvgPicture.asset('assets/images/phone_naija.svg')),
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your phone number';
                 }
-                if(!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
+                if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
                   return 'Please enter a valid phone number';
                 }
                 return null;
@@ -115,14 +113,15 @@ class _ContactUsState extends State<ContactUs> {
                 border: OutlineInputBorder(),
                 labelText: 'Email address',
                 hintText: 'Email Address',
-                  prefixIcon: Icon(Icons.email),
+                prefixIcon: Icon(Icons.email),
               ),
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your email';
                 }
-                if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]').hasMatch(value)) {
+                if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
+                    .hasMatch(value)) {
                   return 'Please enter a valid email';
                 }
                 return null;
@@ -136,96 +135,88 @@ class _ContactUsState extends State<ContactUs> {
               height: 10,
             ),
             Column(
-              children: _isSwitched ?
-              <Widget>[
-                Container(
-                  width: double.infinity,
-                  color: Colors.black,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        //All good
-                      }
-                      else {
+              children: _isSwitched
+                  ? <Widget>[
+                      Container(
+                        width: double.infinity,
+                        color: Colors.black,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              //All good
+                            } else {
 //                          Validation failed
-                      }
-                    },
-                    child: Text(
-                      'Send my Details',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight:
-                          FontWeight.w600
+                            }
+                          },
+                          child: Text(
+                            'Send my Details',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.black,
+                            onPrimary: Colors.white,
+                            padding: const EdgeInsets.all(8.0),
+                          ),
+                        ),
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.white,
-                      padding: const EdgeInsets.all(8.0),
-                    ),
-                  ),
-                ),
-              ]
-                  :
-              <Widget>[
-                TextFormField(
-                  minLines: 3,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter your message',
-                    hintText: 'Message',
-                    prefixIcon: Icon(Icons.message),
+                    ]
+                  : <Widget>[
+                      TextFormField(
+                        minLines: 3,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Enter your message',
+                          hintText: 'Message',
+                          prefixIcon: Icon(Icons.message),
 //                    prefixIconConstraints: BoxConstraints()
-                  ),
-                  // The validator receives the text that the user has entered.
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your message';
-                    }
-                    return null;
-                  },
-                  onSaved: (msg) {
-                    _message = msg;
-                  },
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: double.infinity,
-                  color: Colors.black,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        //All good
-                      }
-                      else {
-//                          Validation failed
-                      }
-                    },
-                    child: Text(
-                      'Send Message',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight:
-                          FontWeight.w600
+                        ),
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your message';
+                          }
+                          return null;
+                        },
+                        onSaved: (msg) {
+                          _message = msg;
+                        },
+                        keyboardType: TextInputType.text,
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.white,
-                      padding: const EdgeInsets.all(8.0),
-                    ),
-                  ),
-                ),
-              ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        color: Colors.black,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              //All good
+                            } else {
+//                          Validation failed
+                            }
+                          },
+                          child: Text(
+                            'Send Message',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.black,
+                            onPrimary: Colors.white,
+                            padding: const EdgeInsets.all(8.0),
+                          ),
+                        ),
+                      ),
+                    ],
             ),
           ],
-        )
-    );
+        ));
   }
 }

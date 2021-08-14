@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:demo_app/model/login_response.dart';
-import 'package:demo_app/screens/dashboard.dart';
+import '../model/login_response.dart';
+import '../screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +14,6 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
   final _formKey = GlobalKey<FormState>();
   var _token, _userData;
   bool _isLoading = false;
@@ -39,10 +38,8 @@ class _LoginFormState extends State<LoginForm> {
     final response = await http.post(
       Uri.parse('https://api.kalifagardens.net/auth/local'),
       headers: {"Content-type": "application/json"},
-      body: jsonEncode(<String, String>{
-        'identifier': email,
-        'password': password
-      }),
+      body: jsonEncode(
+          <String, String>{'identifier': email, 'password': password}),
     );
 
     print('STAT CODE ${response.statusCode}');
@@ -66,14 +63,13 @@ class _LoginFormState extends State<LoginForm> {
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xFF0A4D50),
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Dashboard()));
 //      print('Howdy, ${user.name}!');
 //      print('We sent the verification link to ${user.email}.');
-    }
-    else {
+    } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       Fluttertoast.showToast(
@@ -83,22 +79,22 @@ class _LoginFormState extends State<LoginForm> {
           timeInSecForIosWeb: 1,
           backgroundColor: Color(0xFF0A4D50),
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
 //      throw Exception('Failed to create album.');
     }
   }
 
   Future _login2() async {
-    var request = http.Request('POST', Uri.parse('https://api.kalifagardens.net/auth/local'));
-    request.body = '''{\n    "identifier": "iyiolapeter@gmail.com",\n    "password": "password"\n}''';
+    var request = http.Request(
+        'POST', Uri.parse('https://api.kalifagardens.net/auth/local'));
+    request.body =
+        '''{\n    "identifier": "iyiolapeter@gmail.com",\n    "password": "password"\n}''';
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
-    }
-    else {
+    } else {
       print(response.reasonPhrase);
     }
   }
@@ -123,66 +119,66 @@ class _LoginFormState extends State<LoginForm> {
             children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email address',
-                  hintText: 'Email address',
-                  prefixIcon: Icon(Icons.email)
-              ),
-              // The validator receives the text that the user has entered.
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email address';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.emailAddress,
-              controller: _emailController,
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: 'Password',
-                  suffixIcon: Icon(Icons.visibility)
-              ),
-              // The validator receives the text that the user has entered.
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                return null;
-              },
-              controller: _passwordController,
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              width: double.infinity,
-              color: Colors.black,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _login(_emailController.text, _passwordController.text);
+                    border: OutlineInputBorder(),
+                    labelText: 'Email address',
+                    hintText: 'Email address',
+                    prefixIcon: Icon(Icons.email)),
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email address';
                   }
+                  return null;
                 },
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
-                    padding: const EdgeInsets.all(16.0)
-                ),
+                keyboardType: TextInputType.emailAddress,
+                controller: _emailController,
               ),
-            )
-          ],
+              SizedBox(
+                height: 16,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                    hintText: 'Password',
+                    suffixIcon: Icon(Icons.visibility)),
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+                controller: _passwordController,
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Container(
+                width: double.infinity,
+                color: Colors.black,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _login(_emailController.text, _passwordController.text);
+                    }
+                  },
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      onPrimary: Colors.white,
+                      padding: const EdgeInsets.all(16.0)),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

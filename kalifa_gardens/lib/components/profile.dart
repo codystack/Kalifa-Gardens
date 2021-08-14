@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,8 +12,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
-  File _selectedFile;
+  File? _selectedFile;
   final picker = ImagePicker();
   bool _inProcess = false;
   String _gender = 'Male';
@@ -26,27 +24,24 @@ class _ProfileState extends State<Profile> {
     final pickedFile = await picker.pickImage(source: imageSource);
 
     if (pickedFile != null) {
-      File croppedFile = await ImageCropper.cropImage(
-        sourcePath: pickedFile.path,
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-        compressQuality: 100,
-        compressFormat: ImageCompressFormat.jpg,
-        androidUiSettings: AndroidUiSettings(
-          toolbarColor: Color(0xFF0A4D50),
-        )
-      );
+      File? croppedFile = await ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+          compressQuality: 100,
+          compressFormat: ImageCompressFormat.jpg,
+          androidUiSettings: AndroidUiSettings(
+            toolbarColor: Color(0xFF0A4D50),
+          ));
 
       this.setState(() {
         _selectedFile = croppedFile;
         _inProcess = false;
       });
-    }
-    else {
+    } else {
       this.setState(() {
         _inProcess = false;
       });
     }
-
   }
 
   Future _showSelectionDialog() async {
@@ -61,21 +56,20 @@ class _ProfileState extends State<Profile> {
               onPressed: () {
                 selectOrTakePhoto(ImageSource.gallery);
                 Navigator.pop(context);
-                },
+              },
             ),
             SimpleDialogOption(
               child: Text('Take a photo'),
               onPressed: () {
                 selectOrTakePhoto(ImageSource.camera);
                 Navigator.pop(context);
-                },
+              },
             ),
           ],
         );
-        },
+      },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,20 +97,22 @@ class _ProfileState extends State<Profile> {
                                 width: 144.0,
                                 height: 144.0,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(72.0)),
-                                    color: Colors.white
-                                ),
-                                child: _selectedFile == null ?
-                                CircleAvatar(
-                                  radius: 72.0,
-                                  backgroundImage: AssetImage('assets/images/app_icon.png'),
-                                  backgroundColor: Colors.white,
-                                ) :
-                                CircleAvatar(
-                                  radius: 72.0,
-                                  backgroundImage: FileImage(_selectedFile),
-                                  backgroundColor: Colors.white,
-                                ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(72.0)),
+                                    color: Colors.white),
+                                child: _selectedFile == null
+                                    ? CircleAvatar(
+                                        radius: 72.0,
+                                        backgroundImage: AssetImage(
+                                            'assets/images/app_icon.png'),
+                                        backgroundColor: Colors.white,
+                                      )
+                                    : CircleAvatar(
+                                        radius: 72.0,
+                                        backgroundImage:
+                                            FileImage(_selectedFile!),
+                                        backgroundColor: Colors.white,
+                                      ),
                               ),
                             ),
                           ),
@@ -131,16 +127,19 @@ class _ProfileState extends State<Profile> {
                         child: Container(
                           padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(28.0)),
-                              color: Color(0xFFD5E1E1)
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(28.0)),
+                              color: Color(0xFFD5E1E1)),
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(28.0)),
-                                color: Colors.black
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(28.0)),
+                                color: Colors.black),
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: Colors.white,
                             ),
-                            child: Icon(Icons.camera_alt_rounded, color: Colors.white,),
                           ),
                         ),
                       ),
@@ -151,7 +150,9 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0,),
+            SizedBox(
+              height: 20.0,
+            ),
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -159,8 +160,7 @@ class _ProfileState extends State<Profile> {
                   hintText: 'Full Name',
                   fillColor: Colors.white,
                   filled: true,
-                  prefixIcon: Icon(Icons.card_travel)
-              ),
+                  prefixIcon: Icon(Icons.card_travel)),
               // The validator receives the text that the user has entered.
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -187,7 +187,7 @@ class _ProfileState extends State<Profile> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your phone number';
                 }
-                if(!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
+                if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
                   return 'Please enter a valid phone number';
                 }
                 return null;
@@ -211,7 +211,8 @@ class _ProfileState extends State<Profile> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your email';
                 }
-                if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]').hasMatch(value)) {
+                if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
+                    .hasMatch(value)) {
                   return 'Please enter a valid email';
                 }
                 return null;
@@ -228,8 +229,14 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     margin: const EdgeInsets.only(right: 5.0),
                     decoration: BoxDecoration(
-                      color: _gender == 'Male' ? Color(0xFFD4B581) : Colors.white,
-                      border: Border.all(color: _gender == 'Male' ? Color(0xFFD4B581) : Colors.grey, width: 1.0, style: BorderStyle.solid),
+                      color:
+                          _gender == 'Male' ? Color(0xFFD4B581) : Colors.white,
+                      border: Border.all(
+                          color: _gender == 'Male'
+                              ? Color(0xFFD4B581)
+                              : Colors.grey,
+                          width: 1.0,
+                          style: BorderStyle.solid),
                     ),
                     child: ElevatedButton(
                       onPressed: () => {
@@ -238,8 +245,11 @@ class _ProfileState extends State<Profile> {
                         })
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: _gender == 'Male' ? Color(0xFFD4B581) : Colors.white,
-                        onPrimary: _gender == 'Male' ? Color(0xFFD4B581) : Colors.grey,
+                        primary: _gender == 'Male'
+                            ? Color(0xFFD4B581)
+                            : Colors.white,
+                        onPrimary:
+                            _gender == 'Male' ? Color(0xFFD4B581) : Colors.grey,
                       ),
                       child: Container(
                         padding: const EdgeInsets.all(14.0),
@@ -248,7 +258,9 @@ class _ProfileState extends State<Profile> {
                           'Male',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: _gender == 'Male' ? Colors.black : Colors.black54,
+                            color: _gender == 'Male'
+                                ? Colors.black
+                                : Colors.black54,
                             fontSize: 18.0,
                           ),
                         ),
@@ -260,8 +272,15 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     margin: const EdgeInsets.only(left: 5.0),
                     decoration: BoxDecoration(
-                      color: _gender == 'Female' ? Color(0xFFD4B581) : Colors.white,
-                      border: Border.all(color: _gender == 'Female' ? Color(0xFFD4B581) : Colors.grey, width: 1.0, style: BorderStyle.solid),
+                      color: _gender == 'Female'
+                          ? Color(0xFFD4B581)
+                          : Colors.white,
+                      border: Border.all(
+                          color: _gender == 'Female'
+                              ? Color(0xFFD4B581)
+                              : Colors.grey,
+                          width: 1.0,
+                          style: BorderStyle.solid),
                     ),
                     child: ElevatedButton(
                       onPressed: () => {
@@ -270,8 +289,12 @@ class _ProfileState extends State<Profile> {
                         })
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: _gender == 'Female' ? Color(0xFFD4B581) : Colors.white,
-                        onPrimary: _gender == 'Female' ? Color(0xFFD4B581) : Colors.grey,
+                        primary: _gender == 'Female'
+                            ? Color(0xFFD4B581)
+                            : Colors.white,
+                        onPrimary: _gender == 'Female'
+                            ? Color(0xFFD4B581)
+                            : Colors.grey,
                       ),
                       child: Container(
                         padding: const EdgeInsets.all(14.0),
@@ -280,7 +303,9 @@ class _ProfileState extends State<Profile> {
                           'Female',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: _gender == 'Female' ? Colors.black : Colors.black54,
+                            color: _gender == 'Female'
+                                ? Colors.black
+                                : Colors.black54,
                             fontSize: 18.0,
                           ),
                         ),
@@ -317,14 +342,11 @@ class _ProfileState extends State<Profile> {
               height: 16,
             ),
             ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'Save Changes',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 22
-                  ),
-                ),
+              onPressed: () {},
+              child: Text(
+                'Save Changes',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22),
+              ),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(16.0),
                 primary: Colors.black,
@@ -333,13 +355,15 @@ class _ProfileState extends State<Profile> {
             )
           ],
         ),
-        (_inProcess) ? Container(
-          color: Color(0xFFD5E1E1) ,
-          height: MediaQuery.of(context).size.height*0.96,
-          child: Center(
-            child: CircularProgressIndicator(color: Color(0xFF0A4D50)),
-          ),
-        ) : Center()
+        (_inProcess)
+            ? Container(
+                color: Color(0xFFD5E1E1),
+                height: MediaQuery.of(context).size.height * 0.96,
+                child: Center(
+                  child: CircularProgressIndicator(color: Color(0xFF0A4D50)),
+                ),
+              )
+            : Center()
       ],
     );
   }

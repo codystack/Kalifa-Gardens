@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:demo_app/controller/state_controller.dart';
-import 'package:demo_app/model/project_profile_slides.dart';
+import '../../controller/state_controller.dart';
+import '../../model/project_profile_slides.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +11,6 @@ import '../slide_dots.dart';
 
 // ignore: must_be_immutable
 class PurchasePlotStep1 extends StatefulWidget {
-
   var stepIndex;
   PurchasePlotStep1({this.stepIndex});
 
@@ -20,9 +19,8 @@ class PurchasePlotStep1 extends StatefulWidget {
 }
 
 class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
-
   int _currentPage = 0;
-  PageController _pageController =  PageController(initialPage: 0);
+  PageController _pageController = PageController(initialPage: 0);
   bool _isAccepted = false;
   final _controller = Get.find<StateController>();
 
@@ -38,10 +36,9 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
   void initState() {
     super.initState();
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if(_currentPage < 3) {
+      if (_currentPage < 3) {
         _currentPage++;
-      }
-      else {
+      } else {
         _currentPage = 0;
       }
 
@@ -75,12 +72,13 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
           'Register Interest',
           textAlign: TextAlign.start,
           style: TextStyle(
-            color: Color(0xFF0A4D50),
-            fontWeight: FontWeight.w700,
-            fontSize: 20
-          ),
+              color: Color(0xFF0A4D50),
+              fontWeight: FontWeight.w700,
+              fontSize: 20),
         ),
-        SizedBox(height: 21.0,),
+        SizedBox(
+          height: 21.0,
+        ),
         Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -88,49 +86,49 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
           children: [
             Flexible(
                 child: Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
+              alignment: AlignmentDirectional.bottomCenter,
+              children: <Widget>[
+                Container(
+                  height: 260,
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                  child: PageView.builder(
+                    itemBuilder: (ctx, i) => ProjectProfileSlideItem(i),
+                    itemCount: projSlideList.length,
+                    controller: _pageController,
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: _onPageChanged,
+                  ),
+                ),
+                Stack(
+                  alignment: AlignmentDirectional.topEnd,
                   children: <Widget>[
-                    Container(
-                      height: 260,
-                      margin: const EdgeInsets.only(bottom: 10.0),
-                      child: PageView.builder(
-                        itemBuilder: (ctx, i) => ProjectProfileSlideItem(i),
-                        itemCount: projSlideList.length,
-                        controller: _pageController,
-                        scrollDirection: Axis.horizontal,
-                        onPageChanged: _onPageChanged,
-                      ),
-                    ),
-                    Stack(
-                      alignment: AlignmentDirectional.topEnd,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Container(
-                              padding: const EdgeInsets.all(4.0),
-                              decoration: BoxDecoration(
-                                color: Color(0x99000000),
-                                borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                              ),
-                              margin: const EdgeInsets.only(bottom: 15),
-                              child: Row(
-                                children: <Widget>[
-                                  for (int i=0; i<projSlideList.length; i++)
-                                    if (i == _currentPage)
-                                      SlideDots(true)
-                                    else
-                                      SlideDots(false)
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
+                        Container(
+                          padding: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            color: Color(0x99000000),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(16.0)),
+                          ),
+                          margin: const EdgeInsets.only(bottom: 15),
+                          child: Row(
+                            children: <Widget>[
+                              for (int i = 0; i < projSlideList.length; i++)
+                                if (i == _currentPage)
+                                  SlideDots(true)
+                                else
+                                  SlideDots(false)
+                            ],
+                          ),
+                        ),
                       ],
                     )
                   ],
                 )
-            ),
+              ],
+            )),
           ],
         ),
         Container(
@@ -148,19 +146,19 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                 Text(
                   'Price per SQM',
                   style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700
-                  ),
+                      color: Colors.black54,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700),
                 ),
-                SizedBox(width: 10.0,),
+                SizedBox(
+                  width: 10.0,
+                ),
                 Text(
                   'N30,000',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -185,13 +183,15 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 13,
-                            fontWeight: FontWeight.bold
-                        ),
+                            fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(width: 10.0,),
+                      SizedBox(
+                        width: 10.0,
+                      ),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.help_rounded, color: Colors.black54, size: 14.0),
+                        icon: Icon(Icons.help_rounded,
+                            color: Colors.black54, size: 14.0),
                       )
                     ],
                   ),
@@ -199,8 +199,10 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black54, width: 1.0, style: BorderStyle.solid)
-                    ),
+                        border: Border.all(
+                            color: Colors.black54,
+                            width: 1.0,
+                            style: BorderStyle.solid)),
                     child: DropdownButton(
                       hint: Text('Size of plot size'),
                       items: plotSizes.map((val) {
@@ -212,7 +214,7 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                       value: selectedPlotSize,
                       onChanged: (newValue) {
                         setState(() {
-                          selectedPlotSize = newValue;
+                          selectedPlotSize = newValue as String;
                         });
                       },
                       icon: Icon(Icons.arrow_drop_down),
@@ -224,7 +226,9 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                 ],
               ),
             ),
-            SizedBox(width: 10.0,),
+            SizedBox(
+              width: 10.0,
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,27 +240,33 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 13,
-                          fontWeight: FontWeight.bold
-                      ),
+                          fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 10.0,),
+                    SizedBox(
+                      width: 10.0,
+                    ),
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.help_rounded, color: Colors.black54, size: 14.0),
+                      icon: Icon(Icons.help_rounded,
+                          color: Colors.black54, size: 14.0),
                     )
                   ],
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black54, width: 1.0, style: BorderStyle.solid)
-                  ),
+                      border: Border.all(
+                          color: Colors.black54,
+                          width: 1.0,
+                          style: BorderStyle.solid)),
                 )
               ],
             ),
           ],
         ),
-        SizedBox(height: 16.0,),
+        SizedBox(
+          height: 16.0,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -285,30 +295,35 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                         fontSize: 14,
                       ),
                     )
-                  ]
-              ),
+                  ]),
               textAlign: TextAlign.center,
             ),
           ],
         ),
-        SizedBox(width: 10.0,),
+        SizedBox(
+          width: 10.0,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Checkbox(value: _isAccepted, onChanged: (state) {
-              setState(() {
-                _isAccepted = state;
-              });
-            }, activeColor: Color(0xFF0A4D50),),
+            Checkbox(
+              value: _isAccepted,
+              onChanged: (state) {
+                setState(() {
+                  _isAccepted = state as bool;
+                });
+              },
+              activeColor: Color(0xFF0A4D50),
+            ),
             Expanded(
-              child: Text(
-                  'I confirm the details above are correct'
-              ),
+              child: Text('I confirm the details above are correct'),
             ),
           ],
         ),
-        SizedBox(width: 21.0,),
+        SizedBox(
+          width: 21.0,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -324,9 +339,7 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18.0,
-                        fontWeight:
-                        FontWeight.w600
-                    ),
+                        fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
@@ -336,26 +349,26 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                 ),
               ),
             ),
-            SizedBox(width: 10.0,),
+            SizedBox(
+              width: 10.0,
+            ),
             Expanded(
               child: Container(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _isAccepted ? () {
-                    setState(() {
-                     _controller.increment();
-                    });
-                  }
-                  :
-                  null,
+                  onPressed: _isAccepted
+                      ? () {
+                          setState(() {
+                            _controller.increment();
+                          });
+                        }
+                      : null,
                   child: Text(
                     'Proceed',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
-                        fontWeight:
-                        FontWeight.w600
-                    ),
+                        fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,

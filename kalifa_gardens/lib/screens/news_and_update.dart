@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:demo_app/components/custom_appbar.dart';
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/components/news_update_item.dart';
-import 'package:demo_app/model/news_updates_model.dart';
-import 'package:demo_app/screens/news_update_detail.dart';
-import 'package:demo_app/util/service.dart';
+import '../components/custom_appbar.dart';
+import '../components/custom_drawer.dart';
+import '../components/news_update_item.dart';
+import '../model/news_updates_model.dart';
+import '../screens/news_update_detail.dart';
+import '../util/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -14,11 +14,12 @@ class NewsAndUpdates extends StatefulWidget {
   _NewsAndUpdatesState createState() => _NewsAndUpdatesState();
 }
 
-class _NewsAndUpdatesState extends State<NewsAndUpdates> with TickerProviderStateMixin {
+class _NewsAndUpdatesState extends State<NewsAndUpdates>
+    with TickerProviderStateMixin {
+  AnimationController? _animationController;
 
-  AnimationController _animationController;
-
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
 //  int _currentPage = 0;
 //  PageController _pageController =  PageController(initialPage: 0);
@@ -47,12 +48,14 @@ class _NewsAndUpdatesState extends State<NewsAndUpdates> with TickerProviderStat
     NewsUpdateModel(
       title: "Dredging Phase Concluded",
       image: "assets/images/stub_image_1.png",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet in sit posuere libero amet, quis. Risus integer malesuada amet enim aliquam malesuada. Adipiscing arcu donec lacus imperdiet. Phasellus aliquam ac posuere congue. Auctor rhoncus sed dui, non. Diam ornare sed auctor enim. .",
+      description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet in sit posuere libero amet, quis. Risus integer malesuada amet enim aliquam malesuada. Adipiscing arcu donec lacus imperdiet. Phasellus aliquam ac posuere congue. Auctor rhoncus sed dui, non. Diam ornare sed auctor enim. .",
     ),
     NewsUpdateModel(
       title: "5000sqm Now Selling",
       image: "assets/images/stub_image_1.png",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Containing all the necessary utilities for basic essentials and convenience; hotel, mosque, hospital, police and fire stations, modern shopping mall, office complex, church, fuel station, bank.",
+      description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Containing all the necessary utilities for basic essentials and convenience; hotel, mosque, hospital, police and fire stations, modern shopping mall, office complex, church, fuel station, bank.",
     ),
   ];
 
@@ -81,18 +84,17 @@ class _NewsAndUpdatesState extends State<NewsAndUpdates> with TickerProviderStat
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -123,7 +125,9 @@ class _NewsAndUpdatesState extends State<NewsAndUpdates> with TickerProviderStat
                   ),
                 ),
               ),
-              SizedBox(height: 1.0,),
+              SizedBox(
+                height: 1.0,
+              ),
 //            ListView.builder(
 //              itemCount: fakeNews.length,
 //              itemBuilder: (context, index) {
@@ -137,14 +141,17 @@ class _NewsAndUpdatesState extends State<NewsAndUpdates> with TickerProviderStat
 //            ),
               Column(
                 children: <Widget>[
-                  for (var a=0; a<fakeNews.length; a++)
+                  for (var a = 0; a < fakeNews.length; a++)
                     ListTile(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => NewsUpdateDetail(newsItem: fakeNews[a])));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    NewsUpdateDetail(newsItem: fakeNews[a])));
                       },
                       title: NewsUpdateItem(newsUpdateModel: fakeNews[a]),
                     )
-
                 ],
               ),
             ],

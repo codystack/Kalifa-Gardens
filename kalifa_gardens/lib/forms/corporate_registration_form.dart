@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:demo_app/components/shimmer_loading.dart';
-import 'package:demo_app/model/business_types_response.dart';
-import 'package:demo_app/model/t_and_c_response.dart';
-import 'package:demo_app/util/service.dart';
+import '../../components/shimmer_loading.dart';
+import '../../model/business_types_response.dart';
+import '../../model/t_and_c_response.dart';
+import '../../util/service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +14,9 @@ class CorporateForm extends StatefulWidget {
 }
 
 class _CorporateFormState extends State<CorporateForm> {
-
   final _formKey = GlobalKey<FormState>();
   bool _isAccepted = false;
-  String selectedBusiness, _email, _phone;
+  String? selectedBusiness, _email, _phone;
   bool _isLoadingTerms = false, _isBizTypesLoaded = false;
   var _tandC;
   List<BusinessTypesResponse> businessList = [];
@@ -43,8 +42,7 @@ class _CorporateFormState extends State<CorporateForm> {
 
 //      print('Howdy, ${user.name}!');
 //      print('We sent the verification link to ${user.email}.');
-    }
-    else {
+    } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
 
@@ -66,11 +64,13 @@ class _CorporateFormState extends State<CorporateForm> {
       print('OPERATION SUCCESSFUL');
       final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
       setState(() {
-        businessList = parsed.map<BusinessTypesResponse>((json) => BusinessTypesResponse.fromJson(json)).toList();
+        businessList = parsed
+            .map<BusinessTypesResponse>(
+                (json) => BusinessTypesResponse.fromJson(json))
+            .toList();
         _isBizTypesLoaded = true;
       });
-    }
-    else {
+    } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
 
@@ -88,32 +88,29 @@ class _CorporateFormState extends State<CorporateForm> {
   Widget _buildShimmer() {
     return ShimmerLoading(
       isLoading: _isLoadingTerms,
-      child: Column(
-          children: [
-            for (var i=0; i<6; i++)
-              Container(
-                width: double.infinity,
-                height: 18.0,
-                color: Colors.grey[300],
-                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100.0,
-                      height: 24.0,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[500],
-                          borderRadius: BorderRadius.all(Radius.circular(8.0))
-                      ),
-                    ),
-                    Icon(Icons.keyboard_arrow_down_rounded)
-                  ],
+      child: Column(children: [
+        for (var i = 0; i < 6; i++)
+          Container(
+            width: double.infinity,
+            height: 18.0,
+            color: Colors.grey[300],
+            margin: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100.0,
+                  height: 24.0,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[500],
+                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
                 ),
-              )
-          ]
-      ),
+                Icon(Icons.keyboard_arrow_down_rounded)
+              ],
+            ),
+          )
+      ]),
     );
   }
 
@@ -163,27 +160,30 @@ class _CorporateFormState extends State<CorporateForm> {
                                   height: 16,
                                 ),
                                 Container(
-                                    width: double.infinity,
-                                    child: Text(
-                                      'Terms of Service',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                  width: double.infinity,
+                                  child: Text(
+                                    'Terms of Service',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
                                     ),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 16,
                                 ),
                                 Container(
                                   width: double.infinity,
-                                  child: _isLoadingTerms ? _buildShimmer() : Text(_tandC,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                    ),
-                                  ),
+                                  child: _isLoadingTerms
+                                      ? _buildShimmer()
+                                      : Text(
+                                          _tandC,
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                          ),
+                                        ),
                                 ),
                               ],
                             ),
@@ -203,9 +203,7 @@ class _CorporateFormState extends State<CorporateForm> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
-                                fontWeight:
-                                FontWeight.w600
-                            ),
+                                fontWeight: FontWeight.w600),
                           ),
                           style: ElevatedButton.styleFrom(
                             primary: Colors.black,
@@ -227,8 +225,7 @@ class _CorporateFormState extends State<CorporateForm> {
                     ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(24.0)),
-                        color: Colors.white
-                    ),
+                        color: Colors.white),
                   ),
                   top: -60,
                 )
@@ -269,8 +266,7 @@ class _CorporateFormState extends State<CorporateForm> {
                     border: OutlineInputBorder(),
                     labelText: 'Name of Entity',
                     hintText: 'Name of Entity',
-                    prefixIcon: Icon(Icons.card_travel)
-                ),
+                    prefixIcon: Icon(Icons.card_travel)),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -286,20 +282,23 @@ class _CorporateFormState extends State<CorporateForm> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid)
-                ),
+                    border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid)),
                 child: DropdownButton(
                   hint: Text('Type of Business'),
                   items: businessList.map((e) {
                     return DropdownMenuItem(
                       value: _isBizTypesLoaded ? e.name : 'Please wait...',
-                      child: Text(_isBizTypesLoaded ? e.name : 'Please wait...'),
+                      child:
+                          Text(_isBizTypesLoaded ? e.name! : 'Please wait...'),
                     );
                   }).toList(),
                   value: selectedBusiness,
                   onChanged: (newValue) {
                     setState(() {
-                      selectedBusiness = newValue;
+                      selectedBusiness = newValue as String;
                     });
                   },
                   icon: Icon(Icons.keyboard_arrow_down_sharp),
@@ -323,7 +322,7 @@ class _CorporateFormState extends State<CorporateForm> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your phone number';
                   }
-                  if(!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
+                  if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
                     return 'Please enter a valid phone number';
                   }
                   return null;
@@ -345,7 +344,8 @@ class _CorporateFormState extends State<CorporateForm> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
                   }
-                  if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]').hasMatch(value)) {
+                  if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
+                      .hasMatch(value)) {
                     return 'Please enter a valid email';
                   }
                   return null;
@@ -377,30 +377,33 @@ class _CorporateFormState extends State<CorporateForm> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Checkbox(value: _isAccepted, onChanged: (state) {
-                      setState(() {
-                        _isAccepted = state;
-                      });
-                    }, activeColor: Color(0xFF0A4D50),),
+                    Checkbox(
+                      value: _isAccepted,
+                      onChanged: (state) {
+                        setState(() {
+                          _isAccepted = state as bool;
+                        });
+                      },
+                      activeColor: Color(0xFF0A4D50),
+                    ),
                     Expanded(
                       child: RichText(
                           text: TextSpan(
-                            text: "I agree to ",
-                            style: TextStyle(
-                              color: Colors.black54,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: "Kalifa Garden\'s Terms of Service",
-                                style: TextStyle(
-                                  color: Color(0xFF0A4D50),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                recognizer: TapGestureRecognizer()..onTap = _showTermsOfService,
-                              )
-                            ]
-                          )
-                      ),
+                              text: "I agree to ",
+                              style: TextStyle(
+                                color: Colors.black54,
+                              ),
+                              children: [
+                            TextSpan(
+                              text: "Kalifa Garden\'s Terms of Service",
+                              style: TextStyle(
+                                color: Color(0xFF0A4D50),
+                                fontWeight: FontWeight.w500,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = _showTermsOfService,
+                            )
+                          ])),
                     ),
                   ],
                 ),
@@ -415,9 +418,7 @@ class _CorporateFormState extends State<CorporateForm> {
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
-                        fontWeight:
-                        FontWeight.w600
-                    ),
+                        fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
@@ -428,7 +429,6 @@ class _CorporateFormState extends State<CorporateForm> {
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

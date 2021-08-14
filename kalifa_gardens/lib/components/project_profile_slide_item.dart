@@ -1,4 +1,4 @@
-import 'package:demo_app/model/project_profile_slides.dart';
+import '../model/project_profile_slides.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,12 @@ class ProjectProfileSlideItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Expanded(child: Image.asset(projSlideList[index].image, fit: BoxFit.fill, height: 236,)),
+        Expanded(
+            child: Image.asset(
+          projSlideList[index].image!,
+          fit: BoxFit.fill,
+          height: 236,
+        )),
         Padding(
           padding: const EdgeInsets.all(1.0),
           child: Row(
@@ -27,10 +32,10 @@ class ProjectProfileSlideItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    projSlideList[index].title,
+                    projSlideList[index].title!,
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],

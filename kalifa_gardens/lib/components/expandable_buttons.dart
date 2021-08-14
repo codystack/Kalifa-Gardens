@@ -1,18 +1,13 @@
-import 'package:demo_app/forms/contact_us.dart';
-import 'package:demo_app/forms/corporate_registration_form.dart';
-import 'package:demo_app/forms/individual_registration_form.dart';
-import 'package:demo_app/screens/Login.dart';
-import 'package:demo_app/screens/account_type_registration.dart';
-import 'package:demo_app/screens/buyer_benefits.dart';
-import 'package:demo_app/screens/faqs.dart';
-import 'package:demo_app/screens/project_profile.dart';
+import '../forms/contact_us.dart';
+import '../screens/Login.dart';
+import '../screens/account_type_registration.dart';
+import '../screens/buyer_benefits.dart';
+import '../screens/faqs.dart';
+import '../screens/project_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
 class ExpandableSection extends StatelessWidget {
-
-  final _dialogKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,7 +28,10 @@ class ExpandableSection extends StatelessWidget {
                     header: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
+                          border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                              style: BorderStyle.solid),
                         ),
                         padding: EdgeInsets.all(10.0),
                         child: Text(
@@ -41,12 +39,10 @@ class ExpandableSection extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline5,
                         )),
-//                    collapsed: Text(
-//                      '',
-//                      softWrap: true,
-//                      maxLines: 2,
-//                      overflow: TextOverflow.ellipsis,
-//                    ),
+                    collapsed: SizedBox(
+                      width: 1.0,
+                      height: 1.0,
+                    ),
                     expanded: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -56,8 +52,7 @@ class ExpandableSection extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Login()
-                                ),
+                                    builder: (context) => Login()),
                               );
                             },
                             child: Padding(
@@ -83,8 +78,8 @@ class ExpandableSection extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AccountTypeRegistration()
-                                ),
+                                    builder: (context) =>
+                                        AccountTypeRegistration()),
                               )
                             },
                             child: Padding(
@@ -139,7 +134,10 @@ class ExpandableSection extends StatelessWidget {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
+                          border: Border.all(
+                              color: Colors.grey,
+                              width: 1.0,
+                              style: BorderStyle.solid),
                         ),
                         padding: EdgeInsets.all(10.0),
                         child: Text(
@@ -151,12 +149,9 @@ class ExpandableSection extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         )),
-//                    collapsed: Text(
-//                      '',
-//                      softWrap: true,
-//                      maxLines: 2,
-//                      overflow: TextOverflow.ellipsis,
-//                    ),
+                    collapsed: Text(
+                      '',
+                    ),
                     expanded: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -166,8 +161,7 @@ class ExpandableSection extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProjectProfile()
-                                ),
+                                    builder: (context) => ProjectProfile()),
                               );
                             },
                             child: Padding(
@@ -193,8 +187,7 @@ class ExpandableSection extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => BuyerBenefits()
-                                ),
+                                    builder: (context) => BuyerBenefits()),
                               )
                             },
                             child: Padding(
@@ -219,9 +212,7 @@ class ExpandableSection extends StatelessWidget {
                             onPressed: () => {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => FAQs()
-                                ),
+                                MaterialPageRoute(builder: (context) => FAQs()),
                               )
                             },
                             child: Padding(
@@ -260,13 +251,16 @@ class ExpandableSection extends StatelessWidget {
                                                 Container(
                                                   width: double.infinity,
                                                   color: Color(0xFFE8E8E8),
-                                                  padding: const EdgeInsets.all(16.0),
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
                                                   child: Center(
                                                     child: Text(
                                                       'CONTACT US',
                                                       style: TextStyle(
-                                                        color: Color(0xFF0A4D50),
-                                                        fontWeight: FontWeight.w600,
+                                                        color:
+                                                            Color(0xFF0A4D50),
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                         fontSize: 21.0,
                                                       ),
                                                     ),
@@ -294,9 +288,11 @@ class ExpandableSection extends StatelessWidget {
                                                 icon: Icon(Icons.close),
                                               ),
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(Radius.circular(24.0)),
-                                                  color: Colors.white
-                                              ),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              24.0)),
+                                                  color: Colors.white),
                                             ),
                                             top: -60,
                                           )

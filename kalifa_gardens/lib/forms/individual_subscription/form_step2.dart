@@ -1,23 +1,21 @@
-import 'package:demo_app/controller/state_controller.dart';
-import 'package:demo_app/screens/dashboard.dart';
+import '../../controller/state_controller.dart';
+import '../../screens/dashboard.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class FormStep2 extends StatefulWidget {
-
   @override
   _FormStep2State createState() => _FormStep2State();
 }
 
 class _FormStep2State extends State<FormStep2> {
-
   final _formKey = GlobalKey<FormState>();
   bool _isAccepted = false;
   final _controller = Get.find<StateController>();
 
-  String _fullname, _relationship, _phone, _mailingAddr, _emailAddr;
+  String? _fullname, _relationship, _phone, _mailingAddr, _emailAddr;
 
   Future _showTermsOfService() async {
     showDialog(
@@ -83,8 +81,8 @@ class _FormStep2State extends State<FormStep2> {
                                   width: double.infinity,
                                   child: Text(
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placerat mollis eget vulputate nunc, nec consequat risus sit id. Egestas eget laoreet molestie sed eleifend nibh. Amet ipsum pellentesque sit magna enim, neque. Consectetur lobortis aliquam ut consectetur. Nunc, et, nibh vel cum. Commodo, ultrices id laoreet urna faucibus. Lacus turpis et tristique vulputate sit pharetra. '
-                                        'consequat risus sit id. Egestas eget laoreet molestie sed eleifend nibh. Amet ipsum pellentesque sit magna enim, neque. Consectetur lobortis aliquam ut consectetur. Nunc, et, nibh vel cum. Commodo, ultrices id laoreet urna faucibus. Lacus turpis et tristique vulputate sit pharetra.'
-                                        'consequat risus sit id. Egestas eget laoreet molestie m. d Lacus turpis et tristique vulputate sit pharetra.',
+                                    'consequat risus sit id. Egestas eget laoreet molestie sed eleifend nibh. Amet ipsum pellentesque sit magna enim, neque. Consectetur lobortis aliquam ut consectetur. Nunc, et, nibh vel cum. Commodo, ultrices id laoreet urna faucibus. Lacus turpis et tristique vulputate sit pharetra.'
+                                    'consequat risus sit id. Egestas eget laoreet molestie m. d Lacus turpis et tristique vulputate sit pharetra.',
                                     style: TextStyle(
                                       color: Colors.black54,
                                     ),
@@ -108,9 +106,7 @@ class _FormStep2State extends State<FormStep2> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
-                                fontWeight:
-                                FontWeight.w600
-                            ),
+                                fontWeight: FontWeight.w600),
                           ),
                           style: ElevatedButton.styleFrom(
                             primary: Colors.black,
@@ -132,8 +128,7 @@ class _FormStep2State extends State<FormStep2> {
                     ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(24.0)),
-                        color: Colors.white
-                    ),
+                        color: Colors.white),
                   ),
                   top: -60,
                 )
@@ -182,7 +177,7 @@ class _FormStep2State extends State<FormStep2> {
             textCapitalization: TextCapitalization.words,
             keyboardType: TextInputType.name,
             onSaved: (val) {
-              _fullname = val;
+              _fullname = val!;
             },
           ),
           SizedBox(
@@ -204,7 +199,7 @@ class _FormStep2State extends State<FormStep2> {
             textCapitalization: TextCapitalization.words,
             keyboardType: TextInputType.text,
             onSaved: (val) {
-              _relationship = val;
+              _relationship = val!;
             },
           ),
           SizedBox(
@@ -218,20 +213,19 @@ class _FormStep2State extends State<FormStep2> {
 //                    prefix: DropdownButton(
 //
 //                    ),
-                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')
-            ),
+                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')),
             // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Next of Kin phone number is required';
               }
-              if(!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
+              if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
                 return 'Please enter a valid phone number';
               }
               return null;
             },
             onSaved: (val) {
-              _phone = val;
+              _phone = val!;
             },
             keyboardType: TextInputType.phone,
           ),
@@ -249,7 +243,8 @@ class _FormStep2State extends State<FormStep2> {
 //            if (value == null || value.isEmpty) {
 //              return 'Next of Kin email is required';
 //            }
-              if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]').hasMatch(value)) {
+              if (!RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]')
+                  .hasMatch(value!)) {
                 return 'Please enter a valid email';
               }
               return null;
@@ -274,18 +269,22 @@ class _FormStep2State extends State<FormStep2> {
             },
             keyboardType: TextInputType.streetAddress,
             onSaved: (val) {
-              _mailingAddr = val;
+              _mailingAddr = val!;
             },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Checkbox(value: _isAccepted, onChanged: (state) {
-                setState(() {
-                  _isAccepted = state;
-                });
-              }, activeColor: Color(0xFF0A4D50),),
+              Checkbox(
+                value: _isAccepted,
+                onChanged: (state) {
+                  setState(() {
+                    _isAccepted = state!;
+                  });
+                },
+                activeColor: Color(0xFF0A4D50),
+              ),
               Expanded(
                 child: RichText(
                     text: TextSpan(
@@ -294,17 +293,16 @@ class _FormStep2State extends State<FormStep2> {
                           color: Colors.black54,
                         ),
                         children: [
-                          TextSpan(
-                            text: "Kalifa Garden\'s Terms of Service",
-                            style: TextStyle(
-                              color: Color(0xFF0A4D50),
-                              fontWeight: FontWeight.w500,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap = _showTermsOfService,
-                          )
-                        ]
-                    )
-                ),
+                      TextSpan(
+                        text: "Kalifa Garden\'s Terms of Service",
+                        style: TextStyle(
+                          color: Color(0xFF0A4D50),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = _showTermsOfService,
+                      )
+                    ])),
               )
             ],
           ),
@@ -314,20 +312,20 @@ class _FormStep2State extends State<FormStep2> {
           Container(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: _isAccepted ? () {
-                if (_formKey.currentState.validate()) {
-                  //All good
-                  _controller.incrementIndividualSub();
-                }
-              } : null,
+              onPressed: _isAccepted
+                  ? () {
+                      if (_formKey.currentState!.validate()) {
+                        //All good
+                        _controller.incrementIndividualSub();
+                      }
+                    }
+                  : null,
               child: Text(
                 'Submit',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
-                    fontWeight:
-                    FontWeight.w600
-                ),
+                    fontWeight: FontWeight.w600),
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.black,

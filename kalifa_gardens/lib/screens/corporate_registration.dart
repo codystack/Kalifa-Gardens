@@ -1,6 +1,6 @@
-import 'package:demo_app/components/custom_appbar.dart';
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/forms/corporate_registration_form.dart';
+import '../components/custom_appbar.dart';
+import '../components/custom_drawer.dart';
+import '../forms/corporate_registration_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -9,9 +9,9 @@ class CorporateRegistration extends StatefulWidget {
   _CorporateRegistrationState createState() => _CorporateRegistrationState();
 }
 
-class _CorporateRegistrationState extends State<CorporateRegistration> with TickerProviderStateMixin {
-
-  AnimationController _animationController;
+class _CorporateRegistrationState extends State<CorporateRegistration>
+    with TickerProviderStateMixin {
+  AnimationController? _animationController;
 
   @override
   void initState() {
@@ -20,7 +20,8 @@ class _CorporateRegistrationState extends State<CorporateRegistration> with Tick
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
   }
 
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,18 +48,17 @@ class _CorporateRegistrationState extends State<CorporateRegistration> with Tick
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -87,7 +87,9 @@ class _CorporateRegistrationState extends State<CorporateRegistration> with Tick
                 ),
               ),
             ),
-            SizedBox(height: 16.0,),
+            SizedBox(
+              height: 16.0,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +98,10 @@ class _CorporateRegistrationState extends State<CorporateRegistration> with Tick
                   padding: const EdgeInsets.all(6.0),
                   margin: const EdgeInsets.all(4.0),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
+                    border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid),
                   ),
                   child: Center(
                     child: TextButton(
@@ -109,12 +114,16 @@ class _CorporateRegistrationState extends State<CorporateRegistration> with Tick
                   padding: const EdgeInsets.all(6.0),
                   margin: const EdgeInsets.all(4.0),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
+                    border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid),
                   ),
                   child: Center(
                     child: TextButton(
                       onPressed: () => {},
-                      child: SvgPicture.asset('assets/images/facebook_icon.svg'),
+                      child:
+                          SvgPicture.asset('assets/images/facebook_icon.svg'),
                     ),
                   ),
                 ),
@@ -122,12 +131,16 @@ class _CorporateRegistrationState extends State<CorporateRegistration> with Tick
                   padding: const EdgeInsets.all(6.0),
                   margin: const EdgeInsets.all(4.0),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1.0, style: BorderStyle.solid),
+                    border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid),
                   ),
                   child: Center(
                     child: TextButton(
                       onPressed: () => {},
-                      child: SvgPicture.asset('assets/images/microsoft_icon.svg'),
+                      child:
+                          SvgPicture.asset('assets/images/microsoft_icon.svg'),
                     ),
                   ),
                 )
@@ -142,5 +155,4 @@ class _CorporateRegistrationState extends State<CorporateRegistration> with Tick
       ),
     );
   }
-
 }

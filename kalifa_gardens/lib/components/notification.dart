@@ -7,9 +7,17 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationState extends State<Notifications> {
-
-  bool _isAllowPushNotifications = true, _isDocRequestEmail = false, _isDocRequestApp = false, _isNewLoginAttemptEmail = true, _isNewLoginAttemptApp = false;
-  bool _isMilestoneApp = true, _isMilestoneEmail = false, _isPaymentRemindEmail = true, _isPaymentRemindApp = false, _isNewsUpdatesApp = true, _isNewsUpdatesEmail = false;
+  bool _isAllowPushNotifications = true,
+      _isDocRequestEmail = false,
+      _isDocRequestApp = false,
+      _isNewLoginAttemptEmail = true,
+      _isNewLoginAttemptApp = false;
+  bool _isMilestoneApp = true,
+      _isMilestoneEmail = false,
+      _isPaymentRemindEmail = true,
+      _isPaymentRemindApp = false,
+      _isNewsUpdatesApp = true,
+      _isNewsUpdatesEmail = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +35,8 @@ class _NotificationState extends State<Notifications> {
                 'Allow Push Notifications',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18, fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               Checkbox(
@@ -36,7 +45,7 @@ class _NotificationState extends State<Notifications> {
                 activeColor: Color(0xFF0A4D50),
                 onChanged: (state) {
                   setState(() {
-                    _isAllowPushNotifications = state;
+                    _isAllowPushNotifications = state as bool;
                   });
                 },
               )
@@ -56,41 +65,64 @@ class _NotificationState extends State<Notifications> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: SizedBox(width: 0.0,),
+                    child: SizedBox(
+                      width: 0.0,
+                    ),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Text('EMAIL', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black, fontFamily: 'Mulish'), ),
+                    child: Text(
+                      'EMAIL',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'Mulish'),
+                    ),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Text('APP', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black, fontFamily: 'Mulish'),),
+                    child: Text(
+                      'APP',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'Mulish'),
+                    ),
                   )
                 ],
               ),
-              SizedBox(height: 8.0,),
+              SizedBox(
+                height: 8.0,
+              ),
               Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: Text(
                       'Document Update Request',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.black, fontFamily: 'Mulish'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: 'Mulish'),
                     ),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Checkbox(
-                      value: _isDocRequestEmail,
-                      checkColor: Colors.white,
-                      activeColor: Color(0xFF0A4D50),
-                      onChanged: (state) {
-                        setState(() {
-                          _isDocRequestEmail = state;
-                        });
-                      },
-                    )
-                  ),
+                      flex: 1,
+                      child: Checkbox(
+                        value: _isDocRequestEmail,
+                        checkColor: Colors.white,
+                        activeColor: Color(0xFF0A4D50),
+                        onChanged: (state) {
+                          setState(() {
+                            _isDocRequestEmail = state as bool;
+                          });
+                        },
+                      )),
                   Expanded(
                       flex: 1,
                       child: Checkbox(
@@ -99,21 +131,26 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isDocRequestApp = state;
+                            _isDocRequestApp = state as bool;
                           });
                         },
-                      )
-                  )
+                      ))
                 ],
               ),
-              SizedBox(height: 8.0,),
+              SizedBox(
+                height: 8.0,
+              ),
               Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: Text(
                       'New Login Attempt',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.black, fontFamily: 'Mulish'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: 'Mulish'),
                     ),
                   ),
                   Expanded(
@@ -124,11 +161,10 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isNewLoginAttemptEmail = state;
+                            _isNewLoginAttemptEmail = state as bool;
                           });
                         },
-                      )
-                  ),
+                      )),
                   Expanded(
                       flex: 1,
                       child: Checkbox(
@@ -137,21 +173,26 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isNewLoginAttemptApp = state;
+                            _isNewLoginAttemptApp = state as bool;
                           });
                         },
-                      )
-                  )
+                      ))
                 ],
               ),
-              SizedBox(height: 8.0,),
+              SizedBox(
+                height: 8.0,
+              ),
               Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: Text(
                       'Milestone Achievement',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.black, fontFamily: 'Mulish'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: 'Mulish'),
                     ),
                   ),
                   Expanded(
@@ -162,11 +203,10 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isMilestoneEmail = state;
+                            _isMilestoneEmail = state as bool;
                           });
                         },
-                      )
-                  ),
+                      )),
                   Expanded(
                       flex: 1,
                       child: Checkbox(
@@ -175,21 +215,26 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isMilestoneApp = state;
+                            _isMilestoneApp = state as bool;
                           });
                         },
-                      )
-                  )
+                      ))
                 ],
               ),
-              SizedBox(height: 8.0,),
+              SizedBox(
+                height: 8.0,
+              ),
               Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: Text(
                       'Payment Reminder',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.black, fontFamily: 'Mulish'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: 'Mulish'),
                     ),
                   ),
                   Expanded(
@@ -200,11 +245,10 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isPaymentRemindEmail = state;
+                            _isPaymentRemindEmail = state as bool;
                           });
                         },
-                      )
-                  ),
+                      )),
                   Expanded(
                       flex: 1,
                       child: Checkbox(
@@ -213,21 +257,26 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isPaymentRemindApp = state;
+                            _isPaymentRemindApp = state as bool;
                           });
                         },
-                      )
-                  )
+                      ))
                 ],
               ),
-              SizedBox(height: 8.0,),
+              SizedBox(
+                height: 8.0,
+              ),
               Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: Text(
                       'News and Updates',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Colors.black, fontFamily: 'Mulish'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontFamily: 'Mulish'),
                     ),
                   ),
                   Expanded(
@@ -238,11 +287,10 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isNewsUpdatesEmail = state;
+                            _isNewsUpdatesEmail = state as bool;
                           });
                         },
-                      )
-                  ),
+                      )),
                   Expanded(
                       flex: 1,
                       child: Checkbox(
@@ -251,33 +299,34 @@ class _NotificationState extends State<Notifications> {
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
-                            _isNewsUpdatesApp = state;
+                            _isNewsUpdatesApp = state as bool;
                           });
                         },
-                      )
-                  )
+                      ))
                 ],
               ),
-              SizedBox(height: 21.0,),
+              SizedBox(
+                height: 21.0,
+              ),
             ],
           ),
         ),
-        SizedBox(height: 21,),
+        SizedBox(
+          height: 21,
+        ),
         ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              'Save',
-              style: TextStyle(
+          onPressed: () {},
+          child: Text(
+            'Save',
+            style: TextStyle(
                 fontFamily: 'Mulish',
                 fontSize: 18,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-          style: ElevatedButton.styleFrom(
-            primary: Colors.black,
-            onPrimary: Colors.white,
-            padding: const EdgeInsets.all(16.0)
+                fontWeight: FontWeight.bold),
           ),
+          style: ElevatedButton.styleFrom(
+              primary: Colors.black,
+              onPrimary: Colors.white,
+              padding: const EdgeInsets.all(16.0)),
         )
       ],
     );

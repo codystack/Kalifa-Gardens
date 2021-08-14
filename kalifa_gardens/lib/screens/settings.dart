@@ -1,7 +1,7 @@
-import 'package:demo_app/components/custom_appbar.dart';
-import 'package:demo_app/components/custom_drawer.dart';
-import 'package:demo_app/components/notification.dart';
-import 'package:demo_app/components/profile.dart';
+import '../components/custom_appbar.dart';
+import '../components/custom_drawer.dart';
+import '../components/notification.dart';
+import '../components/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -11,13 +11,13 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> with TickerProviderStateMixin {
+  AnimationController? _animationController;
 
-  AnimationController _animationController;
-
-  final GlobalKey<ScaffoldState> _drawerscaffoldkey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _drawerscaffoldkey =
+      new GlobalKey<ScaffoldState>();
 
   int _currentPage = 0;
-  PageController _pageController =  PageController(initialPage: 0);
+  PageController? _pageController = PageController(initialPage: 0);
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
-    _pageController.dispose();
+    _pageController!.dispose();
   }
 
   _onPageChanged(int index) {
@@ -63,18 +63,17 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
           ),
           IconButton(
             onPressed: () {
-              if (_drawerscaffoldkey.currentState.isEndDrawerOpen) {
-                _animationController.reverse();
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
                 Navigator.pop(context);
-              }
-              else {
-                _drawerscaffoldkey.currentState.openEndDrawer();
-                _animationController.forward();
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
               }
             },
             icon: AnimatedIcon(
               icon: AnimatedIcons.menu_close,
-              progress: _animationController,
+              progress: _animationController!,
             ),
           ),
         ],
@@ -95,13 +94,15 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                   children: [
                     Expanded(
                       child: Container(
-                        color: _currentPage == 0 ? Color(0xFF686868) : Colors.white,
+                        color: _currentPage == 0
+                            ? Color(0xFF686868)
+                            : Colors.white,
                         child: ElevatedButton(
                           onPressed: () {
                             setState(() {
                               _currentPage = 0;
                             });
-                            _pageController.animateToPage(
+                            _pageController!.animateToPage(
                               _currentPage,
                               duration: Duration(milliseconds: 300),
                               curve: Curves.easeIn,
@@ -110,29 +111,32 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                           child: Text(
                             'Profile',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16
-                            ),
+                            style: TextStyle(fontSize: 16),
                           ),
                           style: ElevatedButton.styleFrom(
-                              primary: _currentPage == 0 ? Color(0xFF686868) : Colors.white,
-                              onPrimary: _currentPage == 0 ? Colors.white : Colors.black,
+                              primary: _currentPage == 0
+                                  ? Color(0xFF686868)
+                                  : Colors.white,
+                              onPrimary: _currentPage == 0
+                                  ? Colors.white
+                                  : Colors.black,
                               padding: const EdgeInsets.all(4.0),
-                              elevation: 0.0
-                          ),
+                              elevation: 0.0),
                         ),
                       ),
                     ),
                     Expanded(
                       child: Container(
                         width: double.infinity,
-                        color: _currentPage == 0 ? Colors.white : Color(0xFF686868),
+                        color: _currentPage == 0
+                            ? Colors.white
+                            : Color(0xFF686868),
                         child: ElevatedButton(
                           onPressed: () {
                             setState(() {
                               _currentPage = 1;
                             });
-                            _pageController.animateToPage(
+                            _pageController!.animateToPage(
                               _currentPage,
                               duration: Duration(milliseconds: 300),
                               curve: Curves.easeIn,
@@ -141,16 +145,17 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
                           child: Text(
                             'Notifications',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16
-                            ),
+                            style: TextStyle(fontSize: 16),
                           ),
                           style: ElevatedButton.styleFrom(
-                              primary: _currentPage == 0 ? Colors.white : Color(0xFF686868),
-                              onPrimary: _currentPage == 0 ? Colors.black : Colors.white,
+                              primary: _currentPage == 0
+                                  ? Colors.white
+                                  : Color(0xFF686868),
+                              onPrimary: _currentPage == 0
+                                  ? Colors.black
+                                  : Colors.white,
                               padding: const EdgeInsets.all(4.0),
-                              elevation: 0.0
-                          ),
+                              elevation: 0.0),
                         ),
                       ),
                     ),
@@ -174,5 +179,4 @@ class _SettingsState extends State<Settings> with TickerProviderStateMixin {
       ),
     );
   }
-
 }

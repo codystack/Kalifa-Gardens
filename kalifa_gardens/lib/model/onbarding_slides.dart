@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Slide {
-  final String image;
+  final String? image;
   Slide({@required this.image});
 }
 
