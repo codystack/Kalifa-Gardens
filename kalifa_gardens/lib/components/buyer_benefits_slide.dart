@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'buyer_benefit_slide_item.dart';
-import 'slide_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
