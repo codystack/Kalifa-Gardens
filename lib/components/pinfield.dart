@@ -9,21 +9,25 @@ class TextFieldOTP extends StatefulWidget {
       {Key? key,
       this.first,
       this.last,
-      @required this.fullname,
+      this.fullname,
       @required this.phone,
       @required this.otpID,
       @required this.email,
-      @required this.gender,
+      this.gender,
       @required this.isAccepted,
       @required this.accountType,
       @required this.otpCode,
-      @required this.controller})
+      @required this.controller,
+      this.bizName,
+      this.bizType,
+      this.website})
       : super(key: key);
 
   final bool? first;
   final last;
   final String? otpID, fullname, email, phone, gender, accountType, otpCode;
   final bool? isAccepted;
+  final String? bizType, bizName, website;
   final TextEditingController? controller;
 
   @override
@@ -38,19 +42,35 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
     _controller.triggerVerify(true);
     Future.delayed(Duration(seconds: 5), () {
       _controller.triggerVerify(false);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SetupPassword(
-                    accountType: widget.accountType as String,
-                    otpID: widget.otpID as String,
-                    fullname: widget.fullname as String,
-                    isAccepted: widget.isAccepted as bool,
-                    gender: widget.gender as String,
-                    phone: widget.phone as String,
-                    email: widget.email as String,
-                    otpCode: widget.otpCode as String,
-                  )));
+      if (widget.accountType == 'corporate') {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SetupPassword(
+                      accountType: widget.accountType as String,
+                      otpID: widget.otpID as String,
+                      fullname: widget.fullname as String,
+                      isAccepted: widget.isAccepted as bool,
+                      gender: widget.gender as String,
+                      phone: widget.phone as String,
+                      email: widget.email as String,
+                      otpCode: widget.otpCode as String,
+                    )));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SetupPassword(
+                      accountType: widget.accountType as String,
+                      otpID: widget.otpID as String,
+                      fullname: widget.fullname as String,
+                      isAccepted: widget.isAccepted as bool,
+                      gender: widget.gender as String,
+                      phone: widget.phone as String,
+                      email: widget.email as String,
+                      otpCode: widget.otpCode as String,
+                    )));
+      }
     });
   }
 

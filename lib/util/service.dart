@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'constants.dart';
 
 class APIService {
-  
   Future<http.Response> getFAQs() async {
     return await http.get(Uri.parse('${Constants.baseUrl}/faqs'));
   }
@@ -27,15 +26,12 @@ class APIService {
     return await http.post(
       Uri.parse('${Constants.baseUrl}/otps'),
       headers: {"Content-type": "application/json"},
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'type': type
-      }),
+      body: jsonEncode(<String, String>{'email': email, 'type': type}),
     );
   }
 
   Future<http.Response> resendOTP(String id) async {
-    return  await http.post(
+    return await http.post(
       Uri.parse('${Constants.baseUrl}/otp/resend'),
       headers: {"Content-type": "application/json"},
       body: jsonEncode(<String, String>{
@@ -44,12 +40,11 @@ class APIService {
     );
   }
 
-  Future<http.Response> createIndividualAccount(Map data) async {
+  Future<http.Response> createAccount(Map data) async {
     return await http.post(
       Uri.parse('${Constants.baseUrl}/auth/local/register'),
       headers: {"Content-type": "application/json"},
       body: jsonEncode(data),
     );
   }
-
 }

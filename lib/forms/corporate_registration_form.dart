@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kalifa_gardens/model/otp_response.dart';
+import 'package:kalifa_gardens/screens/verification.dart';
+
 import '../../components/shimmer_loading.dart';
 import '../../model/business_types_response.dart';
 import '../../model/t_and_c_response.dart';
@@ -20,6 +24,12 @@ class _CorporateFormState extends State<CorporateForm> {
   bool _isLoadingTerms = false, _isBizTypesLoaded = false;
   var _tandC;
   List<BusinessTypesResponse> businessList = [];
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
+  final TextEditingController _websiteController = TextEditingController();
 
   Future<void> _getTandC() async {
     setState(() {
@@ -75,6 +85,43 @@ class _CorporateFormState extends State<CorporateForm> {
       // then throw an exception.
 
       throw Exception('Failed to get business types.');
+    }
+  }
+
+  Future<void> _createOtp(String email, String type) async {
+    final response = await APIService().createOTP(email, type);
+
+    print('Create RESP: ${jsonDecode(response.body)}');
+    if (response.statusCode == 200) {
+      //All good now route to create otp screen
+      Map<String, dynamic> otpMap = jsonDecode(response.body);
+      var otp = OTPResponse.fromJson(otpMap);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Verification(
+            bizName: _nameController.text,
+            bizType: selectedBusiness,
+            phone: _phoneController.text,
+            email: _emailController.text,
+            website: _websiteController.text,
+            isAccepted: _isAccepted,
+            otpID: otp.id,
+            accountType: "corporate",
+          ),
+        ),
+      );
+    } else {
+      //Not successful. Show toast
+      Fluttertoast.showToast(
+          msg: "Operation not successful. Try again",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color(0xFF0A4D50),
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -270,11 +317,13 @@ class _CorporateFormState extends State<CorporateForm> {
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
+                    return 'Please enter business name';
                   }
                   return null;
                 },
+                controller: _nameController,
                 keyboardType: TextInputType.name,
+                textCapitalization: TextCapitalization.words,
               ),
               SizedBox(
                 height: 10,
@@ -328,6 +377,7 @@ class _CorporateFormState extends State<CorporateForm> {
                   return null;
                 },
                 keyboardType: TextInputType.phone,
+                controller: _phoneController,
               ),
               SizedBox(
                 height: 10,
@@ -351,6 +401,7 @@ class _CorporateFormState extends State<CorporateForm> {
                   return null;
                 },
                 keyboardType: TextInputType.emailAddress,
+                controller: _emailController,
               ),
               SizedBox(
                 height: 16,
@@ -370,6 +421,7 @@ class _CorporateFormState extends State<CorporateForm> {
                   return null;
                 },
                 keyboardType: TextInputType.url,
+                controller: _websiteController,
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),

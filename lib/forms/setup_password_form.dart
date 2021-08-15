@@ -8,11 +8,14 @@ import 'package:get/get.dart';
 class SetupPasswordForm extends StatefulWidget {
   const SetupPasswordForm(
       {Key? key,
-      @required this.fullname,
+      this.fullname,
       @required this.phone,
       @required this.otpID,
       @required this.email,
-      @required this.gender,
+      this.gender,
+      this.bizName,
+      this.bizType,
+      this.website,
       @required this.isAccepted,
       @required this.accountType,
       @required this.otpCode})
@@ -20,6 +23,7 @@ class SetupPasswordForm extends StatefulWidget {
 
   final String? otpID, fullname, email, phone, gender, accountType, otpCode;
   final bool? isAccepted;
+  final String? bizName, bizType, website;
 
   @override
   _SetupPasswordFormState createState() => _SetupPasswordFormState();
@@ -49,7 +53,7 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
       _controller.triggerVerify(true);
     });
 
-    Map body = {
+    Map _bodyIndividual = {
       'email': widget.email,
       'password': passwordController.text,
       'profile': {
@@ -61,21 +65,53 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
       'verification': {'challenge_id': widget.otpID, 'otp': widget.otpCode}
     };
 
-    final response = await APIService().createIndividualAccount(body);
+    Map _bodyCorporate = {
+      'email': widget.email,
+      'password': passwordController.text,
+      'profile': {
+        'type': widget.accountType,
+        'name': widget.bizName,
+        'businessType': widget.bizType,
+        'website': widget.website,
+        'acceptedTerms': widget.isAccepted
+      },
+      'verification': {'challenge_id': widget.otpID, 'otp': widget.otpCode}
+    };
 
-    print('REGISTER RESP: ${jsonDecode(response.body)}');
+    if (widget.accountType == "corporate") {
+      final response = await APIService().createAccount(_bodyCorporate);
 
-    if (response.body != null) {
-      setState(() {
-        _controller.triggerVerify(false);
-      });
-    }
+      print('REGISTER RESP: ${jsonDecode(response.body)}');
 
-    if (response.statusCode == 200) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Success()),
-      );
+      if (response.body != null) {
+        setState(() {
+          _controller.triggerVerify(false);
+        });
+      }
+
+      if (response.statusCode == 200) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Success()),
+        );
+      }
+    } else {
+      final response = await APIService().createAccount(_bodyCorporate);
+
+      print('REGISTER RESP: ${jsonDecode(response.body)}');
+
+      if (response.body != null) {
+        setState(() {
+          _controller.triggerVerify(false);
+        });
+      }
+
+      if (response.statusCode == 200) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Success()),
+        );
+      }
     }
   }
 

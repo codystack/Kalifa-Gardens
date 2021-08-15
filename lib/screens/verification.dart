@@ -13,17 +13,21 @@ import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 class Verification extends StatefulWidget {
   const Verification(
       {Key? key,
-      @required this.fullname,
+      this.fullname,
       @required this.phone,
       @required this.otpID,
       @required this.email,
-      @required this.gender,
+      this.gender,
       @required this.isAccepted,
-      @required this.accountType})
+      @required this.accountType,
+      this.bizName,
+      this.bizType,
+      this.website})
       : super(key: key);
 
   final String? otpID, fullname, email, phone, gender, accountType;
   final bool? isAccepted;
+  final String? bizName, bizType, website;
 
   @override
   _VerificationState createState() => _VerificationState();
@@ -147,6 +151,9 @@ class _VerificationState extends State<Verification> {
                     isAccepted: widget.isAccepted,
                     accountType: widget.accountType,
                     controller: _field1Controller,
+                    bizName: widget.bizName,
+                    bizType: widget.bizType,
+                    website: widget.website,
                     otpCode:
                         "${_field1Controller.text}${_field2Controller.text}${_field3Controller.text}${_field4Controller.text}",
                   ),
@@ -164,6 +171,9 @@ class _VerificationState extends State<Verification> {
                     isAccepted: widget.isAccepted,
                     accountType: widget.accountType,
                     controller: _field2Controller,
+                    bizName: widget.bizName,
+                    bizType: widget.bizType,
+                    website: widget.website,
                     otpCode:
                         "${_field1Controller.text}${_field2Controller.text}${_field3Controller.text}${_field4Controller.text}",
                   ),
@@ -181,6 +191,9 @@ class _VerificationState extends State<Verification> {
                     isAccepted: widget.isAccepted,
                     accountType: widget.accountType,
                     controller: _field3Controller,
+                    bizName: widget.bizName,
+                    bizType: widget.bizType,
+                    website: widget.website,
                     otpCode:
                         "${_field1Controller.text}${_field2Controller.text}${_field3Controller.text}${_field4Controller.text}",
                   ),
@@ -198,6 +211,9 @@ class _VerificationState extends State<Verification> {
                     isAccepted: widget.isAccepted,
                     accountType: widget.accountType,
                     controller: _field4Controller,
+                    bizName: widget.bizName,
+                    bizType: widget.bizType,
+                    website: widget.website,
                     otpCode:
                         "${_field1Controller.text}${_field2Controller.text}${_field3Controller.text}${_field4Controller.text}",
                   ),

@@ -7,18 +7,22 @@ import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 class SetupPassword extends StatelessWidget {
   SetupPassword(
       {Key? key,
-      @required this.fullname,
+      this.fullname,
       @required this.phone,
       @required this.otpID,
       @required this.email,
-      @required this.gender,
+      this.gender,
       @required this.isAccepted,
       @required this.accountType,
+      this.bizName,
+      this.bizType,
+      this.website,
       @required this.otpCode})
       : super(key: key);
 
   final String? otpID, fullname, email, phone, gender, accountType, otpCode;
   final bool? isAccepted;
+  final String? bizName, bizType, website;
   final _controller = Get.find<StateController>();
 
   @override
