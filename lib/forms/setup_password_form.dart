@@ -100,13 +100,17 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
           msg: "Individual Type",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 3,
           backgroundColor: Color(0xFF0A4D50),
           textColor: Colors.white,
           fontSize: 16.0);
       final response = await APIService().createAccount(_bodyIndividual);
 
       print('REGISTER RESP: ${jsonDecode(response.body)}');
+
+      if (response.body.toString().contains('Invalid verification otp')) {
+        Navigator.pop(context);
+      }
 
       if (response.body != null) {
         setState(() {

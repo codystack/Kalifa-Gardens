@@ -90,62 +90,62 @@ class _CorporateRegistrationState extends State<CorporateRegistration>
             SizedBox(
               height: 16.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(6.0),
-                  margin: const EdgeInsets.all(4.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                        style: BorderStyle.solid),
-                  ),
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () => {},
-                      child: SvgPicture.asset('assets/images/google_icon.svg'),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(6.0),
-                  margin: const EdgeInsets.all(4.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                        style: BorderStyle.solid),
-                  ),
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () => {},
-                      child:
-                          SvgPicture.asset('assets/images/facebook_icon.svg'),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(6.0),
-                  margin: const EdgeInsets.all(4.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                        style: BorderStyle.solid),
-                  ),
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () => {},
-                      child:
-                          SvgPicture.asset('assets/images/microsoft_icon.svg'),
-                    ),
-                  ),
-                )
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: <Widget>[
+            //     Container(
+            //       padding: const EdgeInsets.all(6.0),
+            //       margin: const EdgeInsets.all(4.0),
+            //       decoration: BoxDecoration(
+            //         border: Border.all(
+            //             color: Colors.grey,
+            //             width: 1.0,
+            //             style: BorderStyle.solid),
+            //       ),
+            //       child: Center(
+            //         child: TextButton(
+            //           onPressed: () => {},
+            //           child: SvgPicture.asset('assets/images/google_icon.svg'),
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //       padding: const EdgeInsets.all(6.0),
+            //       margin: const EdgeInsets.all(4.0),
+            //       decoration: BoxDecoration(
+            //         border: Border.all(
+            //             color: Colors.grey,
+            //             width: 1.0,
+            //             style: BorderStyle.solid),
+            //       ),
+            //       child: Center(
+            //         child: TextButton(
+            //           onPressed: () => {},
+            //           child:
+            //               SvgPicture.asset('assets/images/facebook_icon.svg'),
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //       padding: const EdgeInsets.all(6.0),
+            //       margin: const EdgeInsets.all(4.0),
+            //       decoration: BoxDecoration(
+            //         border: Border.all(
+            //             color: Colors.grey,
+            //             width: 1.0,
+            //             style: BorderStyle.solid),
+            //       ),
+            //       child: Center(
+            //         child: TextButton(
+            //           onPressed: () => {},
+            //           child:
+            //               SvgPicture.asset('assets/images/microsoft_icon.svg'),
+            //         ),
+            //       ),
+            //     )
+            //   ],
+            // ),
             Container(
               padding: const EdgeInsets.all(8.0),
               child: CorporateForm(),
