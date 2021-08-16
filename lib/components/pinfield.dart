@@ -61,7 +61,7 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
             context,
             MaterialPageRoute(
                 builder: (context) => SetupPassword(
-                      accountType: widget.accountType as String,
+                      accountType: widget.accountType,
                       otpID: widget.otpID as String,
                       fullname: widget.fullname as String,
                       isAccepted: widget.isAccepted as bool,

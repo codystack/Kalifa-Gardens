@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import '../controller/state_controller.dart';
 import '../screens/success.dart';
 import '../util/service.dart';
@@ -49,9 +51,9 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
   }
 
   Future<void> _createAccount() async {
-    setState(() {
-      _controller.triggerVerify(true);
-    });
+    // setState(() {
+    //   _controller.triggerVerify(true);
+    // });
 
     Map _bodyIndividual = {
       'email': widget.email,
@@ -83,11 +85,9 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
 
       print('REGISTER RESP: ${jsonDecode(response.body)}');
 
-      if (response.body != null) {
-        setState(() {
-          _controller.triggerVerify(false);
-        });
-      }
+      setState(() {
+        _controller.triggerVerify(false);
+      });
 
       if (response.statusCode == 200) {
         Navigator.pushReplacement(
@@ -96,7 +96,15 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
         );
       }
     } else {
-      final response = await APIService().createAccount(_bodyCorporate);
+      Fluttertoast.showToast(
+          msg: "Individual Type",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color(0xFF0A4D50),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      final response = await APIService().createAccount(_bodyIndividual);
 
       print('REGISTER RESP: ${jsonDecode(response.body)}');
 
@@ -132,10 +140,10 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                   labelText: 'Password',
                   hintText: 'Password',
                   suffixIcon: IconButton(
-                      onPressed: () => _togglePass(),
-                      icon: Icon(_obscureText
-                          ? Icons.visibility
-                          : Icons.visibility_off)),
+                    onPressed: () => _togglePass(),
+                    icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off),
+                  ),
                 ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -196,8 +204,8 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                     });
                   }
                 },
-                keyboardType: TextInputType.visiblePassword,
                 obscureText: _obscureText,
+                controller: passwordController,
               ),
               SizedBox(
                 height: 10,
@@ -219,13 +227,15 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                     return 'Please retype password';
                   }
 
-                  if (value != passwordController.text) {
+                  if (retypePasswordController.text !=
+                      passwordController.text) {
                     return 'Password does not match';
                   }
 
                   return null;
                 },
                 obscureText: _obscureText,
+                controller: retypePasswordController,
                 keyboardType: TextInputType.visiblePassword,
               ),
               SizedBox(

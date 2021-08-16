@@ -283,6 +283,7 @@ class _IndividualFormState extends State<IndividualForm> {
                   }
                   return null;
                 },
+                textCapitalization: TextCapitalization.words,
                 keyboardType: TextInputType.name,
                 controller: _nameController,
               ),

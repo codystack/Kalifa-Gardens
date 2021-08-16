@@ -17,6 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   var _token, _userData;
   bool _isLoading = false;
+  bool _obscureText = true;
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -27,6 +28,12 @@ class _LoginFormState extends State<LoginForm> {
       prefs.setString('token', token);
       prefs.setString('userData', user);
       prefs.setBool('loggedIn', true);
+    });
+  }
+
+  _togglePass() {
+    setState(() {
+      _obscureText = !_obscureText;
     });
   }
 
@@ -138,10 +145,15 @@ class _LoginFormState extends State<LoginForm> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Password',
-                    suffixIcon: Icon(Icons.visibility)),
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  hintText: 'Password',
+                  suffixIcon: IconButton(
+                    onPressed: () => _togglePass(),
+                    icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off),
+                  ),
+                ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
