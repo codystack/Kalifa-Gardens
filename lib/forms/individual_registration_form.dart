@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:country_code_picker/country_code_picker.dart';
+
 import '../components/shimmer_loading.dart';
 import '../model/otp_response.dart';
 import '../model/t_and_c_response.dart';
@@ -295,7 +297,14 @@ class _IndividualFormState extends State<IndividualForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Phone number',
                   hintText: 'Phone Number',
-//                    prefixIcon: ImageIcon(Image.asset('assets/images/phone_naija.svg'), ),
+                  prefixIcon: CountryCodePicker(
+                    alignLeft: true,
+                    onChanged: (val) {},
+                    initialSelection: 'NG',
+                    favorite: ['+234', 'NG'],
+                    showCountryOnly: false,
+                    showOnlyCountryWhenClosed: false,
+                  ),
                 ),
                 // The validator receives the text that the user has entered.                    prefixIcon: ImageIcon(Image.asset()),
                 validator: (value) {

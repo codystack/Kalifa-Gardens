@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kalifa_gardens/model/otp_response.dart';
 import 'package:kalifa_gardens/screens/verification.dart';
@@ -282,6 +283,11 @@ class _CorporateFormState extends State<CorporateForm> {
         });
   }
 
+  void _onCountryChange(CountryCode countryCode) {
+    //TODO : manipulate the selected country code here
+    print("New Country selected: " + countryCode.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -364,7 +370,14 @@ class _CorporateFormState extends State<CorporateForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Phone number',
                   hintText: 'Phone Number',
-//                    prefixIcon: ImageIcon(Image.asset('assets/images/phone_naija.svg'), ),
+                  prefixIcon: CountryCodePicker(
+                    alignLeft: true,
+                    onChanged: _onCountryChange,
+                    initialSelection: 'NG',
+                    favorite: ['+234', 'NG'],
+                    showCountryOnly: false,
+                    showOnlyCountryWhenClosed: false,
+                  ),
                 ),
                 // The validator receives the text that the user has entered.                    prefixIcon: ImageIcon(Image.asset()),
                 validator: (value) {

@@ -58,6 +58,12 @@ class _MyAppState extends State<MyApp> {
         ),
         textTheme: TextTheme(bodyText2: BodyTextStyle),
       ),
+      supportedLocales: [
+        Locale("en"),
+        Locale("es"),
+        Locale("fa"),
+        Locale("fr"),
+      ],
     );
   }
 }
