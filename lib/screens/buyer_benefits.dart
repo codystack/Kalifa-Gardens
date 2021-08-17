@@ -43,6 +43,9 @@ class _BuyerBenefitsState extends State<BuyerBenefits>
   @override
   void initState() {
     super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
       if (_currentPage < 3) {
         _currentPage++;
@@ -55,9 +58,6 @@ class _BuyerBenefitsState extends State<BuyerBenefits>
         duration: Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
-
-      _animationController = AnimationController(
-          vsync: this, duration: Duration(milliseconds: 450));
     });
   }
 
