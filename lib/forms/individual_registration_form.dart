@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:get/get.dart';
+import 'package:kalifa_gardens/controller/state_controller.dart';
 
 import '../components/shimmer_loading.dart';
 import '../model/otp_response.dart';
@@ -20,6 +22,8 @@ class _IndividualFormState extends State<IndividualForm> {
   final _formKey = GlobalKey<FormState>();
   var _gender = 'Male', _tandC;
   bool _isAccepted = false, _isLoadingTerms = false;
+  final _controller = Get.find<StateController>();
+  bool _isSelected = true;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -63,7 +67,7 @@ class _IndividualFormState extends State<IndividualForm> {
       Map<String, dynamic> otpMap = jsonDecode(response.body);
       var otp = OTPResponse.fromJson(otpMap);
 
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => Verification(
@@ -295,11 +299,11 @@ class _IndividualFormState extends State<IndividualForm> {
               TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Phone number',
                   hintText: 'Phone Number',
                   prefixIcon: CountryCodePicker(
-                    alignLeft: true,
+                    alignLeft: false,
                     onChanged: (val) {},
+                    flagWidth: 22.5,
                     initialSelection: 'NG',
                     favorite: ['+234', 'NG'],
                     showCountryOnly: false,
@@ -450,8 +454,9 @@ class _IndividualFormState extends State<IndividualForm> {
                     Checkbox(
                       value: _isAccepted,
                       onChanged: (state) {
+                        _controller.verifyAccepted(state!);
                         setState(() {
-                          _isAccepted = state as bool;
+                          _isAccepted = state;
                         });
                       },
                       activeColor: Color(0xFF0A4D50),
@@ -483,8 +488,19 @@ class _IndividualFormState extends State<IndividualForm> {
                 color: Colors.black,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate() && _isAccepted) {
-                      _createOtp(_emailController.text, "registration");
+                    if (_formKey.currentState!.validate()) {
+                      if (_isAccepted == false) {
+                        _controller.verifyAccepted(_isAccepted);
+                      } else {
+                        _controller.verifyAccepted(true);
+                        _createOtp(_emailController.text, "registration");
+                      }
+                    } else {
+                      if (_isAccepted == false) {
+                        _controller.verifyAccepted(_isAccepted);
+                      } else {
+                        _controller.verifyAccepted(true);
+                      }
                     }
                   },
                   child: Text(
@@ -497,7 +513,7 @@ class _IndividualFormState extends State<IndividualForm> {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     onPrimary: Colors.white,
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(16.0),
                   ),
                 ),
               )

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:kalifa_gardens/controller/state_controller.dart';
 import 'package:kalifa_gardens/model/otp_response.dart';
 import 'package:kalifa_gardens/screens/verification.dart';
 
@@ -21,10 +23,12 @@ class CorporateForm extends StatefulWidget {
 class _CorporateFormState extends State<CorporateForm> {
   final _formKey = GlobalKey<FormState>();
   bool _isAccepted = false;
-  String? selectedBusiness, _email, _phone;
+  String? selectedBusiness, _email, _phone, bizId;
   bool _isLoadingTerms = false, _isBizTypesLoaded = false;
   var _tandC;
   List<BusinessTypesResponse> businessList = [];
+  final _controller = Get.find<StateController>();
+  bool _isSelected = true;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -98,12 +102,12 @@ class _CorporateFormState extends State<CorporateForm> {
       Map<String, dynamic> otpMap = jsonDecode(response.body);
       var otp = OTPResponse.fromJson(otpMap);
 
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => Verification(
             bizName: _nameController.text,
-            bizType: selectedBusiness,
+            bizType: bizId,
             phone: _phoneController.text,
             email: _emailController.text,
             website: _websiteController.text,
@@ -338,11 +342,16 @@ class _CorporateFormState extends State<CorporateForm> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 decoration: BoxDecoration(
                     border: Border.all(
-                        color: Colors.grey,
+                        color: _isSelected ? Colors.grey : Colors.redAccent,
                         width: 1.0,
                         style: BorderStyle.solid)),
                 child: DropdownButton(
-                  hint: Text('Type of Business'),
+                  hint: _isSelected
+                      ? Text('Type of Business')
+                      : Text(
+                          'Select business type',
+                          style: TextStyle(color: Colors.redAccent),
+                        ),
                   items: businessList.map((e) {
                     return DropdownMenuItem(
                       value: _isBizTypesLoaded ? e.name : 'Please wait...',
@@ -353,7 +362,11 @@ class _CorporateFormState extends State<CorporateForm> {
                   value: selectedBusiness,
                   onChanged: (newValue) {
                     setState(() {
-                      selectedBusiness = newValue as String;
+                      selectedBusiness = newValue as String?;
+                      List<BusinessTypesResponse> s = businessList
+                          .where((element) => element.name == newValue)
+                          .toList();
+                      bizId = s[0].id;
                     });
                   },
                   icon: Icon(Icons.keyboard_arrow_down_sharp),
@@ -368,11 +381,11 @@ class _CorporateFormState extends State<CorporateForm> {
               TextFormField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Phone number',
                   hintText: 'Phone Number',
                   prefixIcon: CountryCodePicker(
-                    alignLeft: true,
+                    alignLeft: false,
                     onChanged: _onCountryChange,
+                    flagWidth: 22.5,
                     initialSelection: 'NG',
                     favorite: ['+234', 'NG'],
                     showCountryOnly: false,
@@ -431,6 +444,13 @@ class _CorporateFormState extends State<CorporateForm> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your website';
                   }
+                  if (!RegExp(r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?",
+                              caseSensitive: false)
+                          .hasMatch(value) &&
+                      !RegExp(r"^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}$")
+                          .hasMatch(value)) {
+                    return 'Please enter a valid url';
+                  }
                   return null;
                 },
                 keyboardType: TextInputType.url,
@@ -445,30 +465,32 @@ class _CorporateFormState extends State<CorporateForm> {
                     Checkbox(
                       value: _isAccepted,
                       onChanged: (state) {
+                        _controller.verifyAccepted(state!);
                         setState(() {
-                          _isAccepted = state as bool;
+                          _isAccepted = state;
                         });
                       },
                       activeColor: Color(0xFF0A4D50),
                     ),
                     Expanded(
                       child: RichText(
-                          text: TextSpan(
-                              text: "I agree to ",
-                              style: TextStyle(
-                                color: Colors.black54,
-                              ),
-                              children: [
-                            TextSpan(
-                              text: "Kalifa Garden\'s Terms of Service",
-                              style: TextStyle(
-                                color: Color(0xFF0A4D50),
-                                fontWeight: FontWeight.w500,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = _showTermsOfService,
-                            )
-                          ])),
+                        text: TextSpan(
+                            text: "I agree to ",
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: "Kalifa Garden\'s Terms of Service",
+                                style: TextStyle(
+                                  color: Color(0xFF0A4D50),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = _showTermsOfService,
+                              )
+                            ]),
+                      ),
                     ),
                   ],
                 ),
@@ -477,7 +499,22 @@ class _CorporateFormState extends State<CorporateForm> {
                 width: double.infinity,
                 color: Colors.black,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (_isAccepted == false) {
+                        _controller.verifyAccepted(_isAccepted);
+                      } else {
+                        _controller.verifyAccepted(true);
+                        _createOtp(_emailController.text, "registration");
+                      }
+                    } else {
+                      if (_isAccepted == false) {
+                        _controller.verifyAccepted(_isAccepted);
+                      } else {
+                        _controller.verifyAccepted(true);
+                      }
+                    }
+                  },
                   child: Text(
                     'Create Account',
                     style: TextStyle(
@@ -488,7 +525,7 @@ class _CorporateFormState extends State<CorporateForm> {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     onPrimary: Colors.white,
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(16.0),
                   ),
                 ),
               ),

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kalifa_gardens/model/login_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/state_controller.dart';
 import '../screens/success.dart';
@@ -50,10 +52,19 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
     });
   }
 
+  void persistInfo(String token, String user) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString('token', token);
+      prefs.setString('userData', user);
+      prefs.setBool('loggedIn', true);
+    });
+  }
+
   Future<void> _createAccount() async {
-    // setState(() {
-    //   _controller.triggerVerify(true);
-    // });
+    setState(() {
+      _controller.triggerCreateAccount(true);
+    });
 
     Map _bodyIndividual = {
       'email': widget.email,
@@ -85,25 +96,36 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
 
       print('REGISTER RESP: ${jsonDecode(response.body)}');
 
-      setState(() {
-        _controller.triggerVerify(false);
-      });
+      if (response.body.toString().contains('Invalid verification otp')) {
+        Navigator.pop(context);
+      }
 
       if (response.statusCode == 200) {
+        _controller.triggerCreateAccount(false);
+
+        Map<String, dynamic> loginMap = jsonDecode(response.body);
+        var login = LoginResponse.fromJson(loginMap);
+        //
+        //      //Write token to disk
+        persistInfo("${login.jwt}", "${login.user}");
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Success()),
         );
+
+        Fluttertoast.showToast(
+            msg: "Account created successfully.",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Color(0xFF0A4D50),
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        _controller.triggerCreateAccount(false);
       }
     } else {
-      Fluttertoast.showToast(
-          msg: "Individual Type",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 3,
-          backgroundColor: Color(0xFF0A4D50),
-          textColor: Colors.white,
-          fontSize: 16.0);
       final response = await APIService().createAccount(_bodyIndividual);
 
       print('REGISTER RESP: ${jsonDecode(response.body)}');
@@ -112,17 +134,30 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
         Navigator.pop(context);
       }
 
-      if (response.body != null) {
-        setState(() {
-          _controller.triggerVerify(false);
-        });
-      }
-
       if (response.statusCode == 200) {
+        _controller.triggerCreateAccount(false);
+
+        Map<String, dynamic> loginMap = jsonDecode(response.body);
+        var login = LoginResponse.fromJson(loginMap);
+        //
+        //      //Write token to disk
+        persistInfo("${login.jwt}", "${login.user}");
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Success()),
         );
+
+        Fluttertoast.showToast(
+            msg: "Account created successfully.",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Color(0xFF0A4D50),
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        _controller.triggerCreateAccount(false);
       }
     }
   }
@@ -146,7 +181,7 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                   suffixIcon: IconButton(
                     onPressed: () => _togglePass(),
                     icon: Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off),
+                        _obscureText ? Icons.visibility_off : Icons.visibility),
                   ),
                 ),
                 // The validator receives the text that the user has entered.
@@ -222,8 +257,8 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                   suffixIcon: IconButton(
                       onPressed: () => _togglePass(),
                       icon: Icon(_obscureText
-                          ? Icons.visibility
-                          : Icons.visibility_off)),
+                          ? Icons.visibility_off
+                          : Icons.visibility)),
                 ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {

@@ -47,14 +47,15 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
             context,
             MaterialPageRoute(
                 builder: (context) => SetupPassword(
-                      accountType: widget.accountType as String,
-                      otpID: widget.otpID as String,
-                      fullname: widget.fullname as String,
-                      isAccepted: widget.isAccepted as bool,
-                      gender: widget.gender as String,
-                      phone: widget.phone as String,
-                      email: widget.email as String,
-                      otpCode: widget.otpCode as String,
+                      accountType: widget.accountType,
+                      otpID: widget.otpID,
+                      bizName: widget.bizName,
+                      isAccepted: widget.isAccepted,
+                      bizType: widget.bizType,
+                      phone: widget.phone,
+                      email: widget.email,
+                      otpCode: widget.otpCode,
+                      website: widget.website,
                     )));
       } else {
         Navigator.push(

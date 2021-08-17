@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,6 +11,8 @@ class _ContactUsState extends State<ContactUs> {
   final _formKey = GlobalKey<FormState>();
   bool _isSwitched = false;
   String? _fullname, _phone, _email, _message;
+
+  TextEditingController _phoneController = TextEditingController();
 
   void handleSwitch(bool state) {
     setState(() {
@@ -82,15 +85,19 @@ class _ContactUsState extends State<ContactUs> {
             ),
             TextFormField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Phone number',
-                  hintText: 'Phone Number',
-//                    prefix: DropdownButton(
-//
-//                    ),
-                  prefixIcon:
-                      SvgPicture.asset('assets/images/phone_naija.svg')),
-              // The validator receives the text that the user has entered.
+                border: OutlineInputBorder(),
+                hintText: 'Phone Number',
+                prefixIcon: CountryCodePicker(
+                  alignLeft: false,
+                  onChanged: (val) {},
+                  flagWidth: 22.5,
+                  initialSelection: 'NG',
+                  favorite: ['+234', 'NG'],
+                  showCountryOnly: false,
+                  showOnlyCountryWhenClosed: false,
+                ),
+              ),
+              // The validator receives the text that the user has entered.                    prefixIcon: ImageIcon(Image.asset()),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your phone number';
@@ -100,10 +107,11 @@ class _ContactUsState extends State<ContactUs> {
                 }
                 return null;
               },
-              onSaved: (val) {
-                _phone = val;
-              },
               keyboardType: TextInputType.phone,
+              controller: _phoneController,
+            ),
+            SizedBox(
+              height: 10,
             ),
             SizedBox(
               height: 10,
@@ -158,7 +166,7 @@ class _ContactUsState extends State<ContactUs> {
                           style: ElevatedButton.styleFrom(
                             primary: Colors.black,
                             onPrimary: Colors.white,
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(16.0),
                           ),
                         ),
                       ),

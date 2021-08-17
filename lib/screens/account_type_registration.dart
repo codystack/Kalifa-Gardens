@@ -210,7 +210,7 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.black,
                       onPrimary: Colors.white,
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(16.0),
                     ),
                     child: Text(
                       'Proceed',

@@ -2,7 +2,6 @@ import '../../components/purchase_plot_payments/pay_draft.dart';
 import '../../components/purchase_plot_payments/pay_transfer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class PurchasePlotStep3 extends StatefulWidget {

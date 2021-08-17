@@ -45,10 +45,20 @@ class _MyAppState extends State<MyApp> {
         appBarTheme:
             Theme.of(context).appBarTheme.copyWith(brightness: Brightness.dark),
         primaryColor: Color(0xFF0A4D50),
-        accentColor: Color(0xFFD4B581),
+        colorScheme: ThemeData().colorScheme.copyWith(
+              primary: Color(0xFF0A4D50),
+              secondary: Color(0xFFD4B581),
+            ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         inputDecorationTheme: InputDecorationTheme(
           focusColor: Color(0xFF0A4D50),
+          fillColor: Color(0xFF0A4D50),
+          labelStyle: TextStyle(
+            color: Color(0xFF0A4D50),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.black38,
+          ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.zero),
             borderSide: BorderSide(

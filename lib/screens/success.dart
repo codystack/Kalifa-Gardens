@@ -1,6 +1,6 @@
-import '../components/custom_appbar.dart';
+import 'package:kalifa_gardens/screens/dashboard.dart';
+
 import '../components/custom_drawer.dart';
-import '../forms/forgot_password_form.dart';
 import '../screens/Login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -129,11 +129,12 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => Login()),
+                              MaterialPageRoute(
+                                  builder: (context) => Dashboard()),
                             );
                           },
                           child: Text(
-                            'Continue to Login',
+                            'Continue to Dashboard',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,

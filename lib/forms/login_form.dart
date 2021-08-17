@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:kalifa_gardens/controller/state_controller.dart';
+
 import '../model/login_response.dart';
 import '../screens/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +21,7 @@ class _LoginFormState extends State<LoginForm> {
   var _token, _userData;
   bool _isLoading = false;
   bool _obscureText = true;
+  final _controller = Get.find<StateController>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -38,10 +42,9 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _login(String email, String password) async {
-    print('NETWORKING $email');
-    setState(() {
-      _isLoading = true;
-    });
+    // print('NETWORKING $email');
+    _controller.triggerLogin(true);
+
     final response = await http.post(
       Uri.parse('https://api.kalifagardens.net/auth/local'),
       headers: {"Content-type": "application/json"},
@@ -54,20 +57,22 @@ class _LoginFormState extends State<LoginForm> {
 
     if (response.statusCode == 200) {
       // Operation was successful
-//      Map<String, dynamic> loginMap = jsonDecode(response.body);
-//      var login = LoginResponse.fromJson(loginMap);
-////
-////      //Write token to disk
-//      persistInfo("${login.jwt}", "${login.user}");
+      _controller.triggerLogin(false);
+
+      Map<String, dynamic> loginMap = jsonDecode(response.body);
+      var login = LoginResponse.fromJson(loginMap);
+//
+//      //Write token to disk
+      persistInfo("${login.jwt}", "${login.user}");
       setState(() {
         _isLoading = false;
       });
 
       Fluttertoast.showToast(
-          msg: "Login successful",
+          msg: "Logged in successfully",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 3,
           backgroundColor: Color(0xFF0A4D50),
           textColor: Colors.white,
           fontSize: 16.0);
@@ -77,13 +82,14 @@ class _LoginFormState extends State<LoginForm> {
 //      print('Howdy, ${user.name}!');
 //      print('We sent the verification link to ${user.email}.');
     } else {
+      _controller.triggerLogin(false);
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       Fluttertoast.showToast(
           msg: "Operation not successful. Check credentials",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 3,
           backgroundColor: Color(0xFF0A4D50),
           textColor: Colors.white,
           fontSize: 16.0);
@@ -108,88 +114,78 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlayPro(
-      isLoading: _isLoading,
-      backgroundColor: Colors.black54,
-      progressIndicator: const LoadingBouncingLine.circle(
-        borderColor: Color(0xFF0A4D50),
-        borderSize: 3.0,
-        size: 120.0,
-        backgroundColor: Color(0xFF0A4D50),
-        duration: Duration(milliseconds: 500),
-      ),
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email address',
-                    hintText: 'Email address',
-                    prefixIcon: Icon(Icons.email)),
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email address';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.emailAddress,
-                controller: _emailController,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+        child: Column(
+          children: <Widget>[
+            TextFormField(
+              decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: 'Password',
-                  suffixIcon: IconButton(
-                    onPressed: () => _togglePass(),
-                    icon: Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off),
-                  ),
+                  labelText: 'Email address',
+                  hintText: 'Email address',
+                  prefixIcon: Icon(Icons.email)),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email address';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+                hintText: 'Password',
+                suffixIcon: IconButton(
+                  onPressed: () => _togglePass(),
+                  icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility),
                 ),
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+              ),
+              obscureText: _obscureText,
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
+              controller: _passwordController,
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Container(
+              width: double.infinity,
+              color: Colors.black,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _login(_emailController.text, _passwordController.text);
                   }
-                  return null;
                 },
-                controller: _passwordController,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Container(
-                width: double.infinity,
-                color: Colors.black,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _login(_emailController.text, _passwordController.text);
-                    }
-                  },
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.white,
-                      padding: const EdgeInsets.all(16.0)),
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600),
                 ),
-              )
-            ],
-          ),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    onPrimary: Colors.white,
+                    padding: const EdgeInsets.all(16.0)),
+              ),
+            )
+          ],
         ),
       ),
     );

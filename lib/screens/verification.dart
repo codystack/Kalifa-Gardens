@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:fluttertoast/fluttertoast.dart';
+
 import '../components/pinfield.dart';
 import '../controller/state_controller.dart';
 import '../util/service.dart';
@@ -49,11 +51,38 @@ class _VerificationState extends State<Verification> {
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 60 * 3;
 
   Future<void> _resend() async {
+    setState(() {
+      _isTimedOut = false;
+    });
+
+    _controller.triggerVerify(true);
+
     final response = await APIService().resendOTP(widget.otpID!);
     print('${jsonDecode(response.body)}');
 
     if (response.statusCode == 200) {
-    } else {}
+      _controller.triggerVerify(false);
+      Fluttertoast.showToast(
+          msg: "Code sent successfully",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Color(0xFF0A4D50),
+          textColor: Colors.white,
+          fontSize: 16.0);
+
+      controller!.start();
+    } else {
+      _controller.triggerVerify(false);
+      Fluttertoast.showToast(
+          msg: "Code not sent. Try again",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Color(0xFF0A4D50),
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   @override
@@ -104,7 +133,9 @@ class _VerificationState extends State<Verification> {
               Stack(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Icon(Icons.arrow_back),
                   ),
                   Center(
@@ -230,7 +261,7 @@ class _VerificationState extends State<Verification> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(16.0),
                           child: ElevatedButton(
-                            onPressed: () => _resend(),
+                            onPressed: () => _resend,
                             child: Text(
                               'Resend code',
                               style: TextStyle(

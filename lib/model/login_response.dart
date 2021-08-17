@@ -4,14 +4,17 @@ class LoginResponse {
   final String jwt;
   final User user;
 
-  LoginResponse(this.jwt, this.user);
+  LoginResponse({required this.jwt, required this.user});
 
-  LoginResponse.fromJson(Map<dynamic, dynamic> json)
-      : jwt = json['jwt'],
-        user = json['user'];
+  factory LoginResponse.fromJson(Map<String, dynamic> parsedJson) {
+    return LoginResponse(
+      jwt: parsedJson['jwt'],
+      user: User.fromJson(parsedJson['user']),
+    );
+  }
 
-  Map<dynamic, dynamic> toJson() => {
-    'jwt': jwt,
-    'user': user,
-  };
+  Map<String, dynamic> toJson() => {
+        'jwt': jwt,
+        'user': user,
+      };
 }
