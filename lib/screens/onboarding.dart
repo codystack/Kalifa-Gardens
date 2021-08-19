@@ -65,134 +65,242 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    // print('SCREEN HEIGHT $screenHeight');
+
     return Scaffold(
-        appBar: AppBar(
-          title: SvgPicture.asset('assets/images/kalifa_gardens.svg'),
-          leading: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                child: Image.asset(
-                  'assets/images/app_icon.png',
-                  width: 40.0,
-                  height: 40.0,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              onPressed: () => {},
-              icon: Icon(Icons.notifications),
-            ),
-            IconButton(
-              onPressed: () {
-                if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
-                  _animationController!.reverse();
-                  Navigator.pop(context);
-                } else {
-                  _drawerscaffoldkey.currentState!.openEndDrawer();
-                  _animationController!.forward();
-                }
-              },
-              icon: AnimatedIcon(
-                icon: AnimatedIcons.menu_close,
-                progress: _animationController!,
+      appBar: AppBar(
+        title: SvgPicture.asset('assets/images/kalifa_gardens.svg'),
+        leading: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
+              child: Image.asset(
+                'assets/images/app_icon.png',
+                width: 40.0,
+                height: 40.0,
               ),
             ),
           ],
         ),
-        body: Scaffold(
-          key: _drawerscaffoldkey,
-          endDrawer: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: CustomDrawer(),
+        actions: [
+          IconButton(
+            onPressed: () => {},
+            icon: Icon(Icons.notifications),
           ),
-          body: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 1.0),
-                    child: Text(
-                      "The Blueprint of Fine Living",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF0A4D50),
-                        fontSize: 21.0,
+          IconButton(
+            onPressed: () {
+              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                _animationController!.reverse();
+                Navigator.pop(context);
+              } else {
+                _drawerscaffoldkey.currentState!.openEndDrawer();
+                _animationController!.forward();
+              }
+            },
+            icon: AnimatedIcon(
+              icon: AnimatedIcons.menu_close,
+              progress: _animationController!,
+            ),
+          ),
+        ],
+      ),
+      body: Scaffold(
+        key: _drawerscaffoldkey,
+        endDrawer: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: CustomDrawer(),
+        ),
+        body: screenHeight > 660
+            ? Padding(
+                padding: const EdgeInsets.only(
+                    top: 8.0, bottom: 0.0, left: 16.0, right: 16.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.5),
+                          child: Text(
+                            "The Blueprint of Fine Living",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF0A4D50),
+                              fontSize: 21.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(
+                                child: Stack(
+                              alignment: AlignmentDirectional.bottomCenter,
+                              children: <Widget>[
+                                Container(
+                                  height: 426,
+                                  color: Colors.black,
+                                  width: double.infinity,
+                                  child: PageView.builder(
+                                    itemBuilder: (ctx, i) => SlideItem(i),
+                                    itemCount: slideList.length,
+                                    controller: _pageController,
+                                    scrollDirection: Axis.horizontal,
+                                    onPageChanged: _onPageChanged,
+                                  ),
+                                ),
+                                Stack(
+                                  alignment: AlignmentDirectional.topCenter,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: const EdgeInsets.all(10.0),
+                                          decoration: BoxDecoration(
+                                            color: Color(0x99C4C4C4),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(18.0)),
+                                          ),
+                                          margin:
+                                              const EdgeInsets.only(bottom: 48),
+                                          child: Row(
+                                            children: <Widget>[
+                                              for (int i = 0;
+                                                  i < slideList.length;
+                                                  i++)
+                                                if (i == _currentPage)
+                                                  SlideDots(true)
+                                                else
+                                                  SlideDots(false)
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ],
+                            )),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: ExpandableSection(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            : ListView(
+                padding: const EdgeInsets.only(
+                    top: 12.0, bottom: 0.0, left: 16.0, right: 16.0),
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0.5),
+                        child: Text(
+                          "The Blueprint of Fine Living",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF0A4D50),
+                            fontSize: 21.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                              child: Stack(
+                            alignment: AlignmentDirectional.bottomCenter,
+                            children: <Widget>[
+                              Container(
+                                height: 426,
+                                color: Colors.black,
+                                width: double.infinity,
+                                child: PageView.builder(
+                                  itemBuilder: (ctx, i) => SlideItem(i),
+                                  itemCount: slideList.length,
+                                  controller: _pageController,
+                                  scrollDirection: Axis.horizontal,
+                                  onPageChanged: _onPageChanged,
+                                ),
+                              ),
+                              Stack(
+                                alignment: AlignmentDirectional.topCenter,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: const EdgeInsets.all(10.0),
+                                        decoration: BoxDecoration(
+                                          color: Color(0x99C4C4C4),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(18.0)),
+                                        ),
+                                        margin:
+                                            const EdgeInsets.only(bottom: 48),
+                                        child: Row(
+                                          children: <Widget>[
+                                            for (int i = 0;
+                                                i < slideList.length;
+                                                i++)
+                                              if (i == _currentPage)
+                                                SlideDots(true)
+                                              else
+                                                SlideDots(false)
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          )),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                      child: Stack(
-                    alignment: AlignmentDirectional.bottomCenter,
+                  Column(
                     children: <Widget>[
-                      Container(
-                        height: 426,
-                        child: PageView.builder(
-                          itemBuilder: (ctx, i) => SlideItem(i),
-                          itemCount: slideList.length,
-                          controller: _pageController,
-                          scrollDirection: Axis.horizontal,
-                          onPageChanged: _onPageChanged,
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0.0),
+                        child: ExpandableSection(),
                       ),
-                      Stack(
-                        alignment: AlignmentDirectional.topCenter,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                padding: const EdgeInsets.all(10.0),
-                                decoration: BoxDecoration(
-                                  color: Color(0x99C4C4C4),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(18.0)),
-                                ),
-                                margin: const EdgeInsets.only(bottom: 48),
-                                child: Row(
-                                  children: <Widget>[
-                                    for (int i = 0; i < slideList.length; i++)
-                                      if (i == _currentPage)
-                                        SlideDots(true)
-                                      else
-                                        SlideDots(false)
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
                     ],
-                  )),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: ExpandableSection(),
                   ),
                 ],
-              )
-            ],
-          ),
-        ));
+              ),
+      ),
+    );
   }
 }
-
-/*
-
- */

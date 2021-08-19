@@ -11,6 +11,8 @@ class StateController extends GetxController {
   var createAccount = 0.obs;
   var login = 0.obs;
   var isAccepted = 0.obs;
+  var forgotPass = 0.obs;
+  var resetPass = 0.obs;
 
   void increment() {
     purchasePlotStepCount++;
@@ -49,6 +51,22 @@ class StateController extends GetxController {
       createAccount += 1;
     } else {
       createAccount -= 1;
+    }
+  }
+
+  void triggerReset(bool state) {
+    if (state == true) {
+      resetPass += 1;
+    } else {
+      resetPass -= 1;
+    }
+  }
+
+  void triggerForgot(bool state) {
+    if (state == true) {
+      forgotPass += 1;
+    } else {
+      forgotPass -= 1;
     }
   }
 

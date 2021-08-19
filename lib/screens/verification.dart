@@ -16,12 +16,12 @@ class Verification extends StatefulWidget {
   const Verification(
       {Key? key,
       this.fullname,
-      @required this.phone,
+      this.phone,
       @required this.otpID,
       @required this.email,
       this.gender,
-      @required this.isAccepted,
-      @required this.accountType,
+      this.isAccepted,
+      this.accountType,
       this.bizName,
       this.bizType,
       this.website})

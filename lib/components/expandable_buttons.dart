@@ -1,3 +1,5 @@
+import 'package:kalifa_gardens/components/custom_transition.dart';
+
 import '../forms/contact_us.dart';
 import '../screens/Login.dart';
 import '../screens/account_type_registration.dart';
@@ -49,11 +51,8 @@ class ExpandableSection extends StatelessWidget {
                         Container(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()),
-                              );
+                              Navigator.of(context)
+                                  .push(customRouteTransition(Login()));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -74,13 +73,9 @@ class ExpandableSection extends StatelessWidget {
                         ),
                         Container(
                           child: TextButton(
-                            onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AccountTypeRegistration()),
-                              )
+                            onPressed: () {
+                              Navigator.of(context).push(customRouteTransition(
+                                  AccountTypeRegistration()));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -158,11 +153,8 @@ class ExpandableSection extends StatelessWidget {
                         Container(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProjectProfile()),
-                              );
+                              Navigator.of(context).push(
+                                  customRouteTransition(ProjectProfile()));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -184,11 +176,8 @@ class ExpandableSection extends StatelessWidget {
                         Container(
                           child: TextButton(
                             onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BuyerBenefits()),
-                              )
+                              Navigator.of(context)
+                                  .push(customRouteTransition(BuyerBenefits()))
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -210,10 +199,8 @@ class ExpandableSection extends StatelessWidget {
                         Container(
                           child: TextButton(
                             onPressed: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => FAQs()),
-                              )
+                              Navigator.of(context)
+                                  .push(customRouteTransition(FAQs()))
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),

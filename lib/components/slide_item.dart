@@ -7,15 +7,10 @@ class SlideItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Image.asset(
-          slideList[index].image!,
-          fit: BoxFit.cover,
-        )
-      ],
+    return Image.asset(
+      slideList[index].image!,
+      fit: BoxFit.cover,
+      repeat: ImageRepeat.noRepeat,
     );
   }
 }

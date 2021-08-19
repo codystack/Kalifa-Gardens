@@ -1,3 +1,10 @@
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kalifa_gardens/model/forgot_response.dart';
+import 'package:kalifa_gardens/screens/new_password.dart';
+import 'package:kalifa_gardens/util/service.dart';
+
 import '../controller/state_controller.dart';
 import '../screens/setup_password.dart';
 import 'package:flutter/material.dart';
@@ -38,41 +45,85 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
   var _bgColor;
   final _controller = Get.find<StateController>();
 
-  void _triggerVerify() {
+  Future<void> _triggerVerify() async {
     _controller.triggerVerify(true);
-    Future.delayed(Duration(seconds: 5), () {
-      _controller.triggerVerify(false);
-      if (widget.accountType == 'corporate') {
-        Navigator.push(
+
+    if (widget.accountType != "forgotPass") {
+      Future.delayed(Duration(seconds: 5), () {
+        _controller.triggerVerify(false);
+
+        if (widget.accountType == 'corporate') {
+          Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => SetupPassword(
-                      accountType: widget.accountType,
-                      otpID: widget.otpID,
-                      bizName: widget.bizName,
-                      isAccepted: widget.isAccepted,
-                      bizType: widget.bizType,
-                      phone: widget.phone,
-                      email: widget.email,
-                      otpCode: widget.otpCode,
-                      website: widget.website,
-                    )));
+              builder: (context) => SetupPassword(
+                accountType: widget.accountType,
+                otpID: widget.otpID,
+                bizName: widget.bizName,
+                isAccepted: widget.isAccepted,
+                bizType: widget.bizType,
+                phone: widget.phone,
+                email: widget.email,
+                otpCode: widget.otpCode,
+                website: widget.website,
+              ),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SetupPassword(
+                accountType: widget.accountType,
+                otpID: widget.otpID,
+                fullname: widget.fullname,
+                isAccepted: widget.isAccepted,
+                gender: widget.gender,
+                phone: widget.phone,
+                email: widget.email,
+                otpCode: widget.otpCode,
+              ),
+            ),
+          );
+        }
+      });
+    } else {
+      Map body = {
+        'email': widget.email,
+        'verification': {'challenge_id': widget.otpID, 'otp': widget.otpCode}
+      };
+
+      final response = await APIService().forgotPassword(body);
+
+      print(jsonDecode(response.body));
+
+      if (response.statusCode == 200) {
+        _controller.triggerVerify(false);
+
+        Map<String, dynamic> map = jsonDecode(response.body);
+        var forgot = ForgotResponse.fromJson(map);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewPassword(
+              email: widget.email,
+              resetToken: forgot.resetToken,
+            ),
+          ),
+        );
       } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SetupPassword(
-                      accountType: widget.accountType,
-                      otpID: widget.otpID as String,
-                      fullname: widget.fullname as String,
-                      isAccepted: widget.isAccepted as bool,
-                      gender: widget.gender as String,
-                      phone: widget.phone as String,
-                      email: widget.email as String,
-                      otpCode: widget.otpCode as String,
-                    )));
+        _controller.triggerVerify(false);
+        Fluttertoast.showToast(
+            msg: "Operation failed. Try again",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Color(0xFF0A4D50),
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
-    });
+    }
   }
 
   @override

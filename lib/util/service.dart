@@ -47,4 +47,20 @@ class APIService {
       body: jsonEncode(data),
     );
   }
+
+  Future<http.Response> forgotPassword(Map data) async {
+    return await http.post(
+      Uri.parse('${Constants.baseUrl}/auth/forgot-password'),
+      headers: {"Content-type": "application/json"},
+      body: jsonEncode(data),
+    );
+  }
+
+  Future<http.Response> resetPassword(Map data) async {
+    return await http.post(
+      Uri.parse('${Constants.baseUrl}/auth/reset-password'),
+      headers: {"Content-type": "application/json"},
+      body: jsonEncode(data),
+    );
+  }
 }

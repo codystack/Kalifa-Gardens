@@ -161,7 +161,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: _passwordController,
             ),
             SizedBox(
-              height: 16,
+              height: 21.0,
             ),
             Container(
               width: double.infinity,

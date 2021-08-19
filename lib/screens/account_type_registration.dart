@@ -34,8 +34,8 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
       body: ListView(
         children: <Widget>[
           Container(
-            padding:
-                const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 32.0),
+            padding: const EdgeInsets.only(
+                left: 24.0, right: 24.0, bottom: 32.0, top: 16.0),
             color: Color(0xFF0A4D50),
             child: Center(
               child: SvgPicture.asset('assets/images/logo_image.svg'),
@@ -116,7 +116,7 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                                 });
                               },
                               activeColor: Color(0x3B0A4D50),
-                              checkColor: Colors.green,
+                              checkColor: Color(0xFF0A4D50),
                               focusColor: Color(0x3B0A4D50),
                             )
                           ],
@@ -180,13 +180,15 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                                 });
                               },
                               activeColor: Color(0x3B0A4D50),
+                              checkColor: Color(0xFF0A4D50),
+                              focusColor: Color(0x3B0A4D50),
                             )
                           ],
                         )
                       ],
                     )),
                 SizedBox(
-                  height: 10.0,
+                  height: 21.0,
                 ),
                 Container(
                   width: double.infinity,
@@ -224,7 +226,7 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 18.0, vertical: 8.0),
+                      horizontal: 18.0, vertical: 12.0),
                   child: Center(
                     child: Text(
                       'All information will be treated with utmost confidentiality',
