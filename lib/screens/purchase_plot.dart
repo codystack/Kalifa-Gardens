@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'package:kalifa_gardens/model/plot_type.dart';
+import 'package:kalifa_gardens/model/property_config_response.dart';
+import 'package:kalifa_gardens/util/service.dart';
+
 import '../components/custom_appbar.dart';
 import '../components/custom_drawer.dart';
 import '../components/purchase_plot_step_indicator.dart';
@@ -23,14 +29,33 @@ class _PurchasePlotState extends State<PurchasePlot>
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
       new GlobalKey<ScaffoldState>();
 
+  Future<void> getPropertyConfig() async {
+    final response = await APIService().getPropertyConfig();
+
+    print('PROPERTY RESP: ${jsonDecode(response.body)}');
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> propertyMap = jsonDecode(response.body);
+      var property = PropertyConfig.fromJson(propertyMap);
+      setState(() {
+        _unitPrice = property.unitPrice;
+        _plotType = property.plotTypes;
+      });
+    } else {}
+  }
+
   @override
   void initState() {
     super.initState();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+
+    getPropertyConfig();
   }
 
   final _controller = Get.find<StateController>();
+  var _unitPrice;
+  List<PlotType> _plotType = [];
 
   // ignore: missing_return
   Future<bool> _handleBackPressed() async {
@@ -149,7 +174,10 @@ class _PurchasePlotState extends State<PurchasePlot>
                       // ignore: unrelated_type_equality_checks
                       if (_controller.purchasePlotStepCount == 0)
                         PurchasePlotStep1(
-                            stepIndex: _controller.purchasePlotStepCount)
+                          stepIndex: _controller.purchasePlotStepCount,
+                          unitPrice: _unitPrice,
+                          plotTypes: _plotType,
+                        )
                       // ignore: unrelated_type_equality_checks
                       else if (_controller.purchasePlotStepCount == 1)
                         PurchasePlotStep2(

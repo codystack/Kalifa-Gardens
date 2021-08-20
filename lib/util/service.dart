@@ -63,4 +63,11 @@ class APIService {
       body: jsonEncode(data),
     );
   }
+
+  Future<http.Response> getPropertyConfig() async {
+    return await http.get(
+      Uri.parse('${Constants.baseUrl}/property'),
+      headers: {"Content-type": "application/json"},
+    );
+  }
 }

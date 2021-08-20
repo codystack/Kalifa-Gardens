@@ -18,7 +18,7 @@ class FAQsResponse {
 
   factory FAQsResponse.fromJson(Map<String, dynamic> json) {
     return FAQsResponse(
-      id: json['id'] as String,
+      id: json['id'],
       question: json['question'] as String,
       answer: json['answer'] as String,
       createdAt: json['createdAt'] as String,

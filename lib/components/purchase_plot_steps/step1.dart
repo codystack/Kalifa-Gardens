@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:kalifa_gardens/components/quantity_controller.dart';
+import 'package:kalifa_gardens/model/plot_type.dart';
+
 import '../../controller/state_controller.dart';
 import '../../model/project_profile_slides.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,10 +12,17 @@ import 'package:get/get.dart';
 import '../project_profile_slide_item.dart';
 import '../slide_dots.dart';
 
+import 'package:money_formatter/money_formatter.dart';
+
 // ignore: must_be_immutable
 class PurchasePlotStep1 extends StatefulWidget {
   var stepIndex;
-  PurchasePlotStep1({this.stepIndex});
+  var unitPrice;
+  List<PlotType> plotTypes;
+  PurchasePlotStep1(
+      {required this.stepIndex,
+      required this.unitPrice,
+      required this.plotTypes});
 
   @override
   _PurchasePlotStep1State createState() => _PurchasePlotStep1State();
@@ -25,12 +35,8 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
   final _controller = Get.find<StateController>();
 
   String selectedPlotSize = '600SQM';
-  List plotSizes = [
-    '600SQM',
-    '1000SQM',
-    '2000SQM',
-    '5000SQM',
-  ];
+  double? purchasePrice;
+  var _selectedSize;
 
   @override
   void initState() {
@@ -48,6 +54,10 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
         curve: Curves.easeIn,
       );
     });
+
+    setState(() {
+      purchasePrice = widget.unitPrice * 600 * 1;
+    });
   }
 
   @override
@@ -60,6 +70,23 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
     setState(() {
       _currentPage = index;
     });
+  }
+
+  String _formatMoney(var amount) {
+    MoneyFormatter fmf = MoneyFormatter(
+        amount: amount,
+        settings: MoneyFormatterSettings(
+            symbol: 'N',
+            thousandSeparator: ',',
+            decimalSeparator: '.',
+            fractionDigits: 0,
+            symbolAndNumberSeparator: ''));
+
+    return fmf.output.symbolOnLeft;
+  }
+
+  double calculatePurchase(var selectedSize, var quantity) {
+    return (widget.unitPrice * selectedSize * quantity);
   }
 
   @override
@@ -154,7 +181,9 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                   width: 10.0,
                 ),
                 Text(
-                  'N30,000',
+                  widget.unitPrice != null
+                      ? '${_formatMoney(widget.unitPrice)}'
+                      : '',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -172,6 +201,7 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
+              flex: 3,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,18 +234,25 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                             width: 1.0,
                             style: BorderStyle.solid)),
                     child: DropdownButton(
-                      hint: Text('Size of plot size'),
-                      items: plotSizes.map((val) {
+                      hint: Text('Size of plot'),
+                      items: widget.plotTypes.map((val) {
                         return DropdownMenuItem(
-                          value: val,
-                          child: Text(val),
+                          value: val.title,
+                          child: Text(val.title),
                         );
                       }).toList(),
                       value: selectedPlotSize,
                       onChanged: (newValue) {
                         setState(() {
                           selectedPlotSize = newValue as String;
+                          List<PlotType> s = widget.plotTypes
+                              .where((element) => element.title == newValue)
+                              .toList();
+                          _selectedSize = s[0].size;
                         });
+
+                        purchasePrice = calculatePurchase(
+                            _selectedSize, _controller.quantityCounter);
                       },
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 28,
@@ -229,38 +266,34 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
             SizedBox(
               width: 10.0,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Quantity',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.help_rounded,
-                          color: Colors.black54, size: 14.0),
-                    )
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black54,
-                          width: 1.0,
-                          style: BorderStyle.solid)),
-                )
-              ],
+            Expanded(
+              flex: 1,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Quantity',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.help_rounded,
+                            color: Colors.black54, size: 14.0),
+                      )
+                    ],
+                  ),
+                  QuantityController(),
+                ],
+              ),
             ),
           ],
         ),
@@ -280,7 +313,7 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                   ),
                   children: [
                     TextSpan(
-                      text: '6,0000,000',
+                      text: '${_formatMoney(purchasePrice)}',
                       style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.bold,
@@ -344,7 +377,7 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
                     onPrimary: Colors.black,
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(16.0),
                   ),
                 ),
               ),
@@ -373,7 +406,7 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     onPrimary: Colors.white,
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(16.0),
                   ),
                 ),
               ),

@@ -14,6 +14,8 @@ class StateController extends GetxController {
   var forgotPass = 0.obs;
   var resetPass = 0.obs;
 
+  var quantityCounter = 1.obs;
+
   void increment() {
     purchasePlotStepCount++;
   }
@@ -36,6 +38,14 @@ class StateController extends GetxController {
 
   void decrementCorporateSub() {
     corporateSubStep--;
+  }
+
+  void incrementQuantity() {
+    quantityCounter++;
+  }
+
+  void decrementQuantity() {
+    quantityCounter--;
   }
 
   void triggerVerify(bool state) {
