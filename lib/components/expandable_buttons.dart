@@ -39,7 +39,11 @@ class ExpandableSection extends StatelessWidget {
                         child: Text(
                           "Get Started",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline5,
+                          style: TextStyle(
+                            fontFamily: 'Mulish',
+                            fontSize: 24,
+                            fontWeight: FontWeight.w400,
+                          ),
                         )),
                     collapsed: SizedBox(
                       width: 1.0,
@@ -61,7 +65,9 @@ class ExpandableSection extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.0,
+                                  fontFamily: 'Mulish',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
@@ -84,7 +90,9 @@ class ExpandableSection extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.0,
+                                  fontFamily: 'Mulish',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
@@ -140,8 +148,9 @@ class ExpandableSection extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w600,
+                            fontFamily: 'Mulish',
+                            fontSize: 24,
+                            fontWeight: FontWeight.w400,
                           ),
                         )),
                     collapsed: Text(
@@ -163,7 +172,9 @@ class ExpandableSection extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.0,
+                                  fontFamily: 'Mulish',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
@@ -186,7 +197,9 @@ class ExpandableSection extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.0,
+                                  fontFamily: 'Mulish',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
@@ -209,7 +222,9 @@ class ExpandableSection extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.0,
+                                  fontFamily: 'Mulish',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
@@ -295,7 +310,9 @@ class ExpandableSection extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 18.0,
+                                  fontFamily: 'Mulish',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),

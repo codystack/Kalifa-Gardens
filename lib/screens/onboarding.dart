@@ -66,7 +66,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    // print('SCREEN HEIGHT $screenHeight');
+    // print ('SCREEN HEIGHT $screenHeight');
 
     return Scaffold(
       appBar: AppBar(
@@ -122,13 +122,15 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 0.5),
+                          padding: const EdgeInsets.only(top: 1.5),
                           child: Text(
                             "The Blueprint of Fine Living",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF0A4D50),
-                              fontSize: 21.0,
+                              fontSize: 24.0,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
@@ -144,55 +146,61 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Flexible(
-                                child: Stack(
-                              alignment: AlignmentDirectional.bottomCenter,
-                              children: <Widget>[
-                                Container(
-                                  height: 426,
-                                  color: Colors.black,
-                                  width: double.infinity,
-                                  child: PageView.builder(
-                                    itemBuilder: (ctx, i) => SlideItem(i),
-                                    itemCount: slideList.length,
-                                    controller: _pageController,
-                                    scrollDirection: Axis.horizontal,
-                                    onPageChanged: _onPageChanged,
+                              child: Stack(
+                                alignment: AlignmentDirectional.bottomCenter,
+                                children: <Widget>[
+                                  Container(
+                                    constraints: BoxConstraints(
+                                      minHeight: 256,
+                                      maxHeight:
+                                          MediaQuery.of(context).size.height *
+                                              0.65,
+                                    ),
+                                    color: Colors.black,
+                                    width: double.infinity,
+                                    child: PageView.builder(
+                                      itemBuilder: (ctx, i) => SlideItem(i),
+                                      itemCount: slideList.length,
+                                      controller: _pageController,
+                                      scrollDirection: Axis.horizontal,
+                                      onPageChanged: _onPageChanged,
+                                    ),
                                   ),
-                                ),
-                                Stack(
-                                  alignment: AlignmentDirectional.topCenter,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          padding: const EdgeInsets.all(10.0),
-                                          decoration: BoxDecoration(
-                                            color: Color(0x99C4C4C4),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(18.0)),
+                                  Stack(
+                                    alignment: AlignmentDirectional.topCenter,
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            padding: const EdgeInsets.all(10.0),
+                                            decoration: BoxDecoration(
+                                              color: Color(0x99C4C4C4),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(18.0)),
+                                            ),
+                                            margin: const EdgeInsets.only(
+                                                bottom: 48),
+                                            child: Row(
+                                              children: <Widget>[
+                                                for (int i = 0;
+                                                    i < slideList.length;
+                                                    i++)
+                                                  if (i == _currentPage)
+                                                    SlideDots(true)
+                                                  else
+                                                    SlideDots(false)
+                                              ],
+                                            ),
                                           ),
-                                          margin:
-                                              const EdgeInsets.only(bottom: 48),
-                                          child: Row(
-                                            children: <Widget>[
-                                              for (int i = 0;
-                                                  i < slideList.length;
-                                                  i++)
-                                                if (i == _currentPage)
-                                                  SlideDots(true)
-                                                else
-                                                  SlideDots(false)
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ],
-                            )),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -210,7 +218,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
               )
             : ListView(
                 padding: const EdgeInsets.only(
-                    top: 12.0, bottom: 0.0, left: 16.0, right: 16.0),
+                    top: 16.0, bottom: 0.0, left: 16.0, right: 16.0),
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -222,7 +230,9 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(0xFF0A4D50),
-                            fontSize: 21.0,
+                            fontSize: 24.0,
+                            fontFamily: 'Mulish',
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -233,16 +243,18 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Flexible(
-                              child: Stack(
+                          Stack(
                             alignment: AlignmentDirectional.bottomCenter,
                             children: <Widget>[
                               Container(
-                                height: 426,
+                                constraints: BoxConstraints(
+                                  minHeight: 256,
+                                  maxHeight:
+                                      MediaQuery.of(context).size.height * 0.65,
+                                ),
                                 color: Colors.black,
                                 width: double.infinity,
                                 child: PageView.builder(
@@ -285,7 +297,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                                 ],
                               )
                             ],
-                          )),
+                          )
                         ],
                       ),
                     ),

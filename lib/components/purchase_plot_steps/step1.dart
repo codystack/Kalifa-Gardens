@@ -56,7 +56,7 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
     });
 
     setState(() {
-      purchasePrice = widget.unitPrice * 600 * 1;
+      purchasePrice = (30000 * 600 * 1);
     });
   }
 

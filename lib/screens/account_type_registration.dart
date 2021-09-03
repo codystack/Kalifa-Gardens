@@ -55,7 +55,8 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                     style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.bold,
-                        fontSize: 24.0),
+                        fontSize: 24.0,
+                        fontFamily: 'Mulish'),
                   ),
                 ),
                 SizedBox(
@@ -68,20 +69,11 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                             color: Colors.grey,
                             width: 1.0,
                             style: BorderStyle.solid)),
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8.0, bottom: 8.0),
-                    child: Column(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.topRight,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.help_rounded,
-                                  color: Colors.black54),
-                            ),
-                          ],
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,9 +95,11 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                             Text(
                               'Individual Buyer',
                               style: TextStyle(
-                                  color: Color(0xFF434343),
-                                  fontSize: 21.0,
-                                  fontWeight: FontWeight.w600),
+                                color: Color(0xFF434343),
+                                fontSize: 21.0,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Mulish',
+                              ),
                             ),
                             Checkbox(
                               value: _isIndividual,
@@ -115,11 +109,20 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                                   _isCorporate = !state as bool;
                                 });
                               },
-                              activeColor: Color(0x3B0A4D50),
-                              checkColor: Color(0xFF0A4D50),
-                              focusColor: Color(0x3B0A4D50),
+                              activeColor: Color(0xFF0A4D50),
+                              checkColor: Color(0xFFFFFFFF),
+                              focusColor: Color(0xFF0A4D50),
                             )
                           ],
+                        ),
+                        Positioned(
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.help_rounded,
+                                color: Colors.black54, size: 18),
+                          ),
+                          top: -24,
+                          right: -18,
                         )
                       ],
                     )),
@@ -133,43 +136,28 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                             color: Colors.grey,
                             width: 1.0,
                             style: BorderStyle.solid)),
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8.0, bottom: 8.0),
-                    child: Column(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.topRight,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.help_rounded,
-                                  color: Colors.black54),
-                            ),
-                          ],
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white70,
-                                border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0,
-                                    style: BorderStyle.solid),
-                              ),
                               child: Center(
-                                child: Icon(Icons.storage),
+                                child: SvgPicture.asset(
+                                    'assets/images/corporate_icon.svg'),
                               ),
-                              padding: const EdgeInsets.all(6.0),
                             ),
                             Text(
                               'Corporate Buyer',
                               style: TextStyle(
                                   color: Color(0xFF434343),
                                   fontSize: 21.0,
-                                  fontWeight: FontWeight.w600),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Mulish'),
                             ),
                             Checkbox(
                               value: _isCorporate,
@@ -179,11 +167,20 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                                   _isIndividual = !state as bool;
                                 });
                               },
-                              activeColor: Color(0x3B0A4D50),
-                              checkColor: Color(0xFF0A4D50),
-                              focusColor: Color(0x3B0A4D50),
+                              activeColor: Color(0xFF0A4D50),
+                              checkColor: Color(0xFFFFFFFF),
+                              focusColor: Color(0xFF0A4D50),
                             )
                           ],
+                        ),
+                        Positioned(
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.help_rounded,
+                                color: Colors.black54, size: 18),
+                          ),
+                          top: -24,
+                          right: -18,
                         )
                       ],
                     )),
@@ -218,8 +215,9 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                       'Proceed',
                       style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 21.0),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 21.0,
+                          fontFamily: 'Mulish'),
                     ),
                   ),
                 ),

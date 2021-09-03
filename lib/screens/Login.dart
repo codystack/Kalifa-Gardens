@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
               ),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(14.0),
                 margin: const EdgeInsets.all(16.0),
                 color: Color(0xFFD4B581),
                 child: Center(
@@ -55,7 +55,8 @@ class _LoginState extends State<Login> {
                     style: TextStyle(
                       color: Colors.black54,
                       fontWeight: FontWeight.w600,
-                      fontSize: 21.0,
+                      fontSize: 24.0,
+                      fontFamily: 'Mulish',
                     ),
                   ),
                 ),
@@ -69,8 +70,8 @@ class _LoginState extends State<Login> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.all(6.0),
                     margin: const EdgeInsets.all(4.0),
+                    height: MediaQuery.of(context).size.height * 0.10,
                     decoration: BoxDecoration(
                       border: Border.all(
                           color: Colors.grey,
@@ -80,14 +81,20 @@ class _LoginState extends State<Login> {
                     child: Center(
                       child: TextButton(
                         onPressed: () => {},
-                        child:
-                            SvgPicture.asset('assets/images/google_icon.svg'),
+                        child: SvgPicture.asset(
+                          'assets/images/google_icon.svg',
+                          fit: BoxFit.cover,
+                          height: 28,
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(16.0),
+                        ),
                       ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(6.0),
                     margin: const EdgeInsets.all(4.0),
+                    height: MediaQuery.of(context).size.height * 0.10,
                     decoration: BoxDecoration(
                       border: Border.all(
                           color: Colors.grey,
@@ -97,13 +104,19 @@ class _LoginState extends State<Login> {
                     child: Center(
                       child: TextButton(
                         onPressed: () => {},
-                        child:
-                            SvgPicture.asset('assets/images/facebook_icon.svg'),
+                        child: SvgPicture.asset(
+                          'assets/images/facebook_icon.svg',
+                          fit: BoxFit.cover,
+                          height: 28,
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(16.0),
+                        ),
                       ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(6.0),
+                    height: MediaQuery.of(context).size.height * 0.10,
                     margin: const EdgeInsets.all(4.0),
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -115,7 +128,13 @@ class _LoginState extends State<Login> {
                       child: TextButton(
                         onPressed: () => {},
                         child: SvgPicture.asset(
-                            'assets/images/microsoft_icon.svg'),
+                          'assets/images/microsoft_icon.svg',
+                          fit: BoxFit.cover,
+                          height: 28,
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(16.0),
+                        ),
                       ),
                     ),
                   )
@@ -138,9 +157,9 @@ class _LoginState extends State<Login> {
                       'Create an account instead',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Mulish',
+                        fontSize: 17.0,
                       ),
                     ),
                   ),
@@ -157,9 +176,10 @@ class _LoginState extends State<Login> {
                       'Forgot password',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.0,
-                          color: Colors.black54),
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Mulish',
+                        fontSize: 17.0,
+                      ),
                     ),
                   )
                 ],

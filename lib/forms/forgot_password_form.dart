@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -77,7 +78,13 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Email address',
                   hintText: 'Email address',
-                  prefixIcon: Icon(Icons.email),
+                  hintStyle: TextStyle(
+                    fontFamily: 'Mulish',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
+                  prefixIcon: Icon(Icons.email_sharp),
                 ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -109,8 +116,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     'Send Instruction',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Mulish',
                     ),
                   ),
                   style: ElevatedButton.styleFrom(

@@ -137,13 +137,13 @@ class _LoginFormState extends State<LoginForm> {
               controller: _emailController,
             ),
             SizedBox(
-              height: 16,
+              height: 12,
             ),
             TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Password',
-                hintText: 'Password',
+                labelText: 'Enter Password',
+                hintText: 'Enter Password',
                 suffixIcon: IconButton(
                   onPressed: () => _togglePass(),
                   icon: Icon(
@@ -161,7 +161,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: _passwordController,
             ),
             SizedBox(
-              height: 21.0,
+              height: 16.0,
             ),
             Container(
               width: double.infinity,
@@ -175,14 +175,16 @@ class _LoginFormState extends State<LoginForm> {
                 child: Text(
                   'Login',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600),
+                    color: Colors.white,
+                    fontFamily: 'Mulish',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                     primary: Colors.black,
                     onPrimary: Colors.white,
-                    padding: const EdgeInsets.all(16.0)),
+                    padding: const EdgeInsets.all(10.0)),
               ),
             )
           ],

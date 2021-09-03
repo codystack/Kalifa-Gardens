@@ -94,18 +94,22 @@ class _ForgotPasswordState extends State<ForgotPassword>
                 ),
                 Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(28.0),
-                    color: Colors.grey,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 35.0, horizontal: 24.0),
+                    color: Color(0x4DB2B2B2),
                     child: Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(21.0),
+                      padding: const EdgeInsets.all(18.0),
                       color: Colors.white,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SvgPicture.asset(
                               'assets/images/forgot_pass_error.svg'),
+                          SizedBox(
+                            width: 10.0,
+                          ),
                           SvgPicture.asset(
                               'assets/images/forgot_pass_ellipse.svg'),
                         ],
@@ -124,10 +128,10 @@ class _ForgotPasswordState extends State<ForgotPassword>
                           child: Text(
                         'Forgot Password',
                         style: TextStyle(
-                          color: Color(0xFF0A4D50),
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.w700,
-                        ),
+                            color: Color(0xFF0A4D50),
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Mulish'),
                       )),
                     ),
                   ],
