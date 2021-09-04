@@ -3,7 +3,11 @@ import 'package:get/get.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
 
 class QuantityController extends StatefulWidget {
-  const QuantityController({Key? key}) : super(key: key);
+  const QuantityController(
+      {Key? key, required this.unitPrice, required this.size})
+      : super(key: key);
+  final double? unitPrice;
+  final int? size;
 
   @override
   _QuantityControllerState createState() => _QuantityControllerState();
@@ -56,6 +60,9 @@ class _QuantityControllerState extends State<QuantityController> {
                   if (_controller.quantityCounter > 1) {
                     _controller.decrementQuantity();
                   }
+
+                  _controller.setTotalPrice(widget.unitPrice, widget.size,
+                      _controller.quantityCounter);
                 },
                 child: Icon(
                   Icons.arrow_drop_down,

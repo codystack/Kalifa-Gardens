@@ -26,6 +26,10 @@ class _PurchasePlotState extends State<PurchasePlot>
     with TickerProviderStateMixin {
   AnimationController? _animationController;
 
+  final _controller = Get.find<StateController>();
+  double _unitPrice = 0.0;
+  List<PlotType> _plotType = [];
+
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
       new GlobalKey<ScaffoldState>();
 
@@ -37,10 +41,13 @@ class _PurchasePlotState extends State<PurchasePlot>
     if (response.statusCode == 200) {
       Map<String, dynamic> propertyMap = jsonDecode(response.body);
       var property = PropertyConfig.fromJson(propertyMap);
+      // _controller.setUnitPrice(property.unitPrice);
       setState(() {
-        _unitPrice = property.unitPrice;
+        _unitPrice = property.unitPrice as double;
         _plotType = property.plotTypes;
       });
+
+      print('UNIT PRICE IS ${_unitPrice}');
     } else {}
   }
 
@@ -52,10 +59,6 @@ class _PurchasePlotState extends State<PurchasePlot>
 
     getPropertyConfig();
   }
-
-  final _controller = Get.find<StateController>();
-  var _unitPrice;
-  List<PlotType> _plotType = [];
 
   // ignore: missing_return
   Future<bool> _handleBackPressed() async {

@@ -16,6 +16,10 @@ class StateController extends GetxController {
 
   var quantityCounter = 1.obs;
 
+  var totalPrice = 0.0.obs;
+
+  var unitPrice = 0.0;
+
   void increment() {
     purchasePlotStepCount++;
   }
@@ -38,6 +42,10 @@ class StateController extends GetxController {
 
   void decrementCorporateSub() {
     corporateSubStep--;
+  }
+
+  void setUnitPrice(int price) {
+    unitPrice = price as double;
   }
 
   void incrementQuantity() {
@@ -94,6 +102,10 @@ class StateController extends GetxController {
     } else {
       isAccepted += 1;
     }
+  }
+
+  void setTotalPrice(var unit, var size, var quantity) {
+    totalPrice.value = (unit * size * quantity);
   }
 
   void resetAll() {

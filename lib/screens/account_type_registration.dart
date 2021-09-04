@@ -119,7 +119,7 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                           child: IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.help_rounded,
-                                color: Colors.black54, size: 18),
+                                color: Colors.black, size: 18),
                           ),
                           top: -24,
                           right: -18,
@@ -177,7 +177,7 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                           child: IconButton(
                             onPressed: () {},
                             icon: Icon(Icons.help_rounded,
-                                color: Colors.black54, size: 18),
+                                color: Colors.black, size: 18),
                           ),
                           top: -24,
                           right: -18,

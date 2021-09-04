@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:kalifa_gardens/components/quantity_controller.dart';
+import 'package:kalifa_gardens/components/total_price_obs.dart';
 import 'package:kalifa_gardens/model/plot_type.dart';
 
 import '../../controller/state_controller.dart';
@@ -85,8 +86,8 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
     return fmf.output.symbolOnLeft;
   }
 
-  double calculatePurchase(var selectedSize, var quantity) {
-    return (widget.unitPrice * selectedSize * quantity);
+  double calculatePurchase() {
+    return (widget.unitPrice * _selectedSize * _controller.quantityCounter);
   }
 
   @override
@@ -180,15 +181,16 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                 SizedBox(
                   width: 10.0,
                 ),
-                Text(
-                  widget.unitPrice != null
-                      ? '${_formatMoney(widget.unitPrice)}'
-                      : '',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                )
+                widget.unitPrice == Null
+                    ? SizedBox()
+                    : Text(
+                        // ignore: unrelated_type_equality_checks
+                        '${widget.unitPrice == Null ? 0 : _formatMoney(widget.unitPrice)}',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
               ],
             ),
             IconButton(
@@ -251,7 +253,11 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                           _selectedSize = s[0].size;
                         });
 
-                        purchasePrice = calculatePurchase(
+                        setState(() {
+                          purchasePrice = calculatePurchase();
+                        });
+
+                        _controller.setTotalPrice(widget.unitPrice,
                             _selectedSize, _controller.quantityCounter);
                       },
                       icon: Icon(Icons.arrow_drop_down),
@@ -291,7 +297,8 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                       )
                     ],
                   ),
-                  QuantityController(),
+                  QuantityController(
+                      unitPrice: widget.unitPrice, size: _selectedSize),
                 ],
               ),
             ),
@@ -300,38 +307,9 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
         SizedBox(
           height: 16.0,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            RichText(
-              text: TextSpan(
-                  text: 'Purchase $selectedPlotSize for ',
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: '${_formatMoney(purchasePrice)}',
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'NGN',
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    )
-                  ]),
-              textAlign: TextAlign.center,
-            ),
-          ],
+        TotalPriceObs(
+          selectedPlotSize: _selectedSize,
+          formatMoney: _formatMoney(_controller.totalPrice.value),
         ),
         SizedBox(
           width: 10.0,

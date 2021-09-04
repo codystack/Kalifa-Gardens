@@ -140,7 +140,7 @@ class _IndividualFormState extends State<IndividualForm> {
               children: <Widget>[
                 Container(
                   padding: const EdgeInsets.all(8.0),
-                  height: 430,
+                  height: MediaQuery.of(context).size.height * 0.70,
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -152,8 +152,9 @@ class _IndividualFormState extends State<IndividualForm> {
                             'To proceed, you have to agree to Kalifa Gardens terms and conditions',
                             style: TextStyle(
                               color: Color(0xFF0A4D50),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16.0,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17.0,
+                              fontFamily: 'Mulish',
                             ),
                           ),
                         ),
@@ -178,11 +179,12 @@ class _IndividualFormState extends State<IndividualForm> {
                                   width: double.infinity,
                                   child: Text(
                                     'Terms of Service',
-                                    textAlign: TextAlign.center,
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
                                       color: Colors.black54,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Mulish',
                                     ),
                                   ),
                                 ),
@@ -197,6 +199,7 @@ class _IndividualFormState extends State<IndividualForm> {
                                           _tandC,
                                           style: TextStyle(
                                             color: Colors.black54,
+                                            fontFamily: 'Mulish',
                                           ),
                                         ),
                                 ),
@@ -206,25 +209,53 @@ class _IndividualFormState extends State<IndividualForm> {
                         ),
                       ),
                       SizedBox(
-                        height: 16,
+                        height: 10,
                       ),
                       Container(
                         width: double.infinity,
-                        color: Colors.black,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              _isAccepted = true;
+                            });
+                            Navigator.pop(context);
+                          },
                           child: Text(
                             'I Agree',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Mulish'),
                           ),
                           style: ElevatedButton.styleFrom(
                             primary: Colors.black,
                             onPrimary: Colors.white,
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(10.0),
                           ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _isAccepted = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'I Reject',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              onPrimary: Colors.black,
+                              padding: const EdgeInsets.all(6.0),
+                              elevation: 0.0),
                         ),
                       )
                     ],
@@ -234,7 +265,7 @@ class _IndividualFormState extends State<IndividualForm> {
                   child: Container(
                     child: IconButton(
                       onPressed: () {
-//                                                  _dialogKey.currentState.
+                        Navigator.pop(context);
                       },
                       icon: Icon(Icons.close),
                     ),
@@ -281,7 +312,7 @@ class _IndividualFormState extends State<IndividualForm> {
                     border: OutlineInputBorder(),
                     labelText: 'Full name',
                     hintText: 'Full Name',
-                    prefixIcon: Icon(Icons.card_travel)),
+                    prefixIcon: Icon(Icons.card_travel_sharp)),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -331,7 +362,7 @@ class _IndividualFormState extends State<IndividualForm> {
                   border: OutlineInputBorder(),
                   labelText: 'Email address',
                   hintText: 'Email Address',
-                  prefixIcon: Icon(Icons.email),
+                  prefixIcon: Icon(Icons.email_sharp),
                 ),
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -382,7 +413,8 @@ class _IndividualFormState extends State<IndividualForm> {
                               : Colors.grey,
                         ),
                         child: Container(
-                          padding: const EdgeInsets.all(14.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 18.0, horizontal: 14),
                           width: double.infinity,
                           child: Text(
                             'Male',
@@ -427,7 +459,8 @@ class _IndividualFormState extends State<IndividualForm> {
                               : Colors.grey,
                         ),
                         child: Container(
-                          padding: const EdgeInsets.all(14.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 18.0, horizontal: 14.0),
                           width: double.infinity,
                           child: Text(
                             'Female',
@@ -474,6 +507,7 @@ class _IndividualFormState extends State<IndividualForm> {
                               style: TextStyle(
                                 color: Color(0xFF0A4D50),
                                 fontWeight: FontWeight.w500,
+                                fontFamily: 'Mulish',
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = _showTermsOfService,

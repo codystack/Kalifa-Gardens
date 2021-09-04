@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
         inputDecorationTheme: InputDecorationTheme(
           focusColor: Color(0xFF0A4D50),
           fillColor: Color(0xFF0A4D50),
+          border: OutlineInputBorder(borderRadius: BorderRadius.zero),
           labelStyle: TextStyle(
             color: Color(0xFF0A4D50),
           ),
