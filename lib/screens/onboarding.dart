@@ -156,7 +156,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                                           MediaQuery.of(context).size.height *
                                               0.65,
                                     ),
-                                    color: Colors.black,
+                                    color: Color(0xFF0A4D50),
                                     width: double.infinity,
                                     child: PageView.builder(
                                       itemBuilder: (ctx, i) => SlideItem(i),
