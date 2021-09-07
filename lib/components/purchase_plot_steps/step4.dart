@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:image_cropper/image_cropper.dart';
+
 import '../../controller/state_controller.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,41 +30,54 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
   String? _accountHolderName;
   String? _fileName;
   List<XFile> photos = [];
+  File? _selectedFile;
   bool _isPicked = false, _isNotSelected = false;
 
   final _formKey = GlobalKey<FormState>();
-
   final ImagePicker _picker = ImagePicker();
+  final _picka = ImagePicker();
+  bool _inProcess = false;
 
-  void _pickFromGallery() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'pdf', 'doc'],
-    );
+  Future selectOrTakePhoto(ImageSource imageSource) async {
+    setState(() {
+      _inProcess = true;
+    });
+    final pickedFile = await _picka.pickImage(source: imageSource);
 
-    if (result != null) {
-      _file = File(result.files.single.path!);
-      PlatformFile file = result.files.first;
-      _fileName = file.name;
-      print(file.name);
-      print(file.bytes);
-      print(file.size);
-      print(file.extension);
-      print(file.path);
+    if (pickedFile != null) {
+      File? croppedFile = await ImageCropper.cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+          compressQuality: 100,
+          compressFormat: ImageCompressFormat.jpg,
+          androidUiSettings: AndroidUiSettings(
+            toolbarColor: Color(0xFF0A4D50),
+          ));
+
+      this.setState(() {
+        _selectedFile = croppedFile;
+        photos.add(_selectedFile as XFile);
+        _inProcess = false;
+      });
     } else {
-      // User canceled the picker
+      this.setState(() {
+        _inProcess = false;
+      });
     }
   }
 
-  _openCamera() async {
-    XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+  Future<void> _openCamera() async {
+    Navigator.pop(context);
+    try {
+      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
 
-    if (photo != null) {
-      if (photo.path != null) {
-        setState(() {
-          photos.add(photo);
-        });
-      }
+      if (photo == null) return;
+
+      setState(() {
+        photos.add(photo);
+      });
+    } on PlatformException catch (e) {
+      print('Operation failed $e');
     }
   }
 
@@ -107,11 +121,11 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
                         IconButton(
                           onPressed: () {
                             Navigator.pop(context, false);
-                            _openCamera();
+                            selectOrTakePhoto(ImageSource.camera);
                           },
                           icon: Icon(
                             Icons.camera_alt_outlined,
-                            size: 48,
+                            size: 36,
                             color: Color(
                               0xFF0A4D50,
                             ),
@@ -139,7 +153,7 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
                           },
                           icon: Icon(
                             Icons.folder_open,
-                            size: 48,
+                            size: 36,
                             color: Color(
                               0xFF0A4D50,
                             ),

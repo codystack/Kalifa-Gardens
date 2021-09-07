@@ -1,3 +1,5 @@
+import 'package:country_code_picker/country_code_picker.dart';
+
 import '../../controller/state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,17 +16,17 @@ class _FormStep1State extends State<FormStep1> {
   bool _isAccepted = false;
   final _controller = Get.find<StateController>();
 
-  String? _surname,
-      _othernames,
-      _residentialAddr,
-      _mailingAddr,
-      _nationality,
-      _stateOfOrigin,
-      _phone,
-      _homePhone,
-      _emailAddr,
-      _nameSublease,
-      _addrSublease;
+  TextEditingController _surnameController = TextEditingController();
+  TextEditingController _othernamesController = TextEditingController();
+  TextEditingController _residentialAddrController = TextEditingController();
+  TextEditingController _mailingAddrController = TextEditingController();
+  TextEditingController _nationalityController = TextEditingController();
+  TextEditingController _stateOfOriginController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _homePhoneController = TextEditingController();
+  TextEditingController _emailAddrController = TextEditingController();
+  TextEditingController _nameSubleaseController = TextEditingController();
+  TextEditingController _addrSubleaseController = TextEditingController();
 
   @override
   void initState() {
@@ -92,9 +94,7 @@ class _FormStep1State extends State<FormStep1> {
               return null;
             },
             keyboardType: TextInputType.name,
-            onSaved: (val) {
-              _surname = val;
-            },
+            controller: _surnameController,
           ),
           SizedBox(
             height: 10,
@@ -113,9 +113,7 @@ class _FormStep1State extends State<FormStep1> {
               return null;
             },
             keyboardType: TextInputType.name,
-            onSaved: (val) {
-              _othernames = val;
-            },
+            controller: _othernamesController,
           ),
           SizedBox(
             height: 10,
@@ -225,9 +223,7 @@ class _FormStep1State extends State<FormStep1> {
               return null;
             },
             keyboardType: TextInputType.streetAddress,
-            onSaved: (val) {
-              _residentialAddr = val;
-            },
+            controller: _residentialAddrController,
           ),
           SizedBox(
             height: 10,
@@ -246,9 +242,7 @@ class _FormStep1State extends State<FormStep1> {
               return null;
             },
             keyboardType: TextInputType.streetAddress,
-            onSaved: (val) {
-              _mailingAddr = val;
-            },
+            controller: _mailingAddrController,
           ),
           SizedBox(
             height: 10,
@@ -268,9 +262,7 @@ class _FormStep1State extends State<FormStep1> {
             },
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.words,
-            onSaved: (val) {
-              _nationality = val;
-            },
+            controller: _nationalityController,
           ),
           SizedBox(
             height: 10,
@@ -290,23 +282,26 @@ class _FormStep1State extends State<FormStep1> {
             },
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.words,
-            onSaved: (val) {
-              _stateOfOrigin = val;
-            },
+            controller: _stateOfOriginController,
           ),
           SizedBox(
             height: 10,
           ),
           TextFormField(
             decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Mobile Phone Number',
-                hintText: 'Mobile Phone Number',
-//                    prefix: DropdownButton(
-//
-//                    ),
-                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')),
-            // The validator receives the text that the user has entered.
+              border: OutlineInputBorder(),
+              hintText: 'Phone Number',
+              prefixIcon: CountryCodePicker(
+                alignLeft: false,
+                onChanged: (val) {},
+                flagWidth: 22.5,
+                initialSelection: 'NG',
+                favorite: ['+234', 'NG'],
+                showCountryOnly: false,
+                showOnlyCountryWhenClosed: false,
+              ),
+            ),
+            // The validator receives the text that the user has entered.                    prefixIcon: ImageIcon(Image.asset()),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your phone number';
@@ -316,37 +311,38 @@ class _FormStep1State extends State<FormStep1> {
               }
               return null;
             },
-            onSaved: (val) {
-              _phone = val;
-            },
             keyboardType: TextInputType.phone,
+            controller: _phoneController,
           ),
           SizedBox(
             height: 10,
           ),
           TextFormField(
             decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Home Phone Number',
-                hintText: 'Home Phone Number',
-//                    prefix: DropdownButton(
-//
-//                    ),
-                prefixIcon: SvgPicture.asset('assets/images/phone_naija.svg')),
-            // The validator receives the text that the user has entered.
+              border: OutlineInputBorder(),
+              hintText: 'Home Phone Number',
+              prefixIcon: CountryCodePicker(
+                alignLeft: false,
+                onChanged: (val) {},
+                flagWidth: 22.5,
+                initialSelection: 'NG',
+                favorite: ['+234', 'NG'],
+                showCountryOnly: false,
+                showOnlyCountryWhenClosed: false,
+              ),
+            ),
+            // The validator receives the text that the user has entered.                    prefixIcon: ImageIcon(Image.asset()),
             validator: (value) {
-//                  if (value == null || value.isEmpty) {
-//                    return 'Please enter your phone number';
-//                  }
-              if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value!)) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your home phone number';
+              }
+              if (!RegExp('^(?:[+0]234)?[0-9]{10}').hasMatch(value)) {
                 return 'Please enter a valid phone number';
               }
               return null;
             },
-            onSaved: (val) {
-              _homePhone = val;
-            },
             keyboardType: TextInputType.phone,
+            controller: _homePhoneController,
           ),
           SizedBox(
             height: 10,
@@ -369,6 +365,7 @@ class _FormStep1State extends State<FormStep1> {
               return null;
             },
             keyboardType: TextInputType.emailAddress,
+            controller: _emailAddrController,
           ),
           SizedBox(
             height: 10,
@@ -387,9 +384,7 @@ class _FormStep1State extends State<FormStep1> {
               return null;
             },
             keyboardType: TextInputType.name,
-            onSaved: (val) {
-              _nameSublease = val;
-            },
+            controller: _nameSubleaseController,
           ),
           SizedBox(
             height: 10,
@@ -408,9 +403,7 @@ class _FormStep1State extends State<FormStep1> {
               return null;
             },
             keyboardType: TextInputType.streetAddress,
-            onSaved: (val) {
-              _addrSublease = val;
-            },
+            controller: _addrSubleaseController,
           ),
           SizedBox(
             height: 16.0,
