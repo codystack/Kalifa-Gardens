@@ -1,3 +1,5 @@
+import 'package:kalifa_gardens/util/preference_manager.dart';
+
 import '../forms/contact_us.dart';
 import '../screens/account_history.dart';
 import '../screens/buyer_benefits.dart';
@@ -10,7 +12,14 @@ import '../screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  late PreferenceManager _manager;
+
   _showContactUs(BuildContext context) {
     showDialog(
         context: context,
@@ -74,6 +83,12 @@ class CustomDrawer extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _manager = PreferenceManager(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
@@ -92,6 +107,7 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => PurchasePlot()),
@@ -128,9 +144,13 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => BuyerBenefits()),
+                    MaterialPageRoute(
+                        builder: (context) => BuyerBenefits(
+                              manager: _manager,
+                            )),
                   );
                 },
                 child: Row(
@@ -164,6 +184,7 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AccountHistory()),
@@ -200,9 +221,14 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ProjectProfile()),
+                    MaterialPageRoute(
+                      builder: (context) => ProjectProfile(
+                        manager: _manager,
+                      ),
+                    ),
                   );
                 },
                 child: Row(
@@ -236,6 +262,7 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ManageDocuments()),
@@ -272,6 +299,7 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => NewsAndUpdates()),
@@ -308,9 +336,14 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FAQs()),
+                    MaterialPageRoute(
+                      builder: (context) => FAQs(
+                        manager: _manager,
+                      ),
+                    ),
                   );
                 },
                 child: Row(
@@ -344,6 +377,7 @@ class CustomDrawer extends StatelessWidget {
                   )),
               child: TextButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Settings()),
@@ -410,7 +444,9 @@ class CustomDrawer extends StatelessWidget {
                     bottom: BorderSide(color: Colors.white, width: 0.0),
                   )),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,

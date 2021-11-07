@@ -12,7 +12,6 @@ class _PurchasePlotStep5State extends State<PurchasePlotStep5> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userType = "individual";
   }
@@ -27,6 +26,7 @@ class _PurchasePlotStep5State extends State<PurchasePlotStep5> {
           'Subscription Form',
           textAlign: TextAlign.start,
           style: TextStyle(
+              // color: Color(0xFF0A4D50),
               color: Color(0xFF0A4D50),
               fontWeight: FontWeight.w700,
               fontSize: 20),

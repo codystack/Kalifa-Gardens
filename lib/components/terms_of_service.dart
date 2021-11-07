@@ -64,8 +64,8 @@ Future showTermsOfService(BuildContext context) async {
                                 width: double.infinity,
                                 child: Text(
                                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placerat mollis eget vulputate nunc, nec consequat risus sit id. Egestas eget laoreet molestie sed eleifend nibh. Amet ipsum pellentesque sit magna enim, neque. Consectetur lobortis aliquam ut consectetur. Nunc, et, nibh vel cum. Commodo, ultrices id laoreet urna faucibus. Lacus turpis et tristique vulputate sit pharetra. '
-                                      'consequat risus sit id. Egestas eget laoreet molestie sed eleifend nibh. Amet ipsum pellentesque sit magna enim, neque. Consectetur lobortis aliquam ut consectetur. Nunc, et, nibh vel cum. Commodo, ultrices id laoreet urna faucibus. Lacus turpis et tristique vulputate sit pharetra.'
-                                      'consequat risus sit id. Egestas eget laoreet molestie m. d Lacus turpis et tristique vulputate sit pharetra.',
+                                  'consequat risus sit id. Egestas eget laoreet molestie sed eleifend nibh. Amet ipsum pellentesque sit magna enim, neque. Consectetur lobortis aliquam ut consectetur. Nunc, et, nibh vel cum. Commodo, ultrices id laoreet urna faucibus. Lacus turpis et tristique vulputate sit pharetra.'
+                                  'consequat risus sit id. Egestas eget laoreet molestie m. d Lacus turpis et tristique vulputate sit pharetra.',
                                   style: TextStyle(
                                     color: Colors.black54,
                                   ),
@@ -89,9 +89,7 @@ Future showTermsOfService(BuildContext context) async {
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18.0,
-                              fontWeight:
-                              FontWeight.w600
-                          ),
+                              fontWeight: FontWeight.w600),
                         ),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.black,
@@ -113,8 +111,7 @@ Future showTermsOfService(BuildContext context) async {
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(24.0)),
-                      color: Colors.white
-                  ),
+                      color: Colors.white),
                 ),
                 top: -60,
               )

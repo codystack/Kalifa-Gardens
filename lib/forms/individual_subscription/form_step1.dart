@@ -2,7 +2,6 @@ import 'package:country_code_picker/country_code_picker.dart';
 
 import '../../controller/state_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class FormStep1 extends StatefulWidget {
@@ -30,14 +29,12 @@ class _FormStep1State extends State<FormStep1> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 //    _controller.incrementIndividualSub();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller.dispose();
   }

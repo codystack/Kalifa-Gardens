@@ -1,4 +1,3 @@
-import '../components/custom_appbar.dart';
 import '../components/custom_drawer.dart';
 import '../model/news_updates_model.dart';
 import 'package:flutter/material.dart';

@@ -32,9 +32,11 @@ class SetupPassword extends StatelessWidget {
         isLoading: _controller.createAccount > 0 ? true : false,
         backgroundColor: Colors.black54,
         progressIndicator: const LoadingBouncingLine.circle(
+          // borderColor: Color(0xFF0A4D50),
           borderColor: Color(0xFF0A4D50),
           borderSize: 3.0,
           size: 120.0,
+          // backgroundColor: Color(0xFF0A4D50),
           backgroundColor: Color(0xFF0A4D50),
           duration: Duration(milliseconds: 500),
         ),
@@ -58,6 +60,7 @@ class SetupPassword extends StatelessWidget {
                       'Setup Password',
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          // color: Color(0xFF0A4D50),
                           color: Color(0xFF0A4D50),
                           fontWeight: FontWeight.bold,
                           fontSize: 24.0),

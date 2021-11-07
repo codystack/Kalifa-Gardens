@@ -1,4 +1,5 @@
 import 'package:kalifa_gardens/components/custom_transition.dart';
+import 'package:kalifa_gardens/util/preference_manager.dart';
 
 import '../forms/contact_us.dart';
 import '../screens/Login.dart';
@@ -10,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 
 class ExpandableSection extends StatelessWidget {
+  final PreferenceManager manager;
+  const ExpandableSection({Key? key, required this.manager}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -74,8 +78,8 @@ class ExpandableSection extends StatelessWidget {
                           ),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Color(0xFF0A4D50),
-                          ),
+                              // color: Color(0xFF0A4D50),
+                              color: Color(0xFF0A4D50)),
                         ),
                         Container(
                           child: TextButton(
@@ -99,8 +103,8 @@ class ExpandableSection extends StatelessWidget {
                           ),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Color(0xFF0A4D50),
-                          ),
+                              // color: Color(0xFF0A4D50),
+                              color: Color(0xFF0A4D50)),
                         ),
                       ],
                     ),
@@ -162,8 +166,10 @@ class ExpandableSection extends StatelessWidget {
                         Container(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                  customRouteTransition(ProjectProfile()));
+                              Navigator.of(context)
+                                  .push(customRouteTransition(ProjectProfile(
+                                manager: manager,
+                              )));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -181,14 +187,16 @@ class ExpandableSection extends StatelessWidget {
                           ),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Color(0xFF0A4D50),
-                          ),
+                              // color: Color(0xFF0A4D50),
+                              color: Color(0xFF0A4D50)),
                         ),
                         Container(
                           child: TextButton(
                             onPressed: () => {
                               Navigator.of(context)
-                                  .push(customRouteTransition(BuyerBenefits()))
+                                  .push(customRouteTransition(BuyerBenefits(
+                                manager: manager,
+                              )))
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -206,14 +214,16 @@ class ExpandableSection extends StatelessWidget {
                           ),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Color(0xFF0A4D50),
-                          ),
+                              // color: Color(0xFF0A4D50),
+                              color: Color(0xFF0A4D50)),
                         ),
                         Container(
                           child: TextButton(
                             onPressed: () => {
                               Navigator.of(context)
-                                  .push(customRouteTransition(FAQs()))
+                                  .push(customRouteTransition(FAQs(
+                                manager: manager,
+                              )))
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -231,8 +241,8 @@ class ExpandableSection extends StatelessWidget {
                           ),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Color(0xFF0A4D50),
-                          ),
+                              // color: Color(0xFF0A4D50),
+                              color: Color(0xFF0A4D50)),
                         ),
                         Container(
                           child: TextButton(
@@ -319,6 +329,7 @@ class ExpandableSection extends StatelessWidget {
                           ),
                           width: double.infinity,
                           decoration: BoxDecoration(
+                            // color: Color(0xFF0A4D50),
                             color: Color(0xFF0A4D50),
                           ),
                         ),

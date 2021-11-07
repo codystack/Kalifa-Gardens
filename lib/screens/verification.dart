@@ -45,7 +45,7 @@ class _VerificationState extends State<Verification> {
   TextEditingController _field3Controller = TextEditingController();
   TextEditingController _field4Controller = TextEditingController();
 
-  var _otpCode;
+  // var _otpCode;
 
   CountdownTimerController? controller;
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 60 * 3;
@@ -67,6 +67,7 @@ class _VerificationState extends State<Verification> {
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 3,
+          // backgroundColor: Color(0xFF0A4D50),
           backgroundColor: Color(0xFF0A4D50),
           textColor: Colors.white,
           fontSize: 16.0);
@@ -79,6 +80,7 @@ class _VerificationState extends State<Verification> {
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 3,
+          // backgroundColor: Color(0xFF0A4D50),
           backgroundColor: Color(0xFF0A4D50),
           textColor: Colors.white,
           fontSize: 16.0);
@@ -105,7 +107,6 @@ class _VerificationState extends State<Verification> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     controller!.dispose();
   }
@@ -117,9 +118,11 @@ class _VerificationState extends State<Verification> {
         isLoading: _controller.verifyCode > 0 ? true : false,
         backgroundColor: Colors.black54,
         progressIndicator: const LoadingBouncingLine.circle(
+          // borderColor: Color(0xFF0A4D50),
           borderColor: Color(0xFF0A4D50),
           borderSize: 3.0,
           size: 120.0,
+          // backgroundColor: Color(0xFF0A4D50),
           backgroundColor: Color(0xFF0A4D50),
           duration: Duration(milliseconds: 500),
         ),
@@ -143,6 +146,7 @@ class _VerificationState extends State<Verification> {
                       'Verification',
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          // color: Color(0xFF0A4D50),
                           color: Color(0xFF0A4D50),
                           fontWeight: FontWeight.bold,
                           fontSize: 24.0),

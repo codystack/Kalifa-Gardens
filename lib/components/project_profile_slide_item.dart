@@ -14,7 +14,7 @@ class ProjectProfileSlideItem extends StatelessWidget {
         Expanded(
             child: Image.asset(
           projSlideList[index].image!,
-          fit: BoxFit.fill,
+          fit: BoxFit.fitWidth,
           height: 236,
         )),
         Padding(

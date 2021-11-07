@@ -3,11 +3,15 @@ import 'package:get/get.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
 
 class TotalPriceObs extends StatefulWidget {
-  const TotalPriceObs(
-      {Key? key, required this.selectedPlotSize, this.formatMoney})
-      : super(key: key);
+  const TotalPriceObs({
+    Key? key,
+    required this.totalPrice,
+    required this.selectedPlotSize,
+    this.formatMoney,
+  }) : super(key: key);
   final int? selectedPlotSize;
   final String? formatMoney;
+  final double? totalPrice;
 
   @override
   _TotalPriceObsState createState() => _TotalPriceObsState();
@@ -25,7 +29,7 @@ class _TotalPriceObsState extends State<TotalPriceObs> {
           _controller.totalPrice >= 0.0
               ? RichText(
                   text: TextSpan(
-                      text: 'Purchase ${widget.selectedPlotSize}SQM for ',
+                      text: 'Purchase ${widget.selectedPlotSize ?? ''}SQM for ',
                       style: TextStyle(
                         color: Colors.black54,
                         fontWeight: FontWeight.bold,
@@ -33,7 +37,7 @@ class _TotalPriceObsState extends State<TotalPriceObs> {
                       ),
                       children: [
                         TextSpan(
-                          text: '${_controller.totalPrice}',
+                          text: '${widget.formatMoney}',
                           style: TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,

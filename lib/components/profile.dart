@@ -30,8 +30,8 @@ class _ProfileState extends State<Profile> {
           compressQuality: 100,
           compressFormat: ImageCompressFormat.jpg,
           androidUiSettings: AndroidUiSettings(
-            toolbarColor: Color(0xFF0A4D50),
-          ));
+              // toolbarColor: Color(0xFF0A4D50),
+              toolbarColor: Color(0xFF0A4D50)));
 
       this.setState(() {
         _selectedFile = croppedFile;

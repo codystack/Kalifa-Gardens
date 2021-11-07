@@ -32,7 +32,7 @@ class _ContactUsState extends State<ContactUs> {
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    'I want a Kalifa Gardens agent to reach out to me',
+                    'I want an Kalifa Gardens agent to reach out to me',
                     textAlign: TextAlign.left,
                     softWrap: true,
                   ),
@@ -47,6 +47,8 @@ class _ContactUsState extends State<ContactUs> {
                         _isSwitched = val;
                       });
                     },
+                    // activeColor: Color(0xFF0A4D50),
+                    // activeTrackColor: Color(0xFF0A4D50),
                     activeColor: Color(0xFF0A4D50),
                     activeTrackColor: Color(0xFF0A4D50),
                     inactiveThumbColor: Colors.grey,

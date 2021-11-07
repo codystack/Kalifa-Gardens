@@ -30,6 +30,7 @@ class _PurchasePlotStep3State extends State<PurchasePlotStep3> {
           'Secure your Plot',
           textAlign: TextAlign.start,
           style: TextStyle(
+              // color: Color(0xFF0A4D50),
               color: Color(0xFF0A4D50),
               fontWeight: FontWeight.w700,
               fontSize: 20),
@@ -43,6 +44,7 @@ class _PurchasePlotStep3State extends State<PurchasePlotStep3> {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(16.0),
+                        // color: Color(0xFF0A4D50),
                         color: Color(0xFF0A4D50),
                         child: Column(
                           children: [

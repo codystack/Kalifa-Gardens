@@ -1,4 +1,3 @@
-import '../screens/Login.dart';
 import '../screens/corporate_registration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
 
   @override
   void initState() {
-    // TODO: implement initState
 //    paramList.add(widget.actionType);
     super.initState();
   }
@@ -38,7 +36,7 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                 left: 24.0, right: 24.0, bottom: 32.0, top: 16.0),
             color: Color(0xFF0A4D50),
             child: Center(
-              child: SvgPicture.asset('assets/images/logo_image.svg'),
+              child: SvgPicture.asset('assets/images/account_type_logo.svg'),
             ),
           ),
           Container(
@@ -83,6 +81,7 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                                   color: Color(0x3B0A4D50),
                                   border: Border.all(
                                       color: Color(0xFF0A4D50),
+                                      // color: Color(0xFF0A4D50),
                                       width: 1.0,
                                       style: BorderStyle.solid),
                                   borderRadius:
@@ -106,12 +105,14 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                               onChanged: (state) {
                                 setState(() {
                                   _isIndividual = state as bool;
-                                  _isCorporate = !state as bool;
+                                  _isCorporate = !state;
                                 });
                               },
                               activeColor: Color(0xFF0A4D50),
+                              // activeColor: Color(0xFF0A4D50),
                               checkColor: Color(0xFFFFFFFF),
                               focusColor: Color(0xFF0A4D50),
+                              // focusColor: Color(0xFF0A4D50),
                             )
                           ],
                         ),
@@ -164,11 +165,13 @@ class _AccountTypeRegistrationState extends State<AccountTypeRegistration> {
                               onChanged: (state) {
                                 setState(() {
                                   _isCorporate = state as bool;
-                                  _isIndividual = !state as bool;
+                                  _isIndividual = !state;
                                 });
                               },
-                              activeColor: Color(0xFF0A4D50),
+                              // activeColor: Color(0xFF0A4D50),
                               checkColor: Color(0xFFFFFFFF),
+                              // focusColor: Color(0xFF0A4D50),
+                              activeColor: Color(0xFF0A4D50),
                               focusColor: Color(0xFF0A4D50),
                             )
                           ],

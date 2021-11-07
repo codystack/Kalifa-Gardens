@@ -70,4 +70,62 @@ class APIService {
       headers: {"Content-type": "application/json"},
     );
   }
+
+  Future<http.Response> startApplication(
+      {required String token, required Map data}) async {
+    return await http.post(
+      Uri.parse('${Constants.baseUrl}/applications/start'),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token,
+      },
+      body: jsonEncode(data),
+    );
+  }
+
+  Future<http.Response> acceptOffer(
+      {required String token, required String applicationID}) async {
+    return await http.patch(
+      Uri.parse(
+          '${Constants.baseUrl}/applications/$applicationID/offer/status'),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token,
+      },
+      body: jsonEncode({"status": "accepted"}),
+    );
+  }
+
+  Future<http.Response> rejectOffer(
+      {required String token,
+      required String applicationID,
+      required String reason}) async {
+    return await http.patch(
+      Uri.parse(
+          '${Constants.baseUrl}/applications/$applicationID/offer/status'),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + token,
+      },
+      body: jsonEncode({
+        "status": "rejected",
+        "reason": reason,
+      }),
+    );
+  }
+
+  // Future<http.Response> uploadPaymentProof(
+  //     {required String token, required String applicationID, required FormData formdata}) async {
+  //   return await http.patch(
+  //     Uri.parse('${Constants.baseUrl}/payments/$applicationID/proof'),
+  //     headers: {
+  //       "Content-type": "application/json",
+  //       "Authorization": "Bearer " + token,
+  //     },
+  //     body: jsonEncode({
+  //       "status": "rejected",
+  //       "reason": reason,
+  //     }),
+  //   );
+  // }
 }

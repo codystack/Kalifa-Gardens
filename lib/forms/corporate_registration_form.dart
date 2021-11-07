@@ -4,6 +4,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
+import 'package:kalifa_gardens/model/error/error_response.dart';
 import 'package:kalifa_gardens/model/otp_response.dart';
 import 'package:kalifa_gardens/screens/verification.dart';
 
@@ -33,7 +34,7 @@ class _CorporateFormState extends State<CorporateForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _typeController = TextEditingController();
+  // final TextEditingController _typeController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
 
   Future<void> _getTandC() async {
@@ -94,39 +95,49 @@ class _CorporateFormState extends State<CorporateForm> {
   }
 
   Future<void> _createOtp(String email, String type) async {
-    final response = await APIService().createOTP(email, type);
+    _controller.triggerLoading(true);
+    try {
+      final response = await APIService().createOTP(email, type);
 
-    print('Create RESP: ${jsonDecode(response.body)}');
-    if (response.statusCode == 200) {
-      //All good now route to create otp screen
-      Map<String, dynamic> otpMap = jsonDecode(response.body);
-      var otp = OTPResponse.fromJson(otpMap);
+      print('Create RESP: ${jsonDecode(response.body)}');
+      if (response.statusCode == 200) {
+        _controller.triggerLoading(false);
+        // All good now route to create otp screen
+        Map<String, dynamic> otpMap = jsonDecode(response.body);
+        var otp = OTPResponse.fromJson(otpMap);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Verification(
-            bizName: _nameController.text,
-            bizType: bizId,
-            phone: _phoneController.text,
-            email: _emailController.text,
-            website: _websiteController.text,
-            isAccepted: _isAccepted,
-            otpID: otp.id,
-            accountType: "corporate",
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Verification(
+              bizName: _nameController.text,
+              bizType: bizId,
+              phone: _phoneController.text,
+              email: _emailController.text,
+              website: _websiteController.text,
+              isAccepted: _isAccepted,
+              otpID: otp.id,
+              accountType: "corporate",
+            ),
           ),
-        ),
-      );
-    } else {
-      //Not successful. Show toast
-      Fluttertoast.showToast(
-          msg: "Operation not successful. Try again",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Color(0xFF0A4D50),
-          textColor: Colors.white,
-          fontSize: 16.0);
+        );
+      } else {
+        _controller.triggerLoading(false);
+        Map<String, dynamic> errorMap = jsonDecode(response.body);
+        var error = ErrorResponse.fromJson(errorMap);
+        //Not successful. Show toast
+        Fluttertoast.showToast(
+            msg: "${error.message}",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Color(0xFF0A4D50),
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    } catch (e) {
+      print(e);
+      _controller.triggerLoading(false);
     }
   }
 
@@ -288,7 +299,6 @@ class _CorporateFormState extends State<CorporateForm> {
   }
 
   void _onCountryChange(CountryCode countryCode) {
-    //TODO : manipulate the selected country code here
     print("New Country selected: " + countryCode.toString());
   }
 

@@ -1,4 +1,3 @@
-import '../components/custom_appbar.dart';
 import '../components/custom_drawer.dart';
 import '../model/account_history.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class _AccountHistoryState extends State<AccountHistory>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0.0),
               child: Image.asset(
-                'assets/images/app_icon.png',
+                'assets/images/odibola_logo.png',
                 width: 40.0,
                 height: 40.0,
               ),

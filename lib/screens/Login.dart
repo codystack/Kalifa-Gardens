@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:kalifa_gardens/components/loader/overlay_loader.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
+import 'package:kalifa_gardens/util/constants.dart';
 import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 
 import '../forms/login_form.dart';
@@ -22,14 +24,8 @@ class _LoginState extends State<Login> {
     return Obx(
       () => LoadingOverlayPro(
         isLoading: _controller.login > 0 ? true : false,
-        backgroundColor: Colors.black54,
-        progressIndicator: const LoadingBouncingLine.circle(
-          borderColor: Color(0xFF0A4D50),
-          borderSize: 3.0,
-          size: 120.0,
-          backgroundColor: Color(0xFF0A4D50),
-          duration: Duration(milliseconds: 500),
-        ),
+        backgroundColor: Constants.overlayColor,
+        progressIndicator: OverlayLoader(),
         child: Scaffold(
           appBar: AppBar(
             elevation: 0.0,
@@ -39,9 +35,11 @@ class _LoginState extends State<Login> {
               Container(
                 padding: const EdgeInsets.only(
                     left: 24.0, right: 24.0, bottom: 32.0),
+                // color: Color(0xFF0A4D50),
                 color: Color(0xFF0A4D50),
                 child: Center(
-                  child: SvgPicture.asset('assets/images/logo_image.svg'),
+                  child:
+                      SvgPicture.asset('assets/images/account_type_logo.svg'),
                 ),
               ),
               Container(

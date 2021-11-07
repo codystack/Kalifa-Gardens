@@ -1,3 +1,7 @@
+import 'package:kalifa_gardens/util/preference_manager.dart';
+import 'package:kalifa_gardens/util/service.dart';
+import 'package:money_formatter/money_formatter.dart';
+
 import '../../controller/state_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,8 +12,8 @@ import '../reject_offer_reason.dart';
 // ignore: must_be_immutable
 class PurchasePlotStep2 extends StatefulWidget {
   var stepIndex;
-
-  PurchasePlotStep2({this.stepIndex});
+  final PreferenceManager manager;
+  PurchasePlotStep2({this.stepIndex, required this.manager});
 
   @override
   _PurchasePlotStep2State createState() => _PurchasePlotStep2State();
@@ -21,13 +25,42 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
 
   String _nameOfEntity = 'XYZ Corp',
       _rcNo = 'RC252414',
-      _emailAddress = 'investments@xyz.corp',
       _nameSublease = 'XYZ Corp Real Estate Fund',
-      _addressSublease = '1, Glover Street, Ikoyi, Lagos',
-      _plotSize = '600SQM',
-      _plotQuantity = '2';
+      _addressSublease = '1, Glover Street, Ikoyi, Lagos';
 
-  String _totalCost = '30,000,000';
+  TextEditingController _reasonController = TextEditingController();
+
+  String _formatMoney(var amount) {
+    MoneyFormatter fmf = MoneyFormatter(
+        amount: amount,
+        settings: MoneyFormatterSettings(
+            symbol: 'N',
+            thousandSeparator: ',',
+            decimalSeparator: '.',
+            fractionDigits: 00,
+            symbolAndNumberSeparator: ''));
+
+    return fmf.output.symbolOnLeft;
+  }
+
+  Future<void> _acceptOffer() async {
+    _controller.triggerPurchase(true);
+    try {
+      final response = await APIService().acceptOffer(
+        token: widget.manager.getAccessToken(),
+        applicationID: _controller.currApplicationID,
+      );
+      print('ACCEPT => ${response.body}');
+      if (response.statusCode == 200) {
+        _controller.triggerPurchase(false);
+      } else {
+        _controller.triggerPurchase(false);
+      }
+    } catch (e) {
+      _controller.triggerPurchase(false);
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +71,7 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
           'Your Offer',
           textAlign: TextAlign.start,
           style: TextStyle(
+              // color: Color(0xFF0A4D50),
               color: Color(0xFF0A4D50),
               fontWeight: FontWeight.w700,
               fontSize: 20),
@@ -68,6 +102,7 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                           'Offer Accepted!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                              // color: Color(0xFF0A4D50),
                               color: Color(0xFF0A4D50),
                               fontSize: 32,
                               fontWeight: FontWeight.w700),
@@ -197,7 +232,8 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                                     ),
                                   ),
                                   Text(
-                                    _nameOfEntity,
+                                    '${widget.manager.getUser().username}'
+                                        .capitalizeFirst!,
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -269,7 +305,7 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                                     ),
                                   ),
                                   Text(
-                                    _emailAddress,
+                                    '${widget.manager.getUser().email}',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -362,7 +398,7 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                                     ),
                                   ),
                                   Text(
-                                    _plotSize,
+                                    '${_controller.selectedSize} SQM',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -393,7 +429,7 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                                     ),
                                   ),
                                   Text(
-                                    _plotQuantity,
+                                    '${_controller.selectedQuantity}',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -426,8 +462,9 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                           ),
                           RichText(
                             text: TextSpan(
-                                text: _totalCost,
+                                text: _formatMoney(_controller.totalAmount),
                                 style: TextStyle(
+                                    // color: Color(0xFF0A4D50),
                                     color: Color(0xFF0A4D50),
                                     fontSize: 36,
                                     fontWeight: FontWeight.bold),
@@ -469,6 +506,7 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                               _isAccepted = state as bool;
                             });
                           },
+                          // activeColor: Color(0xFF0A4D50),
                           activeColor: Color(0xFF0A4D50),
                         ),
                         Expanded(
@@ -489,44 +527,48 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                             child: ElevatedButton(
                               onPressed: () {
                                 showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(16.0),
-                                          height: 450,
-                                          child: Column(
-                                            children: <Widget>[
-                                              Container(
-                                                width: double.infinity,
-                                                color: Color(0xFFE8E8E8),
-                                                padding:
-                                                    const EdgeInsets.all(16.0),
-                                                child: Text(
-                                                  'Reason for Rejecting Offer',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Color(0xFF0A4D50),
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 21.0,
-                                                  ),
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(16.0),
+                                        height: 450,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              width: double.infinity,
+                                              color: Color(0xFFE8E8E8),
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: Text(
+                                                'Reason for Rejecting Offer',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Color(0xFF0A4D50),
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 21.0,
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: RejectOfferReason(),
+                                            ),
+                                            Expanded(
+                                              child: RejectOfferReason(
+                                                manager: widget.manager,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      );
-                                    });
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               child: Text(
                                 'Reject Offer',
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w600),
+                                  color: Colors.black,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
@@ -545,9 +587,10 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                             child: ElevatedButton(
                               onPressed: _isAccepted
                                   ? () {
-                                      setState(() {
-                                        _isOfferAccepted = true;
-                                      });
+                                      _acceptOffer();
+                                      // setState(() {
+                                      //   _isOfferAccepted = true;
+                                      // });
                                     }
                                   : null,
                               child: Text(
@@ -566,7 +609,10 @@ class _PurchasePlotStep2State extends State<PurchasePlotStep2> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 21,
+                    ),
                   ],
                 ),
         ),

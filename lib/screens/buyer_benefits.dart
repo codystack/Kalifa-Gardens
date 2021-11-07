@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'package:kalifa_gardens/util/preference_manager.dart';
+
 import '../components/buyer_benefit_item.dart';
-import '../components/custom_appbar.dart';
+// import '../components/custom_appbar.dart';
 import '../components/custom_drawer.dart';
 import '../model/buyer_benefit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BuyerBenefits extends StatefulWidget {
+  final PreferenceManager manager;
+  const BuyerBenefits({Key? key, required this.manager}) : super(key: key);
   @override
   _BuyerBenefitsState createState() => _BuyerBenefitsState();
 }
@@ -70,11 +74,11 @@ class _BuyerBenefitsState extends State<BuyerBenefits>
     _pageController!.dispose();
   }
 
-  _onPageChanged(int index) {
-    setState(() {
-      _currentPage = index;
-    });
-  }
+  // _onPageChanged(int index) {
+  //   setState(() {
+  //     _currentPage = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,27 +98,29 @@ class _BuyerBenefitsState extends State<BuyerBenefits>
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.notifications),
-          ),
-          IconButton(
-            onPressed: () {
-              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
-                _animationController!.reverse();
-                Navigator.pop(context);
-              } else {
-                _drawerscaffoldkey.currentState!.openEndDrawer();
-                _animationController!.forward();
-              }
-            },
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.menu_close,
-              progress: _animationController!,
-            ),
-          ),
-        ],
+        actions: widget.manager.getIsLoggedIn()
+            ? [
+                IconButton(
+                  onPressed: () => {},
+                  icon: Icon(Icons.notifications),
+                ),
+                IconButton(
+                  onPressed: () {
+                    if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                      _animationController!.reverse();
+                      Navigator.pop(context);
+                    } else {
+                      _drawerscaffoldkey.currentState!.openEndDrawer();
+                      _animationController!.forward();
+                    }
+                  },
+                  icon: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    progress: _animationController!,
+                  ),
+                ),
+              ]
+            : null,
       ),
       body: Scaffold(
         key: _drawerscaffoldkey,

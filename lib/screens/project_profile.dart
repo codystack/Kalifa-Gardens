@@ -1,6 +1,8 @@
 import 'dart:async';
 
-import '../components/custom_appbar.dart';
+import 'package:kalifa_gardens/util/preference_manager.dart';
+
+// import '../components/custom_appbar.dart';
 import '../components/custom_drawer.dart';
 import '../components/project_profile_slide_item.dart';
 import '../components/slide_dots.dart';
@@ -10,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProjectProfile extends StatefulWidget {
+  final PreferenceManager manager;
+  const ProjectProfile({Key? key, required this.manager}) : super(key: key);
   @override
   _ProjectProfileState createState() => _ProjectProfileState();
 }
@@ -74,27 +78,29 @@ class _ProjectProfileState extends State<ProjectProfile>
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.notifications),
-          ),
-          IconButton(
-            onPressed: () {
-              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
-                _animationController!.reverse();
-                Navigator.pop(context);
-              } else {
-                _drawerscaffoldkey.currentState!.openEndDrawer();
-                _animationController!.forward();
-              }
-            },
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.menu_close,
-              progress: _animationController!,
-            ),
-          ),
-        ],
+        actions: widget.manager.getIsLoggedIn()
+            ? [
+                IconButton(
+                  onPressed: () => {},
+                  icon: Icon(Icons.notifications),
+                ),
+                IconButton(
+                  onPressed: () {
+                    if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                      _animationController!.reverse();
+                      Navigator.pop(context);
+                    } else {
+                      _drawerscaffoldkey.currentState!.openEndDrawer();
+                      _animationController!.forward();
+                    }
+                  },
+                  icon: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    progress: _animationController!,
+                  ),
+                ),
+              ]
+            : null,
       ),
       body: Scaffold(
         key: _drawerscaffoldkey,
@@ -179,6 +185,7 @@ class _ProjectProfileState extends State<ProjectProfile>
             ),
             Container(
               padding: const EdgeInsets.all(16.0),
+              // color: Color(0xFF0A4D50),
               color: Color(0xFF0A4D50),
               child: Column(
                 children: <Widget>[
@@ -366,7 +373,10 @@ class _ProjectProfileState extends State<ProjectProfile>
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BuyerBenefits()),
+                      MaterialPageRoute(
+                          builder: (context) => BuyerBenefits(
+                                manager: widget.manager,
+                              )),
                     );
                   },
                   child: Text(

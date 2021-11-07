@@ -1,3 +1,5 @@
+import 'package:kalifa_gardens/util/preference_manager.dart';
+
 import '../controller/state_controller.dart';
 import '../screens/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ContractOfSales extends StatelessWidget {
+  final PreferenceManager manager;
+  ContractOfSales({Key? key, required this.manager}) : super(key: key);
+
   final _controller = Get.find<StateController>();
 
   @override
@@ -28,6 +33,7 @@ class ContractOfSales extends StatelessWidget {
               'A contract of sale will be sent shortly',
               textAlign: TextAlign.center,
               style: TextStyle(
+                  // color: Color(0xFF0A4D50),
                   color: Color(0xFF0A4D50),
                   fontSize: 32,
                   fontWeight: FontWeight.w700),
@@ -69,8 +75,12 @@ class ContractOfSales extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () {
               _controller.resetAll();
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Dashboard()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Dashboard(
+                            manager: manager,
+                          )));
             },
             child: Text(
               'Complete',

@@ -20,4 +20,16 @@ class PlotType {
         v: parsedJson['__v'],
         id2: parsedJson['id']);
   }
+
+  get hour => this.id;
+
+  bool operator ==(dynamic other) =>
+      other != null && other is TimeSelection && this.hour == other.hour;
+
+  @override
+  int get hashCode => super.hashCode;
+}
+
+class TimeSelection {
+  Object get hour => hour;
 }

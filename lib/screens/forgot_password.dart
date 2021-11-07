@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
 import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 
-import '../components/custom_appbar.dart';
 import '../components/custom_drawer.dart';
 import '../forms/forgot_password_form.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,9 +35,11 @@ class _ForgotPasswordState extends State<ForgotPassword>
         isLoading: _controller.forgotPass > 0 ? true : false,
         backgroundColor: Colors.black54,
         progressIndicator: const LoadingBouncingLine.circle(
+          // borderColor: Color(0xFF0A4D50),
           borderColor: Color(0xFF0A4D50),
           borderSize: 3.0,
           size: 120.0,
+          // backgroundColor: Color(0xFF0A4D50),
           backgroundColor: Color(0xFF0A4D50),
           duration: Duration(milliseconds: 500),
         ),
@@ -48,14 +49,14 @@ class _ForgotPasswordState extends State<ForgotPassword>
             leading: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                  child: Image.asset(
-                    'assets/images/app_icon.png',
-                    width: 40.0,
-                    height: 40.0,
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                //   child: Image.asset(
+                //     'assets/images/app_icon.png',
+                //     width: 40.0,
+                //     height: 40.0,
+                //   ),
+                // ),
               ],
             ),
             actions: [
@@ -128,6 +129,7 @@ class _ForgotPasswordState extends State<ForgotPassword>
                           child: Text(
                         'Forgot Password',
                         style: TextStyle(
+                            // color: Color(0xFF0A4D50),
                             color: Color(0xFF0A4D50),
                             fontSize: 32.0,
                             fontWeight: FontWeight.w700,

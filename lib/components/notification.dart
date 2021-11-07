@@ -42,6 +42,7 @@ class _NotificationState extends State<Notifications> {
               Checkbox(
                 value: _isAllowPushNotifications,
                 checkColor: Colors.white,
+                // activeColor: Color(0xFF0A4D50),
                 activeColor: Color(0xFF0A4D50),
                 onChanged: (state) {
                   setState(() {
@@ -116,6 +117,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isDocRequestEmail,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -128,6 +130,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isDocRequestApp,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -158,6 +161,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isNewLoginAttemptEmail,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -170,6 +174,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isNewLoginAttemptApp,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -200,6 +205,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isMilestoneEmail,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -212,6 +218,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isMilestoneApp,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -242,6 +249,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isPaymentRemindEmail,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -254,6 +262,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isPaymentRemindApp,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -284,6 +293,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isNewsUpdatesEmail,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {
@@ -296,6 +306,7 @@ class _NotificationState extends State<Notifications> {
                       child: Checkbox(
                         value: _isNewsUpdatesApp,
                         checkColor: Colors.white,
+                        // activeColor: Color(0xFF0A4D50),
                         activeColor: Color(0xFF0A4D50),
                         onChanged: (state) {
                           setState(() {

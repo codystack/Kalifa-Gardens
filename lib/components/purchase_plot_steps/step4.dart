@@ -21,10 +21,10 @@ class PurchasePlotStep4 extends StatefulWidget {
 }
 
 class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
-  bool _isTransfer = false,
-      _isCard = false,
-      _isDraft = false,
-      _isDefault = true;
+  // bool _isTransfer = false,
+  //     _isCard = false,
+  //     _isDraft = false,
+  //     _isDefault = true;
   final _controller = Get.find<StateController>();
   File? _file;
   String? _accountHolderName;
@@ -51,8 +51,8 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
           compressQuality: 100,
           compressFormat: ImageCompressFormat.jpg,
           androidUiSettings: AndroidUiSettings(
-            toolbarColor: Color(0xFF0A4D50),
-          ));
+              // toolbarColor: Color(0xFF0A4D50),
+              toolbarColor: Color(0xFF0A4D50)));
 
       this.setState(() {
         _selectedFile = croppedFile;
@@ -126,15 +126,15 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
                           icon: Icon(
                             Icons.camera_alt_outlined,
                             size: 36,
-                            color: Color(
-                              0xFF0A4D50,
-                            ),
+                            // color: Color(0xFF0A4D50),
+                            color: Color(0xFF0A4D50),
                           ),
                         ),
                         Text(
                           'Camera',
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                            // color: Color(0xFF0A4D50),
                             color: Color(0xFF0A4D50),
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
@@ -154,15 +154,15 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
                           icon: Icon(
                             Icons.folder_open,
                             size: 36,
-                            color: Color(
-                              0xFF0A4D50,
-                            ),
+                            // color: Color(0xFF0A4D50),
+                            color: Color(0xFF0A4D50),
                           ),
                         ),
                         Text(
                           'Gallery',
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                            // color: Color(0xFF0A4D50),
                             color: Color(0xFF0A4D50),
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
@@ -185,6 +185,7 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
           'Proof of Payment',
           textAlign: TextAlign.start,
           style: TextStyle(
+              // color: Color(0xFF0A4D50),
               color: Color(0xFF0A4D50),
               fontWeight: FontWeight.w700,
               fontSize: 20),

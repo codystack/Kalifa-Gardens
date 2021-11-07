@@ -24,6 +24,7 @@ class _PayBankTransferState extends State<PayBankTransfer> {
       children: [
         Container(
           padding: const EdgeInsets.all(16.0),
+          // color: Color(0xFF0A4D50),
           color: Color(0xFF0A4D50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

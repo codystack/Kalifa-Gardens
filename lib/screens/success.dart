@@ -1,7 +1,7 @@
 import 'package:kalifa_gardens/screens/dashboard.dart';
+import 'package:kalifa_gardens/util/preference_manager.dart';
 
 import '../components/custom_drawer.dart';
-import '../screens/Login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,16 +12,14 @@ class Success extends StatefulWidget {
 }
 
 class _SuccessState extends State<Success> with TickerProviderStateMixin {
-  AnimationController? _animationController;
-
+  late PreferenceManager _manager;
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
       new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+    _manager = PreferenceManager(context);
   }
 
   @override
@@ -42,27 +40,27 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.notifications),
-          ),
-          IconButton(
-            onPressed: () {
-              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
-                _animationController!.reverse();
-                Navigator.pop(context);
-              } else {
-                _drawerscaffoldkey.currentState!.openEndDrawer();
-                _animationController!.forward();
-              }
-            },
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.menu_close,
-              progress: _animationController!,
-            ),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () => {},
+        //     icon: Icon(Icons.notifications),
+        //   ),
+        //   IconButton(
+        //     onPressed: () {
+        //       if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+        //         _animationController!.reverse();
+        //         Navigator.pop(context);
+        //       } else {
+        //         _drawerscaffoldkey.currentState!.openEndDrawer();
+        //         _animationController!.forward();
+        //       }
+        //     },
+        //     icon: AnimatedIcon(
+        //       icon: AnimatedIcons.menu_close,
+        //       progress: _animationController!,
+        //     ),
+        //   ),
+        // ],
       ),
       body: Scaffold(
         key: _drawerscaffoldkey,
@@ -102,6 +100,7 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
                         'Success!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                          // color: Color(0xFF0A4D50),
                           color: Color(0xFF0A4D50),
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -130,7 +129,10 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Dashboard()),
+                                builder: (context) => Dashboard(
+                                  manager: _manager,
+                                ),
+                              ),
                             );
                           },
                           child: Text(

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import '../components/custom_appbar.dart';
 import '../components/custom_drawer.dart';
 import '../components/news_update_item.dart';
 import '../model/news_updates_model.dart';

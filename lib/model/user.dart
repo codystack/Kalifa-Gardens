@@ -37,4 +37,17 @@ class User {
         v: parsedJson['__v'],
         role: Role.fromJson(parsedJson['role']));
   }
+
+  Map<String, dynamic> toJson() => {
+        'blocked': blocked,
+        'confirmed': confirmed,
+        'createdAt': createdAt,
+        'email': email,
+        'id': id,
+        'provider': provider,
+        'role': role,
+        'updatedAt': updatedAt,
+        'username': username,
+        '__v': v
+      };
 }

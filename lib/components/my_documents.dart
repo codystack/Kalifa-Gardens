@@ -54,6 +54,7 @@ class _MyDocumentsState extends State<MyDocuments> {
                   child: Text(
                     fakeDocuments[index].title!,
                     style: TextStyle(
+                        // color: Color(0xFF0A4D50),
                         color: Color(0xFF0A4D50),
                         fontSize: 20,
                         fontWeight: FontWeight.w700),

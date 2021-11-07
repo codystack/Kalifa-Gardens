@@ -1,17 +1,18 @@
 import 'dart:convert';
 
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
+import 'package:kalifa_gardens/model/error/error_response.dart';
+import 'package:kalifa_gardens/model/otp_response.dart';
 
 import '../components/shimmer_loading.dart';
-import '../model/otp_response.dart';
 import '../model/t_and_c_response.dart';
 import '../screens/verification.dart';
 import '../util/service.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class IndividualForm extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _IndividualFormState extends State<IndividualForm> {
   var _gender = 'Male', _tandC;
   bool _isAccepted = false, _isLoadingTerms = false;
   final _controller = Get.find<StateController>();
-  bool _isSelected = true;
+  // bool _isSelected = true;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -47,7 +48,6 @@ class _IndividualFormState extends State<IndividualForm> {
         _isLoadingTerms = false;
         _tandC = terms.content;
       });
-
 //      print('Howdy, ${user.name}!');
 //      print('We sent the verification link to ${user.email}.');
     } else {
@@ -59,38 +59,50 @@ class _IndividualFormState extends State<IndividualForm> {
   }
 
   Future<void> _createOtp(String email, String type) async {
-    final response = await APIService().createOTP(email, type);
+    _controller.triggerLoading(true);
 
-    print('Create RESP: ${jsonDecode(response.body)}');
-    if (response.statusCode == 200) {
-      //All good now route to create otp screen
-      Map<String, dynamic> otpMap = jsonDecode(response.body);
-      var otp = OTPResponse.fromJson(otpMap);
+    try {
+      final response = await APIService().createOTP(email, type);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Verification(
-            fullname: _nameController.text,
-            phone: _phoneController.text,
-            email: _emailController.text,
-            gender: _gender,
-            isAccepted: _isAccepted,
-            otpID: otp.id,
-            accountType: "individual",
+      print('Status Code : ${response.statusCode}');
+      print('Create RESP: ${jsonDecode(response.body)}');
+      if (response.statusCode == 200) {
+        _controller.triggerLoading(false);
+        //All good now route to create otp screen
+        Map<String, dynamic> otpMap = jsonDecode(response.body);
+        var otp = OTPResponse.fromJson(otpMap);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Verification(
+              fullname: _nameController.text,
+              phone: _phoneController.text,
+              email: _emailController.text,
+              gender: _gender,
+              isAccepted: _isAccepted,
+              otpID: 'otp.id',
+              accountType: "individual",
+            ),
           ),
-        ),
-      );
-    } else {
-      //Not successful. Show toast
-      Fluttertoast.showToast(
-          msg: "Operation not successful. Try again",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Color(0xFF0A4D50),
-          textColor: Colors.white,
-          fontSize: 16.0);
+        );
+      } else {
+        _controller.triggerLoading(false);
+        Map<String, dynamic> errorMap = jsonDecode(response.body);
+        var error = ErrorResponse.fromJson(errorMap);
+        //Not successful. Show toast
+        Fluttertoast.showToast(
+            msg: "${error.message}",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Color(0xFF0A4D50),
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    } catch (e) {
+      print(e);
+      _controller.triggerLoading(false);
     }
   }
 

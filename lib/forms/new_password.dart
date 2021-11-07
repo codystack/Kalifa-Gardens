@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kalifa_gardens/model/login_response.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controller/state_controller.dart';
 import '../screens/success.dart';

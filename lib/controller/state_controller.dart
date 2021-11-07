@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:get/get.dart';
 
@@ -14,11 +14,35 @@ class StateController extends GetxController {
   var forgotPass = 0.obs;
   var resetPass = 0.obs;
 
+  var isLoading = false.obs;
+
   var quantityCounter = 1.obs;
-
   var totalPrice = 0.0.obs;
-
   var unitPrice = 0.0;
+
+  var isPurchase = false.obs;
+
+  //After register interest. Save to access in next screen (Offer Letter)
+  var currApplicationID = "";
+  var selectedSize = 0;
+  var selectedQuantity = 0;
+  var totalAmount;
+
+  void setCurrApplicationID(var id) {
+    currApplicationID = id;
+  }
+
+  void setSelectedPlotSize(int size) {
+    selectedSize = size;
+  }
+
+  void setSelectedQuantity(int quantity) {
+    selectedQuantity = quantity;
+  }
+
+  void setTotalAmount(var total) {
+    totalAmount = total;
+  }
 
   void increment() {
     purchasePlotStepCount++;
@@ -94,6 +118,14 @@ class StateController extends GetxController {
     } else {
       login -= 1;
     }
+  }
+
+  void triggerLoading(bool state) {
+    isLoading.value = state;
+  }
+
+  void triggerPurchase(bool state) {
+    isPurchase.value = state;
   }
 
   void verifyAccepted(bool state) {

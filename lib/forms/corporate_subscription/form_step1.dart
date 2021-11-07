@@ -10,8 +10,8 @@ class FormStep1 extends StatefulWidget {
 
 class _FormStep1State extends State<FormStep1> {
   final _formKey = GlobalKey<FormState>();
-  var _gender = 'Male';
-  bool? _isAccepted = false;
+  // var _gender = 'Male';
+  // bool? _isAccepted = false;
   final _controller = Get.find<StateController>();
 
   String? _entityName,
@@ -27,14 +27,12 @@ class _FormStep1State extends State<FormStep1> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller.incrementIndividualSub();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller.dispose();
   }

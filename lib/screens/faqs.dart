@@ -1,16 +1,19 @@
 import 'dart:convert';
 
+import 'package:kalifa_gardens/util/preference_manager.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import '../components/custom_drawer.dart';
 import '../components/shimmer_loading.dart';
 import '../model/faqs_model.dart';
 import '../model/faqs_response.dart';
-import '../util/service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
 class FAQs extends StatefulWidget {
+  final PreferenceManager manager;
+  const FAQs({Key? key, required this.manager}) : super(key: key);
   @override
   _FAQsState createState() => _FAQsState();
 }
@@ -28,21 +31,33 @@ List<FAQsModel> generateFAQsList(int num) {
 class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
   AnimationController? _animationController;
   bool _isLoading = true;
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   Future<List<FAQsResponse>> fetchFAQs(http.Client client) async {
     final response =
-        await client.get(Uri.parse('https://api.kalifagardens.net/faqs'));
-
-    print('RESPONSE ${jsonDecode(response.body)}');
+        await client.get(Uri.parse('https://api.kalifagardens.com/faqs'));
 
     if (response.statusCode == 200) {
-      print('SUCCESS');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+    return parseFAQs(response.body);
+  }
+
+  Future<List<FAQsResponse>> _onRefresh(http.Client client) async {
+    final response =
+        await client.get(Uri.parse('https://api.kalifagardens.com/faqs'));
+
+    if (response.statusCode == 200) {
+      _refreshController.refreshCompleted();
       setState(() {
         _isLoading = false;
       });
-      print('LOADED');
     }
-    // Use the compute function to run parsePhotos in a separate isolate.
     return parseFAQs(response.body);
   }
 
@@ -144,27 +159,29 @@ class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.notifications),
-          ),
-          IconButton(
-            onPressed: () {
-              if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
-                _animationController!.reverse();
-                Navigator.pop(context);
-              } else {
-                _drawerscaffoldkey.currentState!.openEndDrawer();
-                _animationController!.forward();
-              }
-            },
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.menu_close,
-              progress: _animationController!,
-            ),
-          ),
-        ],
+        actions: widget.manager.getIsLoggedIn()
+            ? [
+                IconButton(
+                  onPressed: () => {},
+                  icon: Icon(Icons.notifications),
+                ),
+                IconButton(
+                  onPressed: () {
+                    if (_drawerscaffoldkey.currentState!.isEndDrawerOpen) {
+                      _animationController!.reverse();
+                      Navigator.pop(context);
+                    } else {
+                      _drawerscaffoldkey.currentState!.openEndDrawer();
+                      _animationController!.forward();
+                    }
+                  },
+                  icon: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    progress: _animationController!,
+                  ),
+                ),
+              ]
+            : null,
       ),
       body: Scaffold(
         key: _drawerscaffoldkey,
@@ -197,12 +214,33 @@ class _FAQsState extends State<FAQs> with TickerProviderStateMixin {
               width: double.infinity,
               child: FutureBuilder<List<FAQsResponse>>(
                 future: fetchFAQs(http.Client()),
+                initialData: [],
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return const Center(
-                      child: Text(
-                        'An error has occurred!',
-                        textAlign: TextAlign.center,
+                    return Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cloud_off,
+                            size: 48,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          IconButton(
+                            onPressed: () => fetchFAQs(http.Client()),
+                            icon: Icon(
+                              Icons.refresh_sharp,
+                              size: 32,
+                            ),
+                          ),
+                          Text(
+                            'Try again',
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     );
                   } else if (snapshot.hasData) {

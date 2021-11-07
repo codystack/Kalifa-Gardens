@@ -1,4 +1,5 @@
-import '../components/custom_appbar.dart';
+import 'package:kalifa_gardens/util/preference_manager.dart';
+
 import '../components/custom_drawer.dart';
 import '../screens/account_history.dart';
 import '../screens/buyer_benefits.dart';
@@ -9,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Dashboard extends StatefulWidget {
+  final PreferenceManager manager;
+  const Dashboard({Key? key, required this.manager}) : super(key: key);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -151,7 +154,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              color: Color(0x590A4D50),
+                              // color: Color(0x590A4D50),
+                              color: Color(0xFF0A4D50),
                               padding: const EdgeInsets.all(16.0),
                               child: SvgPicture.asset(
                                   'assets/images/purchase_plot.svg'),
@@ -187,7 +191,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BuyerBenefits()),
+                          builder: (context) => BuyerBenefits(
+                            manager: widget.manager,
+                          ),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -203,7 +210,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              color: Color(0x590A4D50),
+                              // color: Color(0x590A4D50),
+                              color: Color(0xFF0A4D50),
                               padding: const EdgeInsets.all(16.0),
                               child: SvgPicture.asset(
                                   'assets/images/buyer_benefits.svg'),
@@ -257,7 +265,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              color: Color(0x590A4D50),
+                              // color: Color(0x590A4D50),
+                              color: Color(0xFF0A4D50),
                               padding: const EdgeInsets.all(16.0),
                               child: SvgPicture.asset(
                                   'assets/images/account_history.svg'),
@@ -309,7 +318,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              color: Color(0x590A4D50),
+                              // color: Color(0x590A4D50),
+                              color: Color(0xFF0A4D50),
                               padding: const EdgeInsets.all(16.0),
                               child: SvgPicture.asset(
                                   'assets/images/manage_documents.svg'),

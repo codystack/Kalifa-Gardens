@@ -1,5 +1,4 @@
 import '../../controller/state_controller.dart';
-import '../../screens/dashboard.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -283,6 +282,7 @@ class _FormStep2State extends State<FormStep2> {
                     _isAccepted = state!;
                   });
                 },
+                // activeColor: Color(0xFF0A4D50),
                 activeColor: Color(0xFF0A4D50),
               ),
               Expanded(
@@ -296,6 +296,7 @@ class _FormStep2State extends State<FormStep2> {
                       TextSpan(
                         text: "Kalifa Garden\'s Terms of Service",
                         style: TextStyle(
+                          // color: Color(0xFF0A4D50),
                           color: Color(0xFF0A4D50),
                           fontWeight: FontWeight.w500,
                         ),

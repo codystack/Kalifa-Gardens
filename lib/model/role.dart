@@ -15,4 +15,12 @@ class Role {
         type: json['type'],
         v: json['__v']);
   }
+
+  Map<String, dynamic> toJson() => {
+        'description': description,
+        '_id': id,
+        'name': name,
+        'type': type,
+        '__v': v
+      };
 }

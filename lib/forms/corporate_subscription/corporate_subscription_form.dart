@@ -1,3 +1,5 @@
+import 'package:kalifa_gardens/util/preference_manager.dart';
+
 import '../../components/contract_of_sales.dart';
 import '../../controller/state_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,17 +18,17 @@ class CorporateSubscriptionForm extends StatefulWidget {
 class _CorporateSubscriptionFormFormState
     extends State<CorporateSubscriptionForm> {
   final _controller = Get.find<StateController>();
+  late PreferenceManager _manager;
 
   @override
   void initState() {
-    _controller.incrementCorporateSub();
-    // TODO: implement initState
     super.initState();
+    _manager = PreferenceManager(context);
+    _controller.incrementCorporateSub();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _controller.decrementCorporateSub();
     super.dispose();
   }
@@ -36,12 +38,13 @@ class _CorporateSubscriptionFormFormState
     return Obx(
       () => Padding(
         padding: const EdgeInsets.all(8.0),
-        // ignore: unrelated_type_equality_checks
-        child: _controller.corporateSubStep == 1
+        child: _controller.corporateSubStep.value == 1
             ? FormStep1()
-            : _controller.corporateSubStep == 2
+            : _controller.corporateSubStep.value == 2
                 ? FormStep2()
-                : ContractOfSales(),
+                : ContractOfSales(
+                    manager: _manager,
+                  ),
       ),
     );
   }

@@ -3,17 +3,29 @@ import 'package:get/get.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
 
 class QuantityController extends StatefulWidget {
-  const QuantityController(
-      {Key? key, required this.unitPrice, required this.size})
+  QuantityController(
+      {Key? key,
+      required this.unitPrice,
+      required this.size,
+      required this.quantity,
+      required this.totalPrice,
+      required this.updateQuantity,
+      required this.computeTotal})
       : super(key: key);
-  final double? unitPrice;
-  final int? size;
+  final double unitPrice;
+  int size;
+  var quantity;
+  double totalPrice;
+  var computeTotal;
+  var updateQuantity;
 
   @override
-  _QuantityControllerState createState() => _QuantityControllerState();
+  State<QuantityController> createState() => _QuantityControllerState();
 }
 
 class _QuantityControllerState extends State<QuantityController> {
+  _QuantityControllerState();
+
   final _controller = Get.find<StateController>();
 
   @override
@@ -44,9 +56,7 @@ class _QuantityControllerState extends State<QuantityController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: () {
-                  _controller.incrementQuantity();
-                },
+                onTap: () => widget.updateQuantity(widget.quantity++),
                 child: Icon(
                   Icons.arrow_drop_up,
                   size: 15.0,
@@ -57,12 +67,14 @@ class _QuantityControllerState extends State<QuantityController> {
               ),
               GestureDetector(
                 onTap: () {
-                  if (_controller.quantityCounter > 1) {
-                    _controller.decrementQuantity();
+                  if (widget.quantity >= 1) {
+                    widget.updateQuantity(widget.quantity--);
                   }
-
-                  _controller.setTotalPrice(widget.unitPrice, widget.size,
-                      _controller.quantityCounter);
+                  // else  {
+                  //   quantity = 1;
+                  // }
+                  // _controller.setTotalPrice(widget.unitPrice, widget.size,
+                  //     _controller.quantityCounter);
                 },
                 child: Icon(
                   Icons.arrow_drop_down,
