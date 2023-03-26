@@ -46,11 +46,11 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
   final _controller = Get.find<StateController>();
 
   Future<void> _triggerVerify() async {
-    _controller.triggerVerify(true);
+    _controller.setLoading(true);
 
     if (widget.accountType != "forgotPass") {
       Future.delayed(Duration(seconds: 5), () {
-        _controller.triggerVerify(false);
+        _controller.setLoading(false);
 
         if (widget.accountType == 'corporate') {
           Navigator.push(
@@ -75,7 +75,7 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
             MaterialPageRoute(
               builder: (context) => SetupPassword(
                 accountType: widget.accountType,
-                otpID: widget.otpID,
+                otpID: widget.otpID, //Challenge ID
                 fullname: widget.fullname,
                 isAccepted: widget.isAccepted,
                 gender: widget.gender,
@@ -98,7 +98,7 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
       print(jsonDecode(response.body));
 
       if (response.statusCode == 200) {
-        _controller.triggerVerify(false);
+        _controller.setLoading(false);
 
         Map<String, dynamic> map = jsonDecode(response.body);
         var forgot = ForgotResponse.fromJson(map);
@@ -113,7 +113,7 @@ class _TextFieldOTPState extends State<TextFieldOTP> {
           ),
         );
       } else {
-        _controller.triggerVerify(false);
+        _controller.setLoading(false);
         Fluttertoast.showToast(
             msg: "Operation failed. Try again",
             toastLength: Toast.LENGTH_LONG,

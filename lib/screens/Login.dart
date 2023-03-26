@@ -7,7 +7,6 @@ import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 import '../forms/login_form.dart';
 import '../screens/account_type_registration.dart';
 import '../screens/forgot_password.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -23,9 +22,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Obx(
       () => LoadingOverlayPro(
-        isLoading: _controller.login > 0 ? true : false,
-        backgroundColor: Constants.overlayColor,
-        progressIndicator: OverlayLoader(),
+        isLoading: _controller.isLoading.value,
+        backgroundColor: Colors.black45,
+        progressIndicator: const CircularProgressIndicator.adaptive(),
         child: Scaffold(
           appBar: AppBar(
             elevation: 0.0,
@@ -34,7 +33,10 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Container(
                 padding: const EdgeInsets.only(
-                    left: 24.0, right: 24.0, bottom: 32.0),
+                  left: 24.0,
+                  right: 24.0,
+                  bottom: 32.0,
+                ),
                 // color: Color(0xFF0A4D50),
                 color: Color(0xFF0A4D50),
                 child: Center(
@@ -72,9 +74,10 @@ class _LoginState extends State<Login> {
                     height: MediaQuery.of(context).size.height * 0.10,
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                          style: BorderStyle.solid),
+                        color: Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid,
+                      ),
                     ),
                     child: Center(
                       child: TextButton(
@@ -95,9 +98,10 @@ class _LoginState extends State<Login> {
                     height: MediaQuery.of(context).size.height * 0.10,
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                          style: BorderStyle.solid),
+                        color: Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid,
+                      ),
                     ),
                     child: Center(
                       child: TextButton(
@@ -118,9 +122,10 @@ class _LoginState extends State<Login> {
                     margin: const EdgeInsets.all(4.0),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                          style: BorderStyle.solid),
+                        color: Colors.grey,
+                        width: 1.0,
+                        style: BorderStyle.solid,
+                      ),
                     ),
                     child: Center(
                       child: TextButton(

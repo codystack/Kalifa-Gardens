@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
-import 'package:kalifa_gardens/controller/state_controller.dart';
-import 'package:kalifa_gardens/model/login_response.dart';
-import 'package:kalifa_gardens/util/preference_manager.dart';
-
-import '../screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+
+import '../controller/state_controller.dart';
+import '../screens/dashboard.dart';
+import '../util/constants.dart';
+import '../util/preference_manager.dart';
+import '../util/service.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -38,61 +38,52 @@ class _LoginFormState extends State<LoginForm> {
 
   Future<void> _login(String email, String password) async {
     // print('NETWORKING $email');
-    _controller.triggerLogin(true);
+    _controller.setLoading(true);
 
-    final response = await http.post(
-      Uri.parse('https://api.kalifagardens.com/auth/local'),
-      headers: {"Content-type": "application/json"},
-      body: jsonEncode(
-          <String, String>{'identifier': email, 'password': password}),
-    );
+    Map _paylod = {'identifier': email, 'password': password};
 
-    print('STAT CODE ${response.statusCode}');
-    print('RESPONSE ${jsonDecode(response.body)}');
+    try {
+      final response = await APIService().login(_paylod);
 
-    if (response.statusCode == 200) {
-      // Operation was successful
-      _controller.triggerLogin(false);
-      Map<String, dynamic> loginMap = jsonDecode('${response.body}');
-      var login = LoginResponse.fromJson(loginMap);
-//      //Write data to preference
-      String userData = jsonEncode(login.user);
-      _manager.setUserProfile(userData);
-      _manager.saveAccessToken(login.jwt);
-      _manager.setIsLoggedIn(true);
-      Fluttertoast.showToast(
-          msg: "Logged in successfully",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 3,
-          backgroundColor: Color(0xFF0A4D50),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print('STAT CODE ${response.statusCode}');
+      print('RESPONSE ${jsonDecode(response.body)}');
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Dashboard(
-            manager: _manager,
+      _controller.setLoading(false);
+
+      if (response.statusCode == 200) {
+        Map<dynamic, dynamic> loginMap = jsonDecode('${response.body}');
+        print('USER  ${jsonEncode(loginMap['user'])}');
+
+        _manager.setUserProfile("${jsonEncode(loginMap['user'])}");
+
+        _manager.saveAccessToken(loginMap['jwt']);
+        _controller.setUserData(jsonEncode(loginMap['user']));
+        _manager.setIsLoggedIn(true);
+
+        Constants.toast("Logged in successfully");
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Dashboard(
+              manager: _manager,
+            ),
           ),
-        ),
-      );
-//      print('Howdy, ${user.name}!');
-// //      print('We sent the verification link to ${user.email}.');
-    } else {
-      _controller.triggerLogin(false);
-
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      Fluttertoast.showToast(
-          msg: "Operation not successful. Check credentials",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 3,
-          backgroundColor: Color(0xFF0A4D50),
-          textColor: Colors.white,
-          fontSize: 16.0);
+        );
+      } else {
+        Fluttertoast.showToast(
+            msg: "Operation not successful. Check credentials",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Color(0xFF0A4D50),
+            textColor: Colors.white,
+            fontSize: 16.0);
 //      throw Exception('Failed to create album.');
+      }
+    } catch (e) {
+      _controller.setLoading(false);
+      debugPrint("On ERROR:>> ${e.toString()}");
     }
   }
 

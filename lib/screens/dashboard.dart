@@ -1,13 +1,18 @@
-import 'package:kalifa_gardens/util/preference_manager.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/instance_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/custom_drawer.dart';
+import '../controller/state_controller.dart';
 import '../screens/account_history.dart';
 import '../screens/buyer_benefits.dart';
 import '../screens/manage_documents.dart';
 import '../screens/purchase_plot.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import '../util/preference_manager.dart';
+import '../util/service.dart';
 
 class Dashboard extends StatefulWidget {
   final PreferenceManager manager;
@@ -18,12 +23,58 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   AnimationController? _animationController;
+  final _controller = Get.find<StateController>();
+
+  _bgInit() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final _token = prefs.getString("accessToken") ?? "";
+
+      final plotResp = await APIService().getPlotTypes(_token);
+      debugPrint("PLOT TYPES:: >> ${plotResp.body}");
+      _controller.plotTypes.value = [];
+      Map<String, dynamic> plotMap = jsonDecode(plotResp.body);
+      // final  plotData = PlotTypeResponse.fromJson(plotMap);
+      debugPrint("PLOT TYPES CONTENT => ${plotMap['data']}");
+      _controller.setPlotTypes(plotMap['data']);
+
+      final propertyResp = await APIService().getPropertyConfig(_token);
+      debugPrint("PROPERTY TYPES:: >> ${propertyResp.body}");
+      _controller.propertyInfoData.value = {};
+      Map<String, dynamic> propertyMap = jsonDecode(propertyResp.body);
+      // final propertyData = PropertyResponse.fromJson(propertyMap);
+      // debugPrint("PROPERTY NAME => ${propertyData.data?.attributes?.name}");
+      _controller.setPropertyInfo(propertyMap);
+
+      final bankResp = await APIService().getBankAccount(_token);
+      debugPrint("BANK ACCOUNT:: >> ${bankResp.body}");
+      _controller.bankAccountData.value = {};
+      Map<String, dynamic> bankMap = jsonDecode(bankResp.body);
+      // final propertyData = PropertyResponse.fromJson(propertyMap);
+      // debugPrint("PROPERTY NAME => ${propertyData.data?.attributes?.name}");
+      _controller.setBankAccount(bankMap);
+
+      final contactResp = await APIService().getContactInfo(_token);
+      debugPrint("CONTACT INFO:: >> ${contactResp.body}");
+      _controller.contactInfoData.value = {};
+      Map<String, dynamic> contactMap = jsonDecode(contactResp.body);
+      // final propertyData = PropertyResponse.fromJson(propertyMap);
+      // debugPrint("PROPERTY NAME => ${propertyData.data?.attributes?.name}");
+      _controller.setContactInfo(contactMap);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+    _bgInit();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 450),
+    );
   }
 
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
@@ -93,7 +144,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(16.0),
                           color: Color(0xFFD4B581),
                           child: SvgPicture.asset(
-                              'assets/images/complete_ur_profile.svg'),
+                            'assets/images/complete_ur_profile.svg',
+                          ),
                         ),
                         SizedBox(
                           width: 10.0,

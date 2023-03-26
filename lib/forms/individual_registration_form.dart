@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kalifa_gardens/controller/state_controller.dart';
+import 'package:kalifa_gardens/model/challenge/individual_resp.dart';
 import 'package:kalifa_gardens/model/error/error_response.dart';
 import 'package:kalifa_gardens/model/otp_response.dart';
+import 'package:kalifa_gardens/util/constants.dart';
 
 import '../components/shimmer_loading.dart';
 import '../model/t_and_c_response.dart';
@@ -24,53 +27,24 @@ class _IndividualFormState extends State<IndividualForm> {
   var _gender = 'Male', _tandC;
   bool _isAccepted = false, _isLoadingTerms = false;
   final _controller = Get.find<StateController>();
-  // bool _isSelected = true;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  Future<void> _getTandC() async {
-    setState(() {
-      _isLoadingTerms = true;
-    });
-    final response = await APIService().getTandC();
-
-    print('STAT CODE ${response.statusCode}');
-    print('RESPONSE ${jsonDecode(response.body)}');
-
-    if (response.statusCode == 200) {
-      // Operation was successful
-      Map<String, dynamic> respMap = jsonDecode(response.body);
-      var terms = TermsAndConditions.fromJson(respMap);
-
-      setState(() {
-        _isLoadingTerms = false;
-        _tandC = terms.content;
-      });
-//      print('Howdy, ${user.name}!');
-//      print('We sent the verification link to ${user.email}.');
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-
-      throw Exception('Failed to get terms and conditions.');
-    }
-  }
-
   Future<void> _createOtp(String email, String type) async {
-    _controller.triggerLoading(true);
+    _controller.setLoading(true);
 
     try {
       final response = await APIService().createOTP(email, type);
 
       print('Status Code : ${response.statusCode}');
       print('Create RESP: ${jsonDecode(response.body)}');
+      _controller.setLoading(false);
       if (response.statusCode == 200) {
-        _controller.triggerLoading(false);
         //All good now route to create otp screen
         Map<String, dynamic> otpMap = jsonDecode(response.body);
-        var otp = OTPResponse.fromJson(otpMap);
+        var otp = IndividualResponse.fromJson(otpMap);
 
         Navigator.push(
           context,
@@ -79,37 +53,39 @@ class _IndividualFormState extends State<IndividualForm> {
               fullname: _nameController.text,
               phone: _phoneController.text,
               email: _emailController.text,
+              otpID: otp.challengeId,
+              expiresAt: otp.expiresAt,
               gender: _gender,
               isAccepted: _isAccepted,
-              otpID: 'otp.id',
               accountType: "individual",
             ),
           ),
         );
       } else {
-        _controller.triggerLoading(false);
         Map<String, dynamic> errorMap = jsonDecode(response.body);
         var error = ErrorResponse.fromJson(errorMap);
         //Not successful. Show toast
         Fluttertoast.showToast(
-            msg: "${error.message}",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 3,
-            backgroundColor: Color(0xFF0A4D50),
-            textColor: Colors.white,
-            fontSize: 16.0);
+          msg: "${error.message}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Color(0xFF0A4D50),
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
+    } on SocketException {
+      Constants.toast("Check your internet connection");
     } catch (e) {
       print(e);
-      _controller.triggerLoading(false);
+      _controller.setLoading(false);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _getTandC();
   }
 
   Widget _buildShimmer() {
@@ -179,7 +155,7 @@ class _IndividualFormState extends State<IndividualForm> {
                           elevation: 2.0,
                           margin: const EdgeInsets.all(0.0),
                           child: Scrollbar(
-                            isAlwaysShown: true,
+                            thumbVisibility: true,
                             thickness: 10.0,
                             child: ListView(
                               padding: const EdgeInsets.all(10.0),
@@ -208,7 +184,7 @@ class _IndividualFormState extends State<IndividualForm> {
                                   child: _isLoadingTerms
                                       ? _buildShimmer()
                                       : Text(
-                                          _tandC,
+                                          "${_controller.termsData.value['data']['attributes']['content']}",
                                           style: TextStyle(
                                             color: Colors.black54,
                                             fontFamily: 'Mulish',

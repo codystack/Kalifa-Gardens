@@ -90,8 +90,8 @@ class ContractOfSales extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
             style: ElevatedButton.styleFrom(
-              primary: Colors.black,
-              onPrimary: Colors.white,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
               padding: const EdgeInsets.all(16.0),
             ),
           ),

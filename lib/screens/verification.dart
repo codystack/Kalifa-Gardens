@@ -19,6 +19,7 @@ class Verification extends StatefulWidget {
       this.phone,
       @required this.otpID,
       @required this.email,
+      this.expiresAt,
       this.gender,
       this.isAccepted,
       this.accountType,
@@ -27,7 +28,7 @@ class Verification extends StatefulWidget {
       this.website})
       : super(key: key);
 
-  final String? otpID, fullname, email, phone, gender, accountType;
+  final String? otpID, fullname, email, phone, gender, accountType, expiresAt;
   final bool? isAccepted;
   final String? bizName, bizType, website;
 
@@ -55,13 +56,14 @@ class _VerificationState extends State<Verification> {
       _isTimedOut = false;
     });
 
-    _controller.triggerVerify(true);
+    _controller.setLoading(true);
 
     final response = await APIService().resendOTP(widget.otpID!);
     print('${jsonDecode(response.body)}');
 
+    _controller.setLoading(false);
+
     if (response.statusCode == 200) {
-      _controller.triggerVerify(false);
       Fluttertoast.showToast(
           msg: "Code sent successfully",
           toastLength: Toast.LENGTH_LONG,
@@ -74,16 +76,16 @@ class _VerificationState extends State<Verification> {
 
       controller!.start();
     } else {
-      _controller.triggerVerify(false);
       Fluttertoast.showToast(
-          msg: "Code not sent. Try again",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 3,
-          // backgroundColor: Color(0xFF0A4D50),
-          backgroundColor: Color(0xFF0A4D50),
-          textColor: Colors.white,
-          fontSize: 16.0);
+        msg: "Code not sent. Try again",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 3,
+        // backgroundColor: Color(0xFF0A4D50),
+        backgroundColor: Color(0xFF0A4D50),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
@@ -115,17 +117,9 @@ class _VerificationState extends State<Verification> {
   Widget build(BuildContext context) {
     return Obx(
       () => LoadingOverlayPro(
-        isLoading: _controller.verifyCode > 0 ? true : false,
+        isLoading: _controller.isLoading.value,
         backgroundColor: Colors.black54,
-        progressIndicator: const LoadingBouncingLine.circle(
-          // borderColor: Color(0xFF0A4D50),
-          borderColor: Color(0xFF0A4D50),
-          borderSize: 3.0,
-          size: 120.0,
-          // backgroundColor: Color(0xFF0A4D50),
-          backgroundColor: Color(0xFF0A4D50),
-          duration: Duration(milliseconds: 500),
-        ),
+        progressIndicator: const CircularProgressIndicator.adaptive(),
         child: Scaffold(
           body: ListView(
             padding: const EdgeInsets.all(16.0),
@@ -146,10 +140,11 @@ class _VerificationState extends State<Verification> {
                       'Verification',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          // color: Color(0xFF0A4D50),
-                          color: Color(0xFF0A4D50),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24.0),
+                        // color: Color(0xFF0A4D50),
+                        color: Color(0xFF0A4D50),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      ),
                     ),
                   )
                 ],
@@ -178,7 +173,7 @@ class _VerificationState extends State<Verification> {
                   TextFieldOTP(
                     first: true,
                     last: false,
-                    otpID: _id,
+                    otpID: widget.otpID,
                     email: widget.email,
                     phone: widget.phone,
                     gender: widget.gender,
@@ -198,7 +193,7 @@ class _VerificationState extends State<Verification> {
                   TextFieldOTP(
                     first: false,
                     last: false,
-                    otpID: _id,
+                    otpID: widget.otpID,
                     email: widget.email,
                     phone: widget.phone,
                     gender: widget.gender,
@@ -218,7 +213,7 @@ class _VerificationState extends State<Verification> {
                   TextFieldOTP(
                     first: false,
                     last: false,
-                    otpID: _id,
+                    otpID: widget.otpID,
                     email: widget.email,
                     phone: widget.phone,
                     gender: widget.gender,
@@ -238,7 +233,7 @@ class _VerificationState extends State<Verification> {
                   TextFieldOTP(
                     first: false,
                     last: true,
-                    otpID: _id,
+                    otpID: widget.otpID,
                     email: widget.email,
                     phone: widget.phone,
                     gender: widget.gender,
@@ -252,8 +247,6 @@ class _VerificationState extends State<Verification> {
                     otpCode:
                         "${_field1Controller.text}${_field2Controller.text}${_field3Controller.text}${_field4Controller.text}",
                   ),
-//              SizedBox(width: 8.0,),
-//              textFieldOTP(context: context, first: false, last: true),
                 ],
               ),
               Column(
@@ -274,9 +267,10 @@ class _VerificationState extends State<Verification> {
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.black,
-                                onPrimary: Colors.white,
-                                padding: const EdgeInsets.all(18.0)),
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.black,
+                              padding: const EdgeInsets.all(18.0),
+                            ),
                           ),
                         )
                       : Row(

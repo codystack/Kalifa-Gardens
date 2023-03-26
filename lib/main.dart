@@ -1,7 +1,6 @@
 import 'package:kalifa_gardens/controller/app_controller.dart';
 import 'package:kalifa_gardens/util/preference_manager.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -42,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // _isLoggedIn = _manager!.getIsLoggedIn();
-    return MaterialApp(
+    return GetMaterialApp(
       title: "Kalifa",
       debugShowCheckedModeBanner: false,
       home: Controller(manager: _manager),
@@ -59,7 +58,7 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         inputDecorationTheme: InputDecorationTheme(
           focusColor: Color(0xFF0A4D50),
-          fillColor: Color(0xFF0A4D50),
+          fillColor: Color.fromARGB(255, 0, 0, 0),
           // focusColor: Color(0xFF0A4D50),
           // fillColor: Color(0xFF0A4D50),
           border: OutlineInputBorder(borderRadius: BorderRadius.zero),

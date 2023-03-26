@@ -1,8 +1,9 @@
-import '../controller/state_controller.dart';
-import '../forms/setup_password_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay_pro/loading_overlay_pro.dart';
+
+import '../controller/state_controller.dart';
+import '../forms/setup_password_form.dart';
 
 class SetupPassword extends StatelessWidget {
   SetupPassword(
@@ -29,17 +30,9 @@ class SetupPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => LoadingOverlayPro(
-        isLoading: _controller.createAccount > 0 ? true : false,
+        isLoading: _controller.isLoading.value,
         backgroundColor: Colors.black54,
-        progressIndicator: const LoadingBouncingLine.circle(
-          // borderColor: Color(0xFF0A4D50),
-          borderColor: Color(0xFF0A4D50),
-          borderSize: 3.0,
-          size: 120.0,
-          // backgroundColor: Color(0xFF0A4D50),
-          backgroundColor: Color(0xFF0A4D50),
-          duration: Duration(milliseconds: 500),
-        ),
+        progressIndicator: const CircularProgressIndicator.adaptive(),
         child: Scaffold(
           body: ListView(
             padding: const EdgeInsets.all(16.0),
@@ -60,10 +53,10 @@ class SetupPassword extends StatelessWidget {
                       'Setup Password',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          // color: Color(0xFF0A4D50),
-                          color: Color(0xFF0A4D50),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24.0),
+                        color: Color(0xFF0A4D50),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      ),
                     ),
                   )
                 ],

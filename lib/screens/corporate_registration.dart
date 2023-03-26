@@ -35,8 +35,8 @@ class _CorporateRegistrationState extends State<CorporateRegistration>
     return Obx(
       () => LoadingOverlayPro(
         isLoading: _controller.isLoading.value,
-        backgroundColor: Constants.overlayColor,
-        progressIndicator: OverlayLoader(),
+        backgroundColor: Colors.black54,
+        progressIndicator: const CircularProgressIndicator.adaptive(),
         child: Scaffold(
           appBar: AppBar(
             title: SvgPicture.asset('assets/images/kalifa_gardens.svg'),

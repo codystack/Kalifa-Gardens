@@ -1,11 +1,6 @@
-import 'dart:convert';
-
-import 'package:kalifa_gardens/components/loader/overlay_loader.dart';
-import 'package:kalifa_gardens/model/plot_type.dart';
-import 'package:kalifa_gardens/model/property_config_response.dart';
-import 'package:kalifa_gardens/util/constants.dart';
-import 'package:kalifa_gardens/util/preference_manager.dart';
-import 'package:kalifa_gardens/util/service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:loading_overlay_pro/loading_overlay_pro.dart';
 
 import '../components/custom_drawer.dart';
@@ -16,9 +11,9 @@ import '../components/purchase_plot_steps/step3.dart';
 import '../components/purchase_plot_steps/step4.dart';
 import '../components/purchase_plot_steps/step5.dart';
 import '../controller/state_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
+import '../model/plot_type.dart';
+import '../util/constants.dart';
+import '../util/preference_manager.dart';
 
 class PurchasePlot extends StatefulWidget {
   @override
@@ -71,7 +66,7 @@ class _PurchasePlotState extends State<PurchasePlot>
         () => LoadingOverlayPro(
           backgroundColor: Constants.overlayColor,
           isLoading: _controller.isPurchase.value,
-          progressIndicator: OverlayLoader(),
+          progressIndicator: const CircularProgressIndicator.adaptive(),
           child: Scaffold(
             appBar: AppBar(
               title: SvgPicture.asset('assets/images/kalifa_gardens.svg'),
@@ -174,10 +169,12 @@ class _PurchasePlotState extends State<PurchasePlot>
                             )
                           else if (_controller.purchasePlotStepCount.value == 2)
                             PurchasePlotStep3(
-                                stepIndex: _controller.purchasePlotStepCount)
+                              stepIndex: _controller.purchasePlotStepCount,
+                            )
                           else if (_controller.purchasePlotStepCount.value == 3)
                             PurchasePlotStep4(
-                                stepIndex: _controller.purchasePlotStepCount)
+                              stepIndex: _controller.purchasePlotStepCount,
+                            )
                           else if (_controller.purchasePlotStepCount.value == 4)
                             PurchasePlotStep5()
                         ],

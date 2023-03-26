@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kalifa_gardens/util/constants.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -24,17 +23,34 @@ class _ProfileState extends State<Profile> {
     final pickedFile = await picker.pickImage(source: imageSource);
 
     if (pickedFile != null) {
-      File? croppedFile = await ImageCropper.cropImage(
-          sourcePath: pickedFile.path,
-          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-          compressQuality: 100,
-          compressFormat: ImageCompressFormat.jpg,
-          androidUiSettings: AndroidUiSettings(
-              // toolbarColor: Color(0xFF0A4D50),
-              toolbarColor: Color(0xFF0A4D50)));
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Kalifa Cropper',
+            toolbarColor: Constants.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
+          ),
+          IOSUiSettings(
+            title: 'Kalifa Cropper',
+          ),
+          WebUiSettings(
+            context: context,
+          ),
+        ],
+      );
 
       this.setState(() {
-        _selectedFile = croppedFile;
+        _selectedFile = croppedFile as File?;
         _inProcess = false;
       });
     } else {

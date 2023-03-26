@@ -24,7 +24,7 @@ class _NewsAndUpdatesState extends State<NewsAndUpdates>
 //  PageController _pageController =  PageController(initialPage: 0);
 
   Future<void> _getNewsUpdates() async {
-    final response = await APIService().getNewsItems();
+    final response = await APIService().getNews();
 
     print('NEWS RESP ${jsonDecode(response.body)}');
     print('RESPONSE ${jsonDecode(response.body)}');

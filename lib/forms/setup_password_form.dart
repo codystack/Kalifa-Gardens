@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kalifa_gardens/model/login_response.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../controller/state_controller.dart';
 import '../screens/success.dart';
+import '../util/constants.dart';
+import '../util/preference_manager.dart';
 import '../util/service.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class SetupPasswordForm extends StatefulWidget {
   const SetupPasswordForm(
@@ -40,7 +40,7 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
       _isCapitalOk = false,
       _isSpecialCharOk = false;
   bool _obscureText = true;
-
+  late PreferenceManager _manager;
   final _controller = Get.find<StateController>();
 
   TextEditingController passwordController = TextEditingController();
@@ -52,112 +52,102 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
     });
   }
 
-  void persistInfo(String token, String user) async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setString('token', token);
-      prefs.setString('userData', user);
-      prefs.setBool('loggedIn', true);
-    });
+  @override
+  void initState() {
+    super.initState();
+    _manager = PreferenceManager(context);
   }
 
   Future<void> _createAccount() async {
-    setState(() {
-      _controller.triggerCreateAccount(true);
-    });
+    _controller.setLoading(true);
 
     Map _bodyIndividual = {
       'email': widget.email,
       'password': passwordController.text,
       'profile': {
-        'type': widget.accountType,
+        'account_type': widget.accountType,
         'name': widget.fullname,
-        'gender': widget.gender,
-        'acceptedTerms': widget.isAccepted
+        'phone_number': widget.phone,
       },
-      'verification': {'challenge_id': widget.otpID, 'otp': widget.otpCode}
+      'otp': {'challenge_id': widget.otpID, 'code': widget.otpCode}
     };
 
     Map _bodyCorporate = {
       'email': widget.email,
       'password': passwordController.text,
       'profile': {
-        'type': widget.accountType,
+        'account_type': widget.accountType,
         'name': widget.bizName,
-        'businessType': widget.bizType,
+        'business_type': widget.bizType,
         'website': widget.website,
-        'acceptedTerms': widget.isAccepted
+        'phone_number': widget.phone
       },
-      'verification': {'challenge_id': widget.otpID, 'otp': widget.otpCode}
+      'otp': {'challenge_id': widget.otpID, 'code': widget.otpCode}
     };
 
     if (widget.accountType == "corporate") {
-      final response = await APIService().createAccount(_bodyCorporate);
+      try {
+        final response = await APIService().createAccount(_bodyCorporate);
 
-      print('REGISTER RESP: ${jsonDecode(response.body)}');
+        print('REGISTER RESP: ${jsonDecode(response.body)}');
 
-      if (response.body.toString().contains('Invalid verification otp')) {
-        Navigator.pop(context);
-      }
+        if (response.body.toString().contains('Invalid verification otp')) {
+          Navigator.pop(context);
+        }
 
-      if (response.statusCode == 200) {
-        _controller.triggerCreateAccount(false);
+        _controller.setLoading(false);
 
-        Map<String, dynamic> loginMap = jsonDecode(response.body);
-        var login = LoginResponse.fromJson(loginMap);
-        //
-        //      //Write token to disk
-        persistInfo("${login.jwt}", "${login.user}");
+        if (response.statusCode == 200) {
+          Map<String, dynamic> loginMap = jsonDecode(response.body);
+          _manager.setUserProfile(jsonEncode(loginMap['user']));
+          _manager.saveAccessToken(loginMap['jwt']);
+          _controller.setUserData(jsonEncode(loginMap['user']));
+          _manager.setIsLoggedIn(true);
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Success()),
-        );
+          Constants.toast("Account created successfully");
 
-        Fluttertoast.showToast(
-            msg: "Account created successfully.",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 3,
-            backgroundColor: Color(0xFF0A4D50),
-            textColor: Colors.white,
-            fontSize: 16.0);
-      } else {
-        _controller.triggerCreateAccount(false);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Success()),
+          );
+        } else {
+          Constants.toast("An error occured. Please try again.");
+        }
+      } catch (e) {
+        _controller.setLoading(false);
+        debugPrint(e.toString());
       }
     } else {
-      final response = await APIService().createAccount(_bodyIndividual);
+      try {
+        final response = await APIService().createAccount(_bodyIndividual);
 
-      print('REGISTER RESP: ${jsonDecode(response.body)}');
+        print('REGISTER RESP: ${jsonDecode(response.body)}');
+        _controller.setLoading(false);
 
-      if (response.body.toString().contains('Invalid verification otp')) {
-        Navigator.pop(context);
-      }
+        if (response.body.toString().contains('Invalid verification otp')) {
+          Navigator.pop(context);
+        }
 
-      if (response.statusCode == 200) {
-        _controller.triggerCreateAccount(false);
+        if (response.statusCode == 200) {
+          Map<String, dynamic> loginMap = jsonDecode(response.body);
 
-        Map<String, dynamic> loginMap = jsonDecode(response.body);
-        var login = LoginResponse.fromJson(loginMap);
-        //
-        //      //Write token to disk
-        persistInfo("${login.jwt}", "${login.user}");
+          _manager.setUserProfile(jsonEncode(loginMap['user']));
+          _manager.saveAccessToken(loginMap['jwt']);
+          _controller.setUserData(jsonEncode(loginMap['user']));
+          _manager.setIsLoggedIn(true);
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Success()),
-        );
+          Constants.toast("Account created successfully.");
 
-        Fluttertoast.showToast(
-            msg: "Account created successfully.",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 3,
-            backgroundColor: Color(0xFF0A4D50),
-            textColor: Colors.white,
-            fontSize: 16.0);
-      } else {
-        _controller.triggerCreateAccount(false);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Success()),
+          );
+        } else {
+          Constants.toast("An error occurred. Please try again.");
+        }
+      } catch (e) {
+        _controller.setLoading(false);
+        debugPrint(e.toString());
       }
     }
   }
@@ -165,150 +155,149 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 16.0,
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 16.0,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+                hintText: 'Password',
+                suffixIcon: IconButton(
+                  onPressed: () => _togglePass(),
+                  icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility),
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: 'Password',
-                  suffixIcon: IconButton(
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please type a password';
+                }
+                if (!_isNumberOk ||
+                    !_isCapitalOk ||
+                    !_isLowercaseOk ||
+                    !_isSpecialCharOk) {
+                  return 'Weak password. See hint below';
+                }
+                if (value.length < 8) {
+                  return 'Password too short. 8 characters min';
+                }
+
+                return null;
+              },
+              onChanged: (value) {
+                if (value.contains(new RegExp(r'[0-9]'))) {
+                  setState(() {
+                    _isNumberOk = true;
+                  });
+                } else {
+                  setState(() {
+                    _isNumberOk = false;
+                  });
+                }
+
+                if (value.contains(new RegExp(r'[A-Z]'))) {
+                  setState(() {
+                    _isCapitalOk = true;
+                  });
+                } else {
+                  setState(() {
+                    _isCapitalOk = false;
+                  });
+                }
+
+                if (value.contains(new RegExp(r'[a-z]'))) {
+                  setState(() {
+                    _isLowercaseOk = true;
+                  });
+                } else {
+                  setState(() {
+                    _isLowercaseOk = false;
+                  });
+                }
+
+                if (value
+                    .contains(new RegExp(r'[!@#$%^&*(),.?"_:;{}|<>/+=-]'))) {
+                  setState(() {
+                    _isSpecialCharOk = true;
+                  });
+                } else {
+                  setState(() {
+                    _isSpecialCharOk = false;
+                  });
+                }
+              },
+              obscureText: _obscureText,
+              controller: passwordController,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Confirm password',
+                hintText: 'Confirm password',
+                suffixIcon: IconButton(
                     onPressed: () => _togglePass(),
-                    icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility),
-                  ),
-                ),
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please type a password';
-                  }
-                  if (!_isNumberOk ||
-                      !_isCapitalOk ||
-                      !_isLowercaseOk ||
-                      !_isSpecialCharOk) {
-                    return 'Weak password. See hint below';
-                  }
-                  if (value.length < 8) {
-                    return 'Password too short. 8 characters min';
-                  }
+                    icon: Icon(_obscureText
+                        ? Icons.visibility_off
+                        : Icons.visibility)),
+              ),
+              // The validator receives the text that the user has entered.
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please retype password';
+                }
 
-                  return null;
-                },
-                onChanged: (value) {
-                  if (value.contains(new RegExp(r'[0-9]'))) {
-                    setState(() {
-                      _isNumberOk = true;
-                    });
-                  } else {
-                    setState(() {
-                      _isNumberOk = false;
-                    });
-                  }
+                if (retypePasswordController.text != passwordController.text) {
+                  return 'Password does not match';
+                }
 
-                  if (value.contains(new RegExp(r'[A-Z]'))) {
-                    setState(() {
-                      _isCapitalOk = true;
-                    });
-                  } else {
-                    setState(() {
-                      _isCapitalOk = false;
-                    });
-                  }
-
-                  if (value.contains(new RegExp(r'[a-z]'))) {
-                    setState(() {
-                      _isLowercaseOk = true;
-                    });
-                  } else {
-                    setState(() {
-                      _isLowercaseOk = false;
-                    });
-                  }
-
-                  if (value
-                      .contains(new RegExp(r'[!@#$%^&*(),.?"_:;{}|<>/+=-]'))) {
-                    setState(() {
-                      _isSpecialCharOk = true;
-                    });
-                  } else {
-                    setState(() {
-                      _isSpecialCharOk = false;
-                    });
+                return null;
+              },
+              obscureText: _obscureText,
+              controller: retypePasswordController,
+              keyboardType: TextInputType.visiblePassword,
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Container(
+              width: double.infinity,
+              color: Colors.black,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _createAccount();
                   }
                 },
-                obscureText: _obscureText,
-                controller: passwordController,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Confirm password',
-                  hintText: 'Confirm password',
-                  suffixIcon: IconButton(
-                      onPressed: () => _togglePass(),
-                      icon: Icon(_obscureText
-                          ? Icons.visibility_off
-                          : Icons.visibility)),
+                child: Text(
+                  'Setup Password',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600),
                 ),
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please retype password';
-                  }
-
-                  if (retypePasswordController.text !=
-                      passwordController.text) {
-                    return 'Password does not match';
-                  }
-
-                  return null;
-                },
-                obscureText: _obscureText,
-                controller: retypePasswordController,
-                keyboardType: TextInputType.visiblePassword,
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    onPrimary: Colors.white,
+                    padding: const EdgeInsets.all(18.0)),
               ),
-              SizedBox(
-                height: 16,
-              ),
-              Container(
-                width: double.infinity,
-                color: Colors.black,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _createAccount();
-                    }
-                  },
-                  child: Text(
-                    'Setup Password',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.white,
-                      padding: const EdgeInsets.all(18.0)),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Column(
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -372,9 +361,10 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                         ],
                       )
                     ],
-                  )),
-                  Expanded(
-                      child: Column(
+                  ),
+                ),
+                Expanded(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -439,11 +429,13 @@ class _SetupPasswordFormState extends State<SetupPasswordForm> {
                         ],
                       )
                     ],
-                  ))
-                ],
-              )
-            ],
-          ),
-        ));
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

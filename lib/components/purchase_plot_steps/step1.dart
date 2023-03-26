@@ -2,24 +2,20 @@
 
 import 'dart:convert';
 
-import 'package:kalifa_gardens/components/quantity_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kalifa_gardens/components/total_price_obs.dart';
-import 'package:kalifa_gardens/model/plot_type.dart';
-import 'package:kalifa_gardens/model/property_config_response.dart';
-import 'package:kalifa_gardens/model/purchase_plot/register_interest.dart';
+import 'package:kalifa_gardens/model/interest/interest_response.dart';
+import 'package:kalifa_gardens/util/constants.dart';
 import 'package:kalifa_gardens/util/preference_manager.dart';
 import 'package:kalifa_gardens/util/service.dart';
+import 'package:money_formatter/money_formatter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../controller/state_controller.dart';
 import '../../model/project_profile_slides.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../project_profile_slide_item.dart';
 import '../slide_dots.dart';
-
-import 'package:money_formatter/money_formatter.dart';
 
 // ignore: must_be_immutable
 class PurchasePlotStep1 extends StatefulWidget {
@@ -44,7 +40,6 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
   int _quantity = 1;
 
   double _unitPrice = 0.0;
-  List<PlotType> _plotType = [];
 
   double _parseAmount(dynamic dAmount) {
     double returnAmount = 0.00;
@@ -69,28 +64,24 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
     return returnAmount;
   }
 
-  Future<void> getPropertyConfig() async {
-    final response = await APIService().getPropertyConfig();
+  _init() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final _token = prefs.getString("accessToken") ?? "";
 
-    print('PROPERTY RESP: ${jsonDecode(response.body)}');
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> propertyMap = jsonDecode(response.body);
-      var property = PropertyConfig.fromJson(propertyMap);
-      // _controller.setUnitPrice(property.unitPrice);
-      setState(() {
-        _unitPrice = _parseAmount(property.unitPrice);
-        _plotType = property.plotTypes;
-      });
-      print('UNIT PRICE IS $_unitPrice');
-    } else {}
+      final res = await APIService().getMyApplications(_token);
+      print("APP RSPPLL?? ${res.body}");
+      print(
+          "USER TEST >>> ${jsonDecode(widget.manager.getUserProfile())['email']}");
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    getPropertyConfig();
-    // _startApplication();
+    _init();
   }
 
   @override
@@ -107,43 +98,52 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
 
   String _formatMoney(var amount) {
     MoneyFormatter fmf = MoneyFormatter(
-        amount: amount,
-        settings: MoneyFormatterSettings(
-            symbol: 'N',
-            thousandSeparator: ',',
-            decimalSeparator: '.',
-            fractionDigits: 00,
-            symbolAndNumberSeparator: ''));
+      amount: amount,
+      settings: MoneyFormatterSettings(
+          symbol: 'N',
+          thousandSeparator: ',',
+          decimalSeparator: '.',
+          fractionDigits: 00,
+          symbolAndNumberSeparator: ''),
+    );
 
     return fmf.output.symbolOnLeft;
   }
 
   Future<void> _startApplication() async {
     _controller.triggerPurchase(true);
-    Map _body = {"size": _selectedSize, "qty": _quantity};
-    final response = await APIService().startApplication(
-      data: _body,
-      token: widget.manager.getAccessToken(),
-    );
-    print('START RESP => ${response.body}');
-    if (response.statusCode == 200) {
-      Map<String, dynamic> interestMap = jsonDecode('${response.body}');
-      var interest = RegisterInterestModel.fromJson(interestMap);
 
-      print('SYZE  => ${interest.id}');
-      _controller.setCurrApplicationID(interest.id);
-      _controller.setSelectedPlotSize(interest.size);
-      _controller.setSelectedQuantity(interest.qty);
-      _controller.setTotalAmount(_totalPrice);
+    final prefs = await SharedPreferences.getInstance();
+    final _token = prefs.getString("accessToken") ?? "";
 
-      Future.delayed(Duration(seconds: 3), () {
-        _controller.triggerPurchase(false);
-        setState(() {
-          _controller.increment();
-        });
-      });
-    } else {
+    Map _body = {"size": int.parse(selectedPlotSize), "qty": _quantity};
+    try {
+      final response = await APIService().startApplication(
+        data: _body,
+        token: _token,
+      );
+      print('START RESP => ${response.body}');
       _controller.triggerPurchase(false);
+      if (response.statusCode == 200) {
+        Constants.toast("Interest registered");
+        Map<String, dynamic> interestMap = jsonDecode('${response.body}');
+        var interest = InterestResponse.fromJson(interestMap);
+
+        print('SYZE  => ${interest.id}');
+        _controller.setCurrApplicationID(interest.id);
+        _controller.setSelectedPlotSize(interest.size);
+        _controller.setSelectedQuantity(interest.qty);
+        _controller.setTotalAmount(interest.totalAmount);
+
+        // Future.delayed(Duration(seconds: 1), () {
+        _controller.increment();
+        // });
+      } else {
+        _controller.triggerPurchase(false);
+      }
+    } catch (e) {
+      _controller.triggerPurchase(false);
+      debugPrint(e.toString());
     }
   }
 
@@ -176,50 +176,51 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Flexible(
-                child: Stack(
-              alignment: AlignmentDirectional.bottomCenter,
-              children: <Widget>[
-                Container(
-                  height: 260,
-                  margin: const EdgeInsets.only(bottom: 10.0),
-                  child: PageView.builder(
-                    itemBuilder: (ctx, i) => ProjectProfileSlideItem(i),
-                    itemCount: projSlideList.length,
-                    controller: _pageController,
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: _onPageChanged,
+              child: Stack(
+                alignment: AlignmentDirectional.bottomCenter,
+                children: <Widget>[
+                  Container(
+                    height: 260,
+                    margin: const EdgeInsets.only(bottom: 10.0),
+                    child: PageView.builder(
+                      itemBuilder: (ctx, i) => ProjectProfileSlideItem(i),
+                      itemCount: projSlideList.length,
+                      controller: _pageController,
+                      scrollDirection: Axis.horizontal,
+                      onPageChanged: _onPageChanged,
+                    ),
                   ),
-                ),
-                Stack(
-                  alignment: AlignmentDirectional.topEnd,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.all(4.0),
-                          decoration: BoxDecoration(
-                            color: Color(0x99000000),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(16.0)),
+                  Stack(
+                    alignment: AlignmentDirectional.topEnd,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: Color(0x99000000),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0)),
+                            ),
+                            margin: const EdgeInsets.only(bottom: 15),
+                            child: Row(
+                              children: <Widget>[
+                                for (int i = 0; i < projSlideList.length; i++)
+                                  if (i == _currentPage)
+                                    SlideDots(true)
+                                  else
+                                    SlideDots(false)
+                              ],
+                            ),
                           ),
-                          margin: const EdgeInsets.only(bottom: 15),
-                          child: Row(
-                            children: <Widget>[
-                              for (int i = 0; i < projSlideList.length; i++)
-                                if (i == _currentPage)
-                                  SlideDots(true)
-                                else
-                                  SlideDots(false)
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            )),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
           ],
         ),
         Container(
@@ -237,9 +238,10 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                 Text(
                   'Price per SQM',
                   style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700),
+                    color: Colors.black54,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 SizedBox(
                   width: 10.0,
@@ -315,28 +317,24 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                           color: Colors.black87,
                         ),
                       ),
-                      items: _plotType.map((val) {
+                      items: _controller.plotTypes.value.map((val) {
                         return DropdownMenuItem(
-                          value: val.title,
-                          child: Text(val.title),
+                          value: val['attributes']['size'],
+                          child: Text('${val['attributes']['size']}'),
                         );
                       }).toList(),
-                      // value: 'Select plot size',
+                      // value: selectedPlotSize,
                       onChanged: (newValue) {
+                        print("ITEM VAL> $newValue");
                         setState(() {
-                          selectedPlotSize = newValue as String;
-                          List<PlotType> s = _plotType
-                              .where((element) => element.title == newValue)
-                              .toList();
-                          _selectedSize = s[0].size;
+                          selectedPlotSize = "$newValue";
                         });
 
-                        //             // setState(() {
-                        //             //   purchasePrice = calculatePurchase();
-                        //             // });
-
-                        //             // // _controller.setTotalPrice(widget.unitPrice,
-                        //             //     _selectedSize, _controller.quantityCounter);
+                        final s = _controller.plotTypes.value
+                            .where((element) =>
+                                element['attributes']['size'] == "$newValue")
+                            .toList();
+                        print("ITEM SS > $s");
                       },
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 28,
@@ -497,8 +495,8 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                         fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.black,
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
                     padding: const EdgeInsets.all(16.0),
                   ),
                 ),
@@ -525,8 +523,8 @@ class _PurchasePlotStep1State extends State<PurchasePlotStep1> {
                         fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.black,
                     padding: const EdgeInsets.all(16.0),
                   ),
                 ),

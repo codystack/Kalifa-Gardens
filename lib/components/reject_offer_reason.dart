@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kalifa_gardens/controller/state_controller.dart';
-import 'package:kalifa_gardens/util/preference_manager.dart';
-import 'package:kalifa_gardens/util/service.dart';
+
+import '../controller/state_controller.dart';
+import '../util/preference_manager.dart';
+import '../util/service.dart';
 
 // ignore: must_be_immutable
 class RejectOfferReason extends StatefulWidget {
@@ -45,12 +46,13 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
       final response = await APIService().rejectOffer(
         reason: _rejectionReason,
         token: widget.manager.getAccessToken(),
-        applicationID: _controller.currApplicationID,
+        applicationID: "${_controller.currApplicationID.value}",
       );
       print('REJECT => ${response.body}');
 
       if (response.statusCode == 200) {
         _controller.triggerPurchase(false);
+        Navigator.of(context).pop();
       } else {
         _controller.triggerPurchase(false);
       }
@@ -72,8 +74,9 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
           decoration: BoxDecoration(
             color: Color(0x296C9496),
             border: Border.all(
-                color: _isErrorPurchase ? Color(0xFF0A4D50) : Color(0x296C9496),
-                width: _isErrorPurchase ? 2.0 : 0.0),
+              color: _isErrorPurchase ? Color(0xFF0A4D50) : Color(0x296C9496),
+              width: _isErrorPurchase ? 2.0 : 0.0,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -94,7 +97,6 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
                     _isErrorPurchase = val as bool;
                   });
                 },
-                // activeColor: Color(0xFF0A4D50),
                 activeColor: Color(0xFF0A4D50),
               ),
               Expanded(
@@ -119,8 +121,9 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
           decoration: BoxDecoration(
             color: Color(0x296C9496),
             border: Border.all(
-                color: _isReapplyLater ? Color(0xFF0A4D50) : Color(0x296C9496),
-                width: _isReapplyLater ? 2.0 : 0.0),
+              color: _isReapplyLater ? Color(0xFF0A4D50) : Color(0x296C9496),
+              width: _isReapplyLater ? 2.0 : 0.0,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -141,7 +144,6 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
                     _isReapplyLater = val as bool;
                   });
                 },
-                // activeColor: Color(0xFF0A4D50),
                 activeColor: Color(0xFF0A4D50),
               ),
               Expanded(
@@ -166,8 +168,9 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
           decoration: BoxDecoration(
             color: Color(0x296C9496),
             border: Border.all(
-                color: _isChangedMind ? Color(0xFF0A4D50) : Color(0x296C9496),
-                width: _isChangedMind ? 2.0 : 0.0),
+              color: _isChangedMind ? Color(0xFF0A4D50) : Color(0x296C9496),
+              width: _isChangedMind ? 2.0 : 0.0,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -213,8 +216,9 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
           decoration: BoxDecoration(
             color: Color(0x296C9496),
             border: Border.all(
-                color: _isOther ? Color(0xFF0A4D50) : Color(0x296C9496),
-                width: _isOther ? 2.0 : 0.0),
+              color: _isOther ? Color(0xFF0A4D50) : Color(0x296C9496),
+              width: _isOther ? 2.0 : 0.0,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -259,7 +263,8 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
                 ? Border.all(
                     color:
                         _isChangedMind ? Color(0xFF0A4D50) : Color(0x296C9496),
-                    width: _isChangedMind ? 2.0 : 0.0)
+                    width: _isChangedMind ? 2.0 : 0.0,
+                  )
                 : Border(),
           ),
           child: _isOther
@@ -271,7 +276,6 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
                     border: OutlineInputBorder(),
                     labelText: 'Type response here',
                     hintText: 'Type response here',
-//              prefixIcon: Icon(Icons.message),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -298,8 +302,8 @@ class _RejectOfferReasonState extends State<RejectOfferReason> {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
           ),
           style: ElevatedButton.styleFrom(
-            primary: Colors.black,
-            onPrimary: Colors.white,
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.black,
             padding: const EdgeInsets.all(16.0),
           ),
         ),

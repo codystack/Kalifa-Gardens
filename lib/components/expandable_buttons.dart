@@ -32,23 +32,25 @@ class ExpandableSection extends StatelessWidget {
                       hasIcon: false,
                     ),
                     header: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.grey,
-                              width: 1.0,
-                              style: BorderStyle.solid),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                          style: BorderStyle.solid,
                         ),
-                        padding: EdgeInsets.all(10.0),
-                        child: Text(
-                          "Get Started",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Mulish',
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )),
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        "Get Started",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Mulish',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
                     collapsed: SizedBox(
                       width: 1.0,
                       height: 1.0,
@@ -59,8 +61,11 @@ class ExpandableSection extends StatelessWidget {
                         Container(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .push(customRouteTransition(Login()));
+                              Navigator.of(context).push(
+                                customRouteTransition(
+                                  Login(),
+                                ),
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -78,14 +83,18 @@ class ExpandableSection extends StatelessWidget {
                           ),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                              // color: Color(0xFF0A4D50),
-                              color: Color(0xFF0A4D50)),
+                            // color: Color(0xFF0A4D50),
+                            color: Color(0xFF0A4D50),
+                          ),
                         ),
                         Container(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(customRouteTransition(
-                                  AccountTypeRegistration()));
+                              Navigator.of(context).push(
+                                customRouteTransition(
+                                  AccountTypeRegistration(),
+                                ),
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),

@@ -1,10 +1,10 @@
-import 'package:kalifa_gardens/screens/dashboard.dart';
-import 'package:kalifa_gardens/util/preference_manager.dart';
-
-import '../components/custom_drawer.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../components/custom_drawer.dart';
+import '../util/preference_manager.dart';
+import 'dashboard.dart';
 
 class Success extends StatefulWidget {
   @override
@@ -79,12 +79,14 @@ class _SuccessState extends State<Success> with TickerProviderStateMixin {
                   child: Container(
                     padding: const EdgeInsets.all(18.0),
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
                     child: Center(
                       child: Icon(
                         Icons.check,
                         color: Colors.green,
-                        size: 48.0,
+                        size: 100.0,
                       ),
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:image_cropper/image_cropper.dart';
+import 'package:kalifa_gardens/util/constants.dart';
 
 import '../../controller/state_controller.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -21,10 +22,6 @@ class PurchasePlotStep4 extends StatefulWidget {
 }
 
 class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
-  // bool _isTransfer = false,
-  //     _isCard = false,
-  //     _isDraft = false,
-  //     _isDefault = true;
   final _controller = Get.find<StateController>();
   File? _file;
   String? _accountHolderName;
@@ -45,17 +42,34 @@ class _PurchasePlotStep4State extends State<PurchasePlotStep4> {
     final pickedFile = await _picka.pickImage(source: imageSource);
 
     if (pickedFile != null) {
-      File? croppedFile = await ImageCropper.cropImage(
-          sourcePath: pickedFile.path,
-          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-          compressQuality: 100,
-          compressFormat: ImageCompressFormat.jpg,
-          androidUiSettings: AndroidUiSettings(
-              // toolbarColor: Color(0xFF0A4D50),
-              toolbarColor: Color(0xFF0A4D50)));
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Kalifa Cropper',
+            toolbarColor: Constants.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
+          ),
+          IOSUiSettings(
+            title: 'Kalifa Cropper',
+          ),
+          WebUiSettings(
+            context: context,
+          ),
+        ],
+      );
 
       this.setState(() {
-        _selectedFile = croppedFile;
+        _selectedFile = croppedFile as File?;
         photos.add(_selectedFile as XFile);
         _inProcess = false;
       });

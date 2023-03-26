@@ -21,13 +21,13 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   TextEditingController _emailController = TextEditingController();
 
   Future<void> _createOtp(String email, String type) async {
-    _controller.triggerForgot(true);
+    _controller.setLoading(true);
 
     final response = await APIService().createOTP(email, type);
 
     print('Forgot RESP: ${jsonDecode(response.body)}');
     if (response.statusCode == 200) {
-      _controller.triggerForgot(false);
+      _controller.setLoading(false);
       //All good now route to create otp screen
       Map<String, dynamic> otpMap = jsonDecode(response.body);
       var otp = OTPResponse.fromJson(otpMap);
@@ -53,15 +53,16 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       );
     } else {
       //Not successful. Show toast
-      _controller.triggerForgot(false);
+      _controller.setLoading(false);
       Fluttertoast.showToast(
-          msg: "Operation not successful. Try again",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 3,
-          backgroundColor: Color(0xFF0A4D50),
-          textColor: Colors.white,
-          fontSize: 16.0);
+        msg: "Operation not successful. Try again",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Color(0xFF0A4D50),
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
